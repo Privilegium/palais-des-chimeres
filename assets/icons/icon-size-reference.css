@@ -1,0 +1,38 @@
+/*
+  Recommended wrappers. These rules matter: a 20x20 parent or max-width constraint
+  can still shrink any SVG, regardless of the SVG file's intrinsic dimensions.
+*/
+.icon-contact {
+  width: clamp(36px, 2.2vw, 48px);
+  height: clamp(36px, 2.2vw, 48px);
+  max-width: none;
+  flex: 0 0 auto;
+}
+
+.icon-header {
+  width: 20px;
+  height: 20px;
+  max-width: none;
+  flex: 0 0 auto;
+}
+
+.icon-star-ornament {
+  width: clamp(20px, 1.25vw, 28px);
+  height: auto;
+  max-width: none;
+  flex: 0 0 auto;
+}
+
+.icon-woven-ornament {
+  width: clamp(110px, 7vw, 180px);
+  height: auto;
+  max-width: none;
+  flex: 0 0 auto;
+}
+
+.icon-gallery-arrow {
+  width: clamp(38px, 2.4vw, 48px);
+  height: clamp(38px, 2.4vw, 48px);
+  max-width: none;
+  flex: 0 0 auto;
+}

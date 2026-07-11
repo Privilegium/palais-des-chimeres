@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Palais des Chimères — Updated Agent Brief
 
-## Getting Started
+This package contains the updated documentation-only brief for the Palais des Chimères fashion website.
 
-First, run the development server:
+It intentionally does **not** include the `/assets` folder. Product images, logos, icons, screenshots, and other media should stay in the existing project asset folders you already prepared.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Current scope
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The approved desktop direction is now fixed for:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Home
+- Collection / PLP
+- Product Detail / PDP
+- Fashion Film
+- About
+- Contact
+- Legal / Text pages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Mobile designs are **not finalized yet** and should be treated as a separate follow-up phase.
 
-## Learn More
+## MVP definition
 
-To learn more about Next.js, take a look at the following resources:
+The v1 website is an editorial fashion portfolio/catalogue with inquiry-based ordering:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- No online payments
+- No cart
+- No checkout
+- No CMS
+- No database
+- No user accounts
+- Product and page content stored as typed static data
+- Product orders and contact requests submitted through forms and sent by email
+- Fashion film page uses a poster-first, lazy-loaded video experience
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Recommended workflow for agents
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Read `AGENTS.md` first.
+2. Read `project-brief/14-design-decisions-desktop.md`.
+3. Read each page spec in `/pages`.
+4. Implement the project incrementally.
+5. Do not add features outside the current MVP without approval.
