@@ -205,7 +205,7 @@ export default async function JewelryPage({
             </h1>
 
             {/* Woven ornament */}
-            <WovenOrnament width={144} height={14} className="mb-7 opacity-55" />
+            <WovenOrnament width={144} height={22} className="mb-7 opacity-55" />
 
             {/* Description */}
             <p className="font-serif italic text-brand-ivory/60 text-[0.88rem] leading-[1.9] max-w-[280px]">

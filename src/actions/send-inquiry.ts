@@ -51,15 +51,35 @@ export async function sendInquiry(
     body += `Locale: ${context.locale}\n`;
     body += `Submitted at: ${new Date().toISOString()}\n`;
 
-    // 3. Send email (mock)
-    // TODO: Plug in Resend or SMTP here when env vars are available
-    console.log("================ SENDING EMAIL ================");
-    console.log(`Subject: ${subject}`);
-    console.log(`Body:\n${body}`);
-    console.log("===============================================");
+    const apiKey = process.env.RESEND_API_KEY;
+    const from = process.env.INQUIRY_FROM_EMAIL;
 
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (!apiKey || !from) {
+      console.error("Inquiry email is not configured: RESEND_API_KEY and INQUIRY_FROM_EMAIL are required.");
+      return { success: false, error: "Inquiry email is not configured" };
+    }
+
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "User-Agent": "Palais-des-Chimeres/1.0",
+      },
+      body: JSON.stringify({
+        from,
+        to: ["opryshkosm@gmail.com"],
+        reply_to: email,
+        subject,
+        text: body,
+      }),
+    });
+
+    if (!response.ok) {
+      const responseBody = await response.text();
+      console.error("Inquiry email delivery failed:", response.status, responseBody);
+      return { success: false, error: "Unable to deliver inquiry email" };
+    }
 
     return { success: true };
   } catch (error) {

@@ -113,7 +113,6 @@ export default function AboutProcessGallery({ images, labels }: AboutProcessGall
               fill
               sizes="(max-width: 767px) 100vw, 90vw"
               className="object-contain"
-              style={{ objectPosition: selectedImage.position }}
               priority
             />
           </div>

@@ -22,6 +22,10 @@ export const metadata: Metadata = {
   description: "Dark gothic editorial fashion portfolio.",
 };
 
+export function generateStaticParams() {
+  return [{ locale: "en" }, { locale: "fr" }];
+}
+
 export default async function RootLayout({
   children,
   params,

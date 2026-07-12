@@ -167,10 +167,10 @@ export default async function AboutPage({
             >
               {content.hero.title}
             </h1>
-            <p className="max-w-[300px] font-serif text-[0.9rem] leading-[1.85] text-brand-ivory/65 lg:max-w-[340px]">
+            <p className="body-copy max-w-[360px]">
               {content.hero.intro}
             </p>
-            <WovenOrnament width={120} height={12} className="mt-8 opacity-45" />
+            <WovenOrnament width={120} height={19} className="mt-8 opacity-45" />
           </div>
         </section>
 
@@ -190,7 +190,7 @@ export default async function AboutPage({
           >
             {content.brandWorld.title}
           </h2>
-          <div className="space-y-1 font-serif text-[0.9rem] leading-[1.85] text-brand-ivory/60">
+          <div className="body-copy max-w-[34rem] space-y-3">
             {content.brandWorld.lines.map((line) => (
               <p key={line}>{line}</p>
             ))}
@@ -214,7 +214,7 @@ export default async function AboutPage({
           >
             {content.manifesto.title}
           </h2>
-          <div className="space-y-1 font-serif text-[0.9rem] leading-[1.85] text-brand-ivory/60">
+          <div className="body-copy max-w-[34rem] space-y-3">
             {content.manifesto.lines.map((line) => (
               <p key={line}>{line}</p>
             ))}
@@ -237,7 +237,7 @@ export default async function AboutPage({
           >
             {content.designer.name}
           </h2>
-          <div className="space-y-5 font-serif text-[0.88rem] leading-[1.85] text-brand-ivory/62 md:text-[0.92rem]">
+          <div className="body-copy max-w-[36rem] space-y-5">
             {content.designer.paragraphs.map((p) => (
               <p key={p}>{p}</p>
             ))}
@@ -271,7 +271,7 @@ export default async function AboutPage({
                     <h3 className="text-[0.75rem] tracking-[0.28em] text-brand-ivory">
                       {item.title}
                     </h3>
-                    <p className="mt-4 font-serif text-[0.85rem] leading-[1.8] text-brand-ivory/58">
+                    <p className="body-copy mt-4 text-[0.98rem]">
                       {item.text}
                     </p>
                   </div>

@@ -20,6 +20,44 @@
   }
 }
 
+/* Narrative and functional copy stays deliberately separate from the small
+   editorial labels used throughout the art direction. */
+@layer components {
+  .body-copy {
+    font-family: var(--font-serif), serif;
+    font-size: clamp(1rem, 1.05vw, 1.18rem);
+    font-weight: 400;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--foreground) 78%, transparent);
+  }
+
+  .legal-copy {
+    font-family: var(--font-sans), sans-serif;
+    font-size: clamp(1rem, 1vw, 1.125rem);
+    font-weight: 400;
+    line-height: 1.72;
+    color: color-mix(in srgb, var(--foreground) 80%, transparent);
+  }
+
+  @media (min-width: 768px) and (min-height: 900px) {
+    .contact-page {
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    .contact-main {
+      min-height: 0;
+    }
+
+    .contact-left {
+      justify-content: center;
+      padding-top: 8.5rem;
+      padding-bottom: 2rem;
+    }
+  }
+
+}
+
 @layer base {
   body {
     background-color: var(--background);

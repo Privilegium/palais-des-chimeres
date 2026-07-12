@@ -40,7 +40,7 @@ export function StarOrnament({ size = 22, className = '' }: StarOrnamentProps) {
         alt=""
         width={rendered}
         height={rendered}
-        className="shrink-0"
+        className="max-w-none shrink-0"
       />
     </span>
   );
@@ -55,22 +55,21 @@ interface WovenOrnamentProps {
 }
 
 /**
- * Wide woven/diamond ornament from /assets/icons/woven-ornament.svg.
- * Used as a horizontal decorative divider.
- * Rendered as a relative-positioned container with Next Image fill + object-contain.
+ * Wide woven divider from the approved `assets/icons/woven-ornament.svg`.
  */
 export function WovenOrnament({ width = 140, height = 16, className = '' }: WovenOrnamentProps) {
   return (
     <span
       aria-hidden="true"
-      className={`inline-block relative shrink-0 ${className}`}
+      className={`relative inline-block shrink-0 ${className}`}
       style={{ width, height }}
     >
       <Image
         src="/assets/icons/woven-ornament.svg"
         alt=""
         fill
-        className="object-contain object-left"
+        className="object-fill"
+        style={{ filter: 'invert(66%) sepia(29%) saturate(722%) hue-rotate(359deg) brightness(86%) contrast(85%)' }}
       />
     </span>
   );

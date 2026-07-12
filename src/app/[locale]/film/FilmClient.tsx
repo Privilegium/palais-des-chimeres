@@ -203,7 +203,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
           {/* Woven ornament */}
           <WovenOrnament
             width={160}
-            height={14}
+            height={25}
             className="my-[clamp(0.75rem,1.2vh,1.5rem)] opacity-65"
           />
 
@@ -211,7 +211,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
           <p
             className="font-serif italic text-brand-ivory/70"
             style={{
-              fontSize: 'clamp(0.85rem, 1vw, 1.05rem)',
+              fontSize: 'clamp(1rem, 1.15vw, 1.2rem)',
               lineHeight: 1.6,
               marginBottom: 'clamp(1rem, 1.8vh, 2rem)',
             }}

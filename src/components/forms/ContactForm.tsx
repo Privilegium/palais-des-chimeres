@@ -61,7 +61,7 @@ function FloatingField({
         autoComplete={autoComplete}
         placeholder=" "
         className={[
-          'peer w-full bg-transparent border border-brand-ivory/20 px-4 pt-5 pb-2',
+          'peer w-full bg-transparent border border-brand-ivory/20 px-4 pt-4 pb-2',
           'text-[13px] text-brand-ivory',
           'placeholder:text-transparent', // hides the space placeholder visually
           'focus:outline-none focus:border-brand-ivory/50',
@@ -121,7 +121,7 @@ function FloatingTextarea({
         rows={rows}
         placeholder=" "
         className={[
-          'peer w-full bg-transparent border border-brand-ivory/20 px-4 pt-6 pb-3',
+          'peer w-full bg-transparent border border-brand-ivory/20 px-4 pt-5 pb-2',
           'text-[13px] text-brand-ivory resize-none',
           'placeholder:text-transparent',
           'focus:outline-none focus:border-brand-ivory/50',
@@ -233,7 +233,7 @@ export function ContactForm({ locale, context }: ContactFormProps) {
         label={dict.form.message}
         required
         minLength={10}
-        rows={4}
+        rows={3}
       />
 
       {/* Error state */}
@@ -245,7 +245,7 @@ export function ContactForm({ locale, context }: ContactFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-1 w-full bg-brand-red py-4 text-[11px] tracking-[0.3em] uppercase text-brand-ivory transition-colors hover:bg-brand-red/85 disabled:opacity-50 flex items-center justify-center gap-4"
+        className="mt-1 flex w-full items-center justify-center gap-4 bg-brand-red py-3 text-[11px] uppercase tracking-[0.3em] text-brand-ivory transition-colors hover:bg-brand-red/85 disabled:opacity-50"
       >
         {isSubmitting ? '…' : (
           <>

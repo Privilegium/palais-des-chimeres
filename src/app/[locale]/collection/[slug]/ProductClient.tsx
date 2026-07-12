@@ -34,7 +34,7 @@ function AccordionRow({ label, content }: { label: string; content?: string }) {
       {open && (
         <div
           id={contentId}
-          className="pb-5 font-serif text-[13px] leading-[1.85] text-brand-ivory/60"
+          className="pb-5 font-serif text-[1rem] leading-[1.7] text-brand-ivory/75"
         >
           {content ?? 'Information available upon request.'}
         </div>
@@ -120,11 +120,6 @@ function InquiryModal({
   • Related Looks is reachable with ~1 scroll on all screen sizes
 */
 
-// Gap between thumbnails in px
-const THUMB_GAP = 6;
-// How many full thumbnails to show (the next thumbnail is ~25% visible as a peek)
-const VISIBLE_FULL = 3;
-
 export default function ProductClient({
   product,
   locale,
@@ -136,9 +131,10 @@ export default function ProductClient({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [mediaHeight, setMediaHeight] = useState<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  // Ref to the outer fixed-height viewport div (overflow-hidden)
-  const thumbViewportRef = useRef<HTMLDivElement>(null);
+  const mainMediaRef = useRef<HTMLDivElement>(null);
+  const thumbnailRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const openModal = useCallback(() => setModalOpen(true), []);
   const closeModal = useCallback(() => {
@@ -152,6 +148,16 @@ export default function ProductClient({
     document.addEventListener('keydown', h);
     return () => document.removeEventListener('keydown', h);
   }, [modalOpen, closeModal]);
+
+  useEffect(() => {
+    const media = mainMediaRef.current;
+    if (!media) return;
+    const updateHeight = () => setMediaHeight(media.getBoundingClientRect().height);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(media);
+    return () => observer.disconnect();
+  }, []);
 
   const gallery = product.images ?? [{ src: product.image, alt: product.name }];
   const activeImg = gallery[activeIndex] ?? gallery[0];
@@ -167,25 +173,9 @@ export default function ProductClient({
   const prevIdx = (activeIndex - 1 + gallery.length) % gallery.length;
   const nextIdx = (activeIndex + 1) % gallery.length;
 
-  /*
-    Compute the translateY offset for the inner track.
-    We want thumbnail[activeIndex] to be fully visible inside the viewport.
-
-    If activeIndex <= VISIBLE_FULL - 1 (i.e. 0, 1, 2): no scroll needed.
-    When activeIndex >= VISIBLE_FULL: shift the track up by (activeIndex - VISIBLE_FULL + 1)
-    thumbnail heights + gaps.
-
-    We don't know exact pixel heights at this point (they're CSS-driven),
-    so we calculate the offset as a percentage of the outer viewport height.
-
-    Let H = viewport height (= (VISIBLE_FULL + PEEK_FRACTION) * thumbHeight + (VISIBLE_FULL) * gap)
-    One thumb height T = (H - VISIBLE_FULL * gap) / (VISIBLE_FULL + PEEK_FRACTION)
-
-    Offset = max(0, activeIndex - (VISIBLE_FULL - 1)) * (T + gap)
-
-    We express this as a CSS calc() so it works at any container size without JS measurement.
-  */
-  const scrollSteps = Math.max(0, activeIndex - (VISIBLE_FULL - 1));
+  useEffect(() => {
+    thumbnailRefs.current[activeIndex]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [activeIndex]);
 
   return (
     <>
@@ -194,51 +184,13 @@ export default function ProductClient({
         className="hidden flex-col lg:flex lg:col-span-2 lg:col-start-1 lg:row-start-1"
         style={{ alignSelf: 'start', position: 'sticky', top: '110px' }}
       >
-        {/*
-          Outer viewport — overflow-hidden, fixed height shows 3.25 thumbnails.
-          The CSS calc computes: viewportHeight = (VISIBLE_FULL + PEEK_FRACTION) × thumbH + gaps
-          where thumbH = containerWidth × (4/3)
-          containerWidth ≈ 2/12 of viewport (col-span-2 in 12-col grid) minus ~px padding.
-
-          We approximate with:
-            thumbW  = (100vw - 48px) * 2/12   [subtract approx outer padding and grid gaps]
-            thumbH  = thumbW * 4/3
-            viewH   = (VISIBLE_FULL + PEEK_FRACTION) * thumbH + VISIBLE_FULL * THUMB_GAP
-        */}
-        <div
-          ref={thumbViewportRef}
-          className="overflow-hidden"
-          style={{
-            height: `calc(
-              (3.25 * ((100vw - 48px) * 2 / 12 * 4 / 3))
-              + ${VISIBLE_FULL * THUMB_GAP}px
-            )`,
-          }}
-        >
-          {/*
-            Inner track — translates upward as activeIndex advances past the 3rd thumbnail.
-            Transition: smooth 300ms ease so the track slides, not jumps.
-
-            translateY offset per step =
-              thumbH + gap = ((100vw - 48px) * 2/12 * 4/3) + THUMB_GAP px
-          */}
-          <div
-            className="flex flex-col gap-[6px] transition-transform duration-300 ease-in-out"
-            style={
-              scrollSteps === 0
-                ? undefined
-                : {
-                    transform: `translateY(calc(
-                      -${scrollSteps} * (
-                        ((100vw - 48px) * 2 / 12 * 4 / 3) + ${THUMB_GAP}px
-                      )
-                    ))`,
-                  }
-            }
-          >
+        <div className="relative" style={{ height: mediaHeight ? `${mediaHeight}px` : '72dvh' }}>
+          <div className="h-full overflow-y-auto overscroll-contain pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex flex-col gap-[6px]">
             {gallery.map((img, i) => (
               <button
                 key={`${img.src}-${i}`}
+                ref={(element) => { thumbnailRefs.current[i] = element; }}
                 type="button"
                 aria-label={`View image ${i + 1}`}
                 aria-pressed={i === activeIndex}
@@ -255,21 +207,13 @@ export default function ProductClient({
                   alt={img.alt}
                   fill
                   sizes="140px"
-                  className="object-cover transition-transform duration-500 hover:scale-[1.04]"
+                  className="object-contain transition-transform duration-500 hover:scale-[1.04]"
                 />
               </button>
             ))}
           </div>
+          </div>
         </div>
-
-        {/* Bottom fade-mask: creates the "disappearing into dark" peek effect */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none relative -mt-10 h-10"
-          style={{
-            background: 'linear-gradient(to bottom, transparent, #050505 90%)',
-          }}
-        />
       </div>
 
       {/* ── Main image ────────────────────────────────────── */}
@@ -280,11 +224,13 @@ export default function ProductClient({
         aspect-ratio 3/4 drives the intrinsic size; max-height caps it.
       */}
       <div className="lg:col-span-6 lg:col-start-3 lg:row-start-1">
+        <div className="flex w-full justify-center">
         <div
-          className="group relative w-full overflow-hidden bg-neutral-950"
+          ref={mainMediaRef}
+          className="group relative overflow-hidden bg-neutral-950"
           style={{
+            width: 'min(100%, 76dvh)',
             aspectRatio: '3/4',
-            maxHeight: 'clamp(72dvh, 88dvh, 95dvh)',
           }}
         >
           <Image
@@ -292,7 +238,7 @@ export default function ProductClient({
             alt={activeImg.alt}
             fill
             sizes="(max-width: 1023px) calc(100vw - 3rem), 50vw"
-            className="object-cover transition-opacity duration-300"
+            className="object-contain p-2 transition-opacity duration-300"
             priority={activeIndex === 0}
           />
 
@@ -309,7 +255,7 @@ export default function ProductClient({
                 type="button"
                 aria-label="Previous image"
                 onClick={() => setActiveIndex(prevIdx)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 backdrop-blur-[2px] opacity-0 transition-all duration-200 group-hover:opacity-100 hover:border-brand-ivory/70 hover:text-brand-ivory hover:bg-brand-black/70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
+                className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 opacity-0 backdrop-blur-[2px] transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-brand-ivory/70 hover:bg-brand-black/70 hover:text-brand-ivory focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
               >
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M7.5 1.5L3 6l4.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -321,7 +267,7 @@ export default function ProductClient({
                 type="button"
                 aria-label="Next image"
                 onClick={() => setActiveIndex(nextIdx)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 backdrop-blur-[2px] opacity-0 transition-all duration-200 group-hover:opacity-100 hover:border-brand-ivory/70 hover:text-brand-ivory hover:bg-brand-black/70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
+                className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 opacity-0 backdrop-blur-[2px] transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-brand-ivory/70 hover:bg-brand-black/70 hover:text-brand-ivory focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
               >
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M4.5 1.5L9 6l-4.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -352,6 +298,7 @@ export default function ProductClient({
             </div>
           )}
         </div>
+        </div>
       </div>
 
       {/* ── Right info panel ────────────────────────────────────── */}
@@ -378,7 +325,7 @@ export default function ProductClient({
         )}
 
         {/* Short description */}
-        <p className="mb-8 font-serif text-[0.9rem] italic leading-[1.85] text-brand-ivory/65">
+        <p className="mb-8 max-w-[34rem] font-serif text-[1.05rem] italic leading-[1.7] text-brand-ivory/80">
           {product.shortDescription}
         </p>
 
@@ -392,7 +339,7 @@ export default function ProductClient({
               <dt className="shrink-0 text-[9px] uppercase tracking-[0.28em] text-brand-ivory/40">
                 {attr.label}
               </dt>
-              <dd className="text-right text-[12px] tracking-wide text-brand-ivory/85">
+              <dd className="text-right text-[14px] leading-[1.55] tracking-wide text-brand-ivory/90">
                 {attr.value}
               </dd>
             </div>

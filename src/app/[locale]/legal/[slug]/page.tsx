@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { notFound } from 'next/navigation';
+import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
@@ -428,25 +429,16 @@ export default async function LegalPage({
           </h1>
 
           {/* Woven ornament */}
-          <div className="mx-auto my-4 w-36 opacity-55" aria-hidden="true" style={{ height: '14px', position: 'relative' }}>
-            <Image
-              src="/assets/icons/woven-ornament.svg"
-              alt=""
-              fill
-              className="object-contain"
-            />
-          </div>
+          <WovenOrnament width={144} height={22} className="mx-auto my-4 opacity-55" />
 
           {/* Subtitle */}
-          <p className="mx-auto max-w-[520px] font-serif text-[0.95rem] italic leading-[1.75] text-brand-ivory/55">
+          <p className="body-copy mx-auto max-w-[600px] italic">
             {data.subtitle}
           </p>
 
           {/* Star divider */}
           <div className="mt-6 flex justify-center" aria-hidden="true">
-            <div className="w-5 h-5 overflow-hidden flex items-center justify-center opacity-50">
-              <Image src="/assets/icons/star-ornament.svg" alt="" width={56} height={56} className="shrink-0" />
-            </div>
+            <StarOrnament size={18} className="opacity-50" />
           </div>
         </div>
 
@@ -465,9 +457,7 @@ export default async function LegalPage({
                 {/* Section label */}
                 <div className="mb-7 flex items-center gap-3 text-[8px] uppercase tracking-[0.36em] text-brand-ivory/35">
                   <span>In this section</span>
-                  <div className="w-[12px] h-[12px] overflow-hidden flex items-center justify-center opacity-55">
-                    <Image src="/assets/icons/star-ornament.svg" alt="" width={26} height={26} className="shrink-0" />
-                  </div>
+                  <StarOrnament size={12} className="opacity-55" />
                 </div>
 
                 {/* Nav links */}
@@ -503,7 +493,7 @@ export default async function LegalPage({
                   <p className="mb-2 text-[10px] uppercase tracking-[0.24em] text-brand-ivory/60">
                     Need Help?
                   </p>
-                  <p className="mb-5 font-serif text-[0.82rem] leading-[1.7] text-brand-ivory/45">
+                  <p className="body-copy mb-5 text-[0.95rem]">
                     Our team is here to assist with any questions regarding your order.
                   </p>
                   <Link
@@ -528,7 +518,7 @@ export default async function LegalPage({
                     <h2 className="mb-6 font-sans text-[12px] uppercase tracking-[0.32em] text-brand-ivory">
                       {section.heading}
                     </h2>
-                    <div className="font-sans text-[15px] leading-[1.9] text-brand-ivory/75">
+                    <div className="legal-copy max-w-[68ch]">
                       {section.body}
                     </div>
                   </section>
@@ -554,16 +544,12 @@ export default async function LegalPage({
           </div>
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center py-14 px-6 text-center">
-            <div className="mb-7 w-5 h-5 overflow-hidden flex items-center justify-center opacity-50">
-              <Image src="/assets/icons/star-ornament.svg" alt="" width={56} height={56} className="shrink-0" />
-            </div>
+            <StarOrnament size={18} className="mb-7 opacity-50" />
             <p className="font-sans text-[10px] uppercase tracking-[0.36em] text-brand-ivory/65 leading-[2.2]">
               Each creation is handled with intention.<br />
               Thank you for being part of our world.
             </p>
-            <div className="mt-7 w-5 h-5 overflow-hidden flex items-center justify-center opacity-40">
-              <Image src="/assets/icons/star-ornament.svg" alt="" width={56} height={56} className="shrink-0" />
-            </div>
+            <StarOrnament size={18} className="mt-7 opacity-40" />
           </div>
         </div>
 

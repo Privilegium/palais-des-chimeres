@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import { StarOrnament } from '@/components/ui/Ornament';
 
 export default function InternalPageFooter({
   locale,
@@ -14,11 +14,7 @@ export default function InternalPageFooter({
 
         {/* Left Side — ornament + brand label */}
         <div className="flex items-center space-x-5 mb-0">
-          {/* Star ornament: 1254×1254 viewBox, artwork ~30% of canvas.
-              Render at 52px in a 20×20 clipped container → visible star ~16px */}
-          <div className="relative w-5 h-5 shrink-0 overflow-hidden opacity-60 flex items-center justify-center">
-            <Image src="/assets/icons/star-ornament.svg" alt="" width={52} height={52} className="object-contain shrink-0" />
-          </div>
+          <StarOrnament size={16} className="opacity-60" />
           <span>{label ?? 'PALAIS DES CHIMÈRES — AW24'}</span>
         </div>
 

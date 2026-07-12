@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { products } from '@/data/products';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { getDictionary } from '@/i18n/dictionaries';
+import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
 
 /*
   GRID STRUCTURE (matches approved mockup 02-collection-desktop.png)
@@ -104,30 +105,14 @@ export default async function CollectionPage({
 
             {/* Small crosshair / star ornament — 1254×1254 viewBox, render large + clip */}
             <div className="mb-auto">
-              <div className="w-6 h-6 overflow-hidden flex items-center justify-center mb-10">
-                <Image
-                  src="/assets/icons/star-ornament.svg"
-                  alt=""
-                  width={64}
-                  height={64}
-                  className="opacity-75 shrink-0"
-                />
-              </div>
+              <StarOrnament size={20} className="mb-10 opacity-75" />
 
-              <p className="font-serif italic text-brand-ivory/60 text-[0.9rem] leading-[1.85] max-w-[190px]">
+              <p className="font-serif text-[1rem] italic leading-[1.75] text-brand-ivory/70 max-w-[230px]">
                 We do not create clothes. We summon forms that remember how to become.
               </p>
 
               {/* Thorn ornament divider — SVG version */}
-              <div className="w-32 h-7 relative mt-10">
-                <Image
-                  src="/assets/icons/woven-ornament.svg"
-                  alt=""
-                  width={128}
-                  height={28}
-                  className="object-contain object-left opacity-65 w-full h-full"
-                />
-              </div>
+              <WovenOrnament width={150} height={24} className="mt-10 opacity-65" />
             </div>
           </div>
 
