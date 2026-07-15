@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
-import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
 
 /*
   JEWELRY PLP — matches mockup 09-jewelry-page.png
@@ -184,7 +183,7 @@ export default async function JewelryPage({
           Right ≈ 62% — large portrait/landscape hero card
         */}
         <div
-          className="px-4 gap-1"
+          className="jewelry-hero-grid px-4 gap-1"
           style={{
             display: 'grid',
             gridTemplateColumns: '38fr 62fr',
@@ -192,25 +191,18 @@ export default async function JewelryPage({
           }}
         >
           {/* Intro rail */}
-          <div className="flex flex-col justify-end pb-8 pl-8 pr-10">
-            {/* Star ornament */}
-            <StarOrnament
-              size={24}
-              className="mb-5 opacity-65"
-            />
-
-            {/* Title */}
+          <div className="jewelry-intro flex flex-col justify-end pb-8 pl-8 pr-10">
             <h1 className="font-serif text-[4rem] tracking-[0.2em] text-brand-ivory uppercase leading-none mb-5 xl:text-[5rem] 2xl:text-[5.5rem]">
               JEWELRY
             </h1>
 
-            {/* Woven ornament */}
-            <WovenOrnament width={144} height={22} className="mb-7 opacity-55" />
+            <p className="mb-5 text-[10px] uppercase tracking-[0.3em] text-brand-ivory/65">VIDMY — 2026</p>
 
             {/* Description */}
             <p className="font-serif italic text-brand-ivory/60 text-[0.88rem] leading-[1.9] max-w-[280px]">
               Relics for the in-between. Adornments born from myths and metamorphosis. For those who carry their own mythology.
             </p>
+
           </div>
 
           {/* Hero card */}
@@ -225,7 +217,7 @@ export default async function JewelryPage({
           Col 4: Veil of Links (spans 2 rows — tall portrait)
         */}
         <div
-          className="mt-1 px-4 gap-1"
+          className="jewelry-cards-grid mt-1 px-4 gap-1"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -278,7 +270,7 @@ export default async function JewelryPage({
       </main>
 
       {/* Footer — uses "JEWELRY" context label */}
-      <InternalPageFooter locale={locale} label="PALAIS DES CHIMÈRES — JEWELRY" />
+      <InternalPageFooter locale={locale} label="PALAIS DES CHIMÈRES — VIDMY 2026" />
     </div>
   );
 }

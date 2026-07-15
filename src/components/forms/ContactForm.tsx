@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { sendInquiry } from '@/actions/send-inquiry';
-import { StarOrnament } from '@/components/ui/Ornament';
 import type { InquirySourceContext, InquiryFormValues } from '@/types';
 
 interface ContactFormProps {
@@ -186,7 +185,6 @@ export function ContactForm({ locale, context }: ContactFormProps) {
   if (status === 'success') {
     return (
       <div className="flex min-h-[300px] flex-col items-start justify-center">
-        <StarOrnament size={22} className="mb-4 opacity-80" />
         <p className="font-serif text-base leading-relaxed text-brand-ivory/80">
           {dict.form.success}
         </p>

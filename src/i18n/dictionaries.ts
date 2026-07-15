@@ -2,7 +2,7 @@ export const dictionaries = {
   en: {
     nav: {
       home: "HOME",
-      collection: "COLLECTION",
+      collection: "VIDMY",
       film: "FILM",
       about: "ABOUT",
       contact: "CONTACT",
@@ -28,7 +28,7 @@ export const dictionaries = {
   fr: {
     nav: {
       home: "ACCUEIL",
-      collection: "COLLECTION",
+      collection: "VIDMY",
       film: "FILM",
       about: "À PROPOS",
       contact: "CONTACT",

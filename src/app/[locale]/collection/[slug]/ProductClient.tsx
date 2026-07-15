@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Modal } from '@/components/ui/Modal';
 import { InquiryForm } from '@/components/forms/InquiryForm';
-import { StarOrnament } from '@/components/ui/Ornament';
 import type { Product, InquirySourceContext } from '@/types';
 import type { Dictionary } from '@/i18n/dictionaries';
 
@@ -57,7 +56,7 @@ function InquiryModal({
   const eyebrow =
     product.collectionLine ??
     product.attributes.find((a) => a.label === 'Collection')?.value ??
-    'AW24 — THE BECOMING';
+    'VIDMY — 2026';
 
   const context: InquirySourceContext = {
     sourceType: 'product_inquiry',
@@ -130,10 +129,16 @@ export default function ProductClient({
   dict: Dictionary;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
   const [mediaHeight, setMediaHeight] = useState<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const mainMediaRef = useRef<HTMLDivElement>(null);
+  const swipeStartX = useRef<number | null>(null);
+  const swipeCurrentX = useRef<number | null>(null);
+  const didDragRef = useRef(false);
   const thumbnailRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const openModal = useCallback(() => setModalOpen(true), []);
@@ -165,13 +170,62 @@ export default function ProductClient({
   const eyebrow =
     product.collectionLine ??
     product.attributes.find((a) => a.label === 'Collection')?.value ??
-    'AW24 — THE BECOMING';
+    'VIDMY — 2026';
 
   const ctaLabel =
     product.type === 'priced' ? dict.common.order : dict.common.personalRequest;
 
   const prevIdx = (activeIndex - 1 + gallery.length) % gallery.length;
   const nextIdx = (activeIndex + 1) % gallery.length;
+
+  const selectImage = useCallback((nextIndex: number) => {
+    if (nextIndex === activeIndex) return;
+    setActiveIndex(nextIndex);
+    setDragOffset(0);
+  }, [activeIndex]);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    swipeStartX.current = event.touches[0]?.clientX ?? null;
+    swipeCurrentX.current = swipeStartX.current;
+    didDragRef.current = false;
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    const startX = swipeStartX.current;
+    const currentX = event.touches[0]?.clientX;
+    if (startX === null || currentX === undefined) return;
+    const rawOffset = currentX - startX;
+    const atEdge = (activeIndex === 0 && rawOffset > 0) || (activeIndex === gallery.length - 1 && rawOffset < 0);
+    if (Math.abs(rawOffset) > 8) didDragRef.current = true;
+    swipeCurrentX.current = currentX;
+    setDragOffset(atEdge ? rawOffset * 0.28 : rawOffset);
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const startX = swipeStartX.current;
+    const endX = event.changedTouches[0]?.clientX ?? swipeCurrentX.current;
+    swipeStartX.current = null;
+    swipeCurrentX.current = null;
+    setIsDragging(false);
+    if (startX === null || endX === null) {
+      setDragOffset(0);
+      return;
+    }
+    const threshold = Math.max((mainMediaRef.current?.clientWidth ?? 280) * 0.16, 42);
+    const delta = endX - startX;
+    if (delta < -threshold && activeIndex < gallery.length - 1) selectImage(nextIdx);
+    else if (delta > threshold && activeIndex > 0) selectImage(prevIdx);
+    else setDragOffset(0);
+  };
+
+  const openImageModal = () => {
+    if (didDragRef.current) {
+      didDragRef.current = false;
+      return;
+    }
+    setImageModalOpen(true);
+  };
 
   useEffect(() => {
     thumbnailRefs.current[activeIndex]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -194,7 +248,7 @@ export default function ProductClient({
                 type="button"
                 aria-label={`View image ${i + 1}`}
                 aria-pressed={i === activeIndex}
-                onClick={() => setActiveIndex(i)}
+                onClick={() => selectImage(i)}
                 className={`relative w-full shrink-0 overflow-hidden border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold ${
                   i === activeIndex
                     ? 'border-brand-ivory/60'
@@ -223,28 +277,36 @@ export default function ProductClient({
         On 4K (1440px+): allows up to 95dvh for full impact.
         aspect-ratio 3/4 drives the intrinsic size; max-height caps it.
       */}
-      <div className="lg:col-span-6 lg:col-start-3 lg:row-start-1">
+      <div className="product-media lg:col-span-6 lg:col-start-3 lg:row-start-1">
         <div className="flex w-full justify-center">
         <div
           ref={mainMediaRef}
           className="group relative overflow-hidden bg-neutral-950"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onClick={openImageModal}
           style={{
             width: 'min(100%, 76dvh)',
             aspectRatio: '3/4',
           }}
         >
-          <Image
-            src={activeImg.src}
-            alt={activeImg.alt}
-            fill
-            sizes="(max-width: 1023px) calc(100vw - 3rem), 50vw"
-            className="object-contain p-2 transition-opacity duration-300"
-            priority={activeIndex === 0}
-          />
-
-          {/* + indicator */}
-          <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center border border-brand-ivory/25 text-brand-ivory/50 text-sm transition-colors group-hover:border-brand-ivory/50 group-hover:text-brand-ivory">
-            +
+          <div
+            className={`flex h-full w-full ${isDragging ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]'}`}
+            style={{ transform: `translate3d(calc(${-activeIndex * 100}% + ${dragOffset}px), 0, 0)` }}
+          >
+            {gallery.map((image, index) => (
+              <div key={`${image.src}-${index}`} className="relative h-full w-full shrink-0">
+                <Image
+                  src={image.src}
+                  alt={index === activeIndex ? image.alt : ''}
+                  fill
+                  sizes="(max-width: 1023px) calc(100vw - 3rem), 50vw"
+                  className="object-cover p-0 lg:object-contain lg:p-2"
+                  priority={index < 2}
+                />
+              </div>
+            ))}
           </div>
 
           {/* ── Navigation arrows ──────────────────────── */}
@@ -254,7 +316,7 @@ export default function ProductClient({
               <button
                 type="button"
                 aria-label="Previous image"
-                onClick={() => setActiveIndex(prevIdx)}
+                onClick={(event) => { event.stopPropagation(); selectImage(prevIdx); }}
                 className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 opacity-0 backdrop-blur-[2px] transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-brand-ivory/70 hover:bg-brand-black/70 hover:text-brand-ivory focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
               >
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -266,7 +328,7 @@ export default function ProductClient({
               <button
                 type="button"
                 aria-label="Next image"
-                onClick={() => setActiveIndex(nextIdx)}
+                onClick={(event) => { event.stopPropagation(); selectImage(nextIdx); }}
                 className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 opacity-0 backdrop-blur-[2px] transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-brand-ivory/70 hover:bg-brand-black/70 hover:text-brand-ivory focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
               >
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -289,7 +351,7 @@ export default function ProductClient({
                   key={i}
                   type="button"
                   aria-label={`Image ${i + 1}`}
-                  onClick={() => setActiveIndex(i)}
+                  onClick={(event) => { event.stopPropagation(); selectImage(i); }}
                   className={`h-[5px] w-[5px] rounded-full transition-colors ${
                     i === activeIndex ? 'bg-brand-ivory' : 'bg-brand-ivory/30'
                   }`}
@@ -301,15 +363,35 @@ export default function ProductClient({
         </div>
       </div>
 
+      {/* Mobile thumbnail strip — gives touch users a visible gallery map,
+          rather than relying on hover-only desktop controls. */}
+      {gallery.length > 1 && (
+        <div className="mobile-product-thumbnails -mt-2 grid grid-cols-4 gap-2 pb-1 lg:hidden">
+          {gallery.map((img, i) => (
+            <button
+              key={`${img.src}-mobile-${i}`}
+              type="button"
+              aria-label={`View image ${i + 1}`}
+              aria-pressed={i === activeIndex}
+              onClick={() => selectImage(i)}
+              className={`relative aspect-[5/4] w-full overflow-hidden border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold ${
+                i === activeIndex ? 'border-brand-ivory/70' : 'border-brand-ivory/20'
+              }`}
+            >
+              <Image src={img.src} alt="" fill sizes="25vw" className="object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* ── Right info panel ────────────────────────────────────── */}
       <div
-        className="flex flex-col lg:col-span-4 lg:col-start-9 lg:row-start-1"
+        className="product-info flex flex-col lg:col-span-4 lg:col-start-9 lg:row-start-1"
         style={{ alignSelf: 'start', position: 'sticky', top: '110px' }}
       >
         {/* Eyebrow */}
-        <div className="mb-3 flex items-center gap-3 text-[9px] uppercase tracking-[0.3em] text-brand-ivory/50">
+        <div className="mb-3 text-[9px] uppercase tracking-[0.3em] text-brand-ivory/50">
           <span>{eyebrow}</span>
-          <StarOrnament size={16} className="opacity-70" />
         </div>
 
         {/* Title */}
@@ -383,6 +465,16 @@ export default function ProductClient({
           locale={locale}
           onClose={closeModal}
         />
+      )}
+
+      {imageModalOpen && (
+        <div role="dialog" aria-modal="true" aria-label={activeImg.alt} className="fixed inset-0 z-[150] flex items-center justify-center bg-brand-black/96 backdrop-blur-sm">
+          <button type="button" aria-label="Close full screen image" className="absolute inset-0 cursor-default" onClick={() => setImageModalOpen(false)} />
+          <div className="pointer-events-none relative z-10 h-[82dvh] w-full max-w-[1200px] px-5 md:px-14">
+            <Image src={activeImg.src} alt={activeImg.alt} fill sizes="(max-width: 767px) 100vw, 90vw" className="object-contain" priority />
+          </div>
+          <button type="button" aria-label="Close full screen image" onClick={() => setImageModalOpen(false)} className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center border border-brand-ivory/20 bg-brand-black/70 text-xl text-brand-ivory/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold">×</button>
+        </div>
       )}
     </>
   );

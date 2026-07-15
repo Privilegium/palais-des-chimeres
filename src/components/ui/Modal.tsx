@@ -43,7 +43,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-5 top-5 text-[9px] uppercase tracking-[0.28em] text-brand-ivory/40 hover:text-brand-ivory transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
+          className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center text-[14px] text-brand-ivory/55 hover:text-brand-ivory transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
         >
           ✕
         </button>

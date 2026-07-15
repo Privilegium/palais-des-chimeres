@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { ContactForm } from '@/components/forms/ContactForm';
-import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
 import type { InquirySourceContext } from '@/types';
 
 /*
@@ -31,10 +30,11 @@ const CONTACT_LINKS = [
 
 function ContactIcon({ kind }: { kind: (typeof CONTACT_LINKS)[number]['icon'] }) {
   const shared = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.45, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  if (kind === 'instagram') return <svg viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="3" y="3" width="18" height="18" rx="4.5" /><circle cx="12" cy="12" r="4.1" /><path d="M17.6 6.5h.01" /></svg>;
-  if (kind === 'linkedin') return <svg viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="3" y="3" width="18" height="18" rx="1.5" /><path d="M8 10v6M8 7.5v.01M11.5 16v-3.4a2.6 2.6 0 0 1 5.2 0V16M11.5 10v6" /></svg>;
-  if (kind === 'email') return <svg viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="2.8" y="5" width="18.4" height="14" rx="1.2" /><path d="m3.7 6 8.3 6.7L20.3 6M3.5 18.1l6.3-6M20.5 18.1l-6.3-6" /></svg>;
-  return <svg viewBox="0 0 24 24" aria-hidden="true" {...shared}><path d="M4 4.5c2.8-.8 5.4-.5 8 1v14c-2.6-1.5-5.2-1.8-8-1V4.5Z" /><path d="M20 4.5c-2.8-.8-5.4-.5-8 1v14c2.6-1.5 5.2-1.8 8-1V4.5Z" /><path d="M6.5 8h3M14.5 8h3" /></svg>;
+  const svgClass = 'h-full w-full';
+  if (kind === 'instagram') return <svg className={svgClass} viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="3" y="3" width="18" height="18" rx="4.5" /><circle cx="12" cy="12" r="4.1" /><path d="M17.6 6.5h.01" /></svg>;
+  if (kind === 'linkedin') return <svg className={svgClass} viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="3" y="3" width="18" height="18" rx="1.5" /><path d="M8 10v6M8 7.5v.01M11.5 16v-3.4a2.6 2.6 0 0 1 5.2 0V16M11.5 10v6" /></svg>;
+  if (kind === 'email') return <svg className={svgClass} viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="2.8" y="5" width="18.4" height="14" rx="1.2" /><path d="m3.7 6 8.3 6.7L20.3 6M3.5 18.1l6.3-6M20.5 18.1l-6.3-6" /></svg>;
+  return <svg className={svgClass} viewBox="0 0 24 24" aria-hidden="true" {...shared}><path d="M4 4.5c2.8-.8 5.4-.5 8 1v14c-2.6-1.5-5.2-1.8-8-1V4.5Z" /><path d="M20 4.5c-2.8-.8-5.4-.5-8 1v14c2.6-1.5 5.2-1.8 8-1V4.5Z" /><path d="M6.5 8h3M14.5 8h3" /></svg>;
 }
 
 export default async function ContactPage({
@@ -61,7 +61,7 @@ export default async function ContactPage({
     <div className="contact-page flex min-h-[900px] flex-col bg-brand-black">
 
       {/* ── Split area ─────────────────────────────────────────────── */}
-      <div className="contact-main flex flex-1 flex-col md:flex-row">
+      <div className="contact-main relative flex flex-1 flex-col md:flex-row">
 
         {/* ── LEFT: content column ──────────────────────────────── */}
         {/*
@@ -71,15 +71,14 @@ export default async function ContactPage({
           No overflow, no justify-between.
         */}
         <div
-          className="contact-left flex w-full flex-col px-6 pt-[clamp(120px,9vw,148px)] pb-8 md:w-[48%] md:px-10 lg:px-12 xl:px-14"
+          className="contact-left relative z-10 flex w-full flex-col px-6 pt-[clamp(120px,9vw,148px)] pb-8 md:w-[48%] md:px-10 lg:px-12 xl:px-14"
           style={{ gap: 'clamp(0.55rem, 1vh, 0.9rem)' }}
         >
 
           {/* Eyebrow */}
-          <div className="flex items-center gap-3 text-brand-ivory/50 uppercase tracking-[0.32em]"
-               style={{ fontSize: 'clamp(8px, 0.8vw, 10px)' }}>
+          <div className="text-brand-ivory/50 uppercase tracking-[0.32em]"
+            style={{ fontSize: 'clamp(8px, 0.8vw, 10px)' }}>
             <span>Get in touch</span>
-            <StarOrnament size={14} className="opacity-70" />
           </div>
 
           {/* Headline */}
@@ -90,8 +89,6 @@ export default async function ContactPage({
             LET THE WORLD<br />FIND YOU
           </h1>
 
-          <WovenOrnament width={140} height={22} className="opacity-60" />
-
           {/* Intro paragraph */}
           <p className="body-copy max-w-[400px]">
             For collaborations, custom pieces, editorial requests or private
@@ -101,11 +98,7 @@ export default async function ContactPage({
           {/* Form */}
           <ContactForm locale={locale} context={context} />
 
-          <div className="flex items-center gap-4" style={{ marginTop: 'clamp(0.3rem, 0.6vh, 0.8rem)' }}>
-            <div className="flex-1 border-t border-brand-ivory/[0.12]" />
-            <StarOrnament size={18} className="opacity-55" />
-            <div className="flex-1 border-t border-brand-ivory/[0.12]" />
-          </div>
+          <div className="border-t border-brand-ivory/[0.12]" style={{ marginTop: 'clamp(0.3rem, 0.6vh, 0.8rem)' }} />
 
           <div className="grid grid-cols-2 border border-brand-ivory/[0.12]">
             {CONTACT_LINKS.map((link, index) => (
@@ -121,6 +114,7 @@ export default async function ContactPage({
                   <p className="text-[10px] uppercase tracking-[0.28em] text-brand-ivory/50">{link.label}</p>
                   <p className="mt-[3px] truncate text-[12px] tracking-wide text-brand-ivory/85 underline decoration-brand-ivory/20 underline-offset-2 transition-colors group-hover:decoration-brand-ivory/60">{link.sub}</p>
                 </div>
+                <span aria-hidden="true" className="contact-link-arrow ml-auto text-2xl font-light leading-none text-brand-gold/85">›</span>
               </a>
             ))}
           </div>
@@ -138,7 +132,7 @@ export default async function ContactPage({
             so it stays in view as the left column may scroll.
           - object-position is set once and never changed — same crop on all screens.
         */}
-        <div className="hidden md:block md:flex-1 relative">
+        <div className="contact-image absolute inset-x-0 top-0 h-[760px] md:relative md:z-auto md:block md:flex-1 md:h-auto">
           <div className="relative h-full w-full overflow-hidden">
             <Image
               src="/assets/images/campaign/ggg.jpeg"

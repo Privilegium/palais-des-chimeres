@@ -2,24 +2,36 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
+import { Fragment } from 'react';
 
 // ─── Film config ──────────────────────────────────────────────────────────────
 
 const YOUTUBE_VIDEO_ID = 'iEQf4BQ_ASg'; // https://youtu.be/iEQf4BQ_ASg
 
-const FILM_CONTENT = {
+type FilmCredit = {
+  label: string;
+  value: string;
+  href?: string;
+};
+
+const FILM_CONTENT: {
+  eyebrow: string;
+  titleLine1: string;
+  titleLine2: string;
+  subtitle: string;
+  credits: readonly FilmCredit[];
+} = {
   eyebrow: 'FASHION FILM',
   titleLine1: 'THE',
   titleLine2: 'BECOMING',
   subtitle: 'A fashion film by Palais des Chimères.',
   credits: [
     { label: 'DIRECTOR',    value: 'Palais des Chimères' },
-    { label: 'COLLECTION',  value: 'AW24 — The Becoming' },
-    { label: 'YEAR',        value: '2024' },
-    { label: 'RUNTIME',     value: '02:47' },
+    { label: 'COLLECTION',  value: 'VIDMY — 2026' },
+    { label: 'YEAR',        value: '2026' },
+    { label: 'VIDEO', value: 'Sviatoslav Opryshko', href: 'mailto:opryshkosm@gmail.com' },
   ],
-} as const;
+};
 
 // ─── Video Modal ──────────────────────────────────────────────────────────────
 /*
@@ -90,7 +102,7 @@ function VideoModal({ onClose }: { onClose: () => void }) {
       </button>
 
       <p className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 z-20 text-[9px] uppercase tracking-[0.36em] text-brand-ivory/30">
-        THE BECOMING — AW24
+        VIDMY — 2026
       </p>
     </div>
   );
@@ -124,7 +136,7 @@ function GoldPlayButton({ onClick, label }: { onClick: () => void; label: string
           fill="none"
           style={{ width: 'clamp(11px, 1vw, 14px)', height: 'auto' }}
         >
-          <path d="M1 1l10 6-10 6V1z" fill="#D8BB82" />
+          <path d="M1 1l10 6-10 6V1z" fill="#F4F1ED" />
         </svg>
       </span>
       {/* Label */}
@@ -149,7 +161,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
   return (
     <>
       {/* ── Full-bleed poster layer ─────────────────────────────────── */}
-      <div className="absolute inset-0">
+      <div className="film-poster absolute inset-x-0 top-[82px] aspect-[3/2] md:inset-0 md:aspect-auto">
         <Image
           src="/assets/images/campaign/allll111111.jpg"
           alt="THE BECOMING — Fashion Film Poster"
@@ -174,7 +186,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
         Layout: flex-col with a top spacer (flex-[3]) pushing content
         into the lower 60% of the page, matching the mockup composition.
       */}
-      <div className="relative z-10 flex h-full flex-col px-6 md:px-12 2xl:px-16">
+      <div className="film-content relative z-10 flex h-full min-h-0 flex-col px-6 md:px-12 2xl:px-16">
 
         {/* Top spacer */}
         <div className="flex-[3]" />
@@ -184,11 +196,10 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
 
           {/* Eyebrow */}
           <div
-            className="mb-[clamp(0.75rem,1.2vh,1.5rem)] flex items-center gap-3 text-brand-ivory/55"
+            className="mb-[clamp(0.75rem,1.2vh,1.5rem)] text-brand-ivory/55"
             style={{ fontSize: 'clamp(8px, 0.9vw, 11px)', letterSpacing: '0.32em' }}
           >
             <span className="uppercase">{FILM_CONTENT.eyebrow}</span>
-            <StarOrnament size={16} className="opacity-70" />
           </div>
 
           {/* Headline */}
@@ -200,16 +211,9 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
             {FILM_CONTENT.titleLine2}
           </h1>
 
-          {/* Woven ornament */}
-          <WovenOrnament
-            width={160}
-            height={25}
-            className="my-[clamp(0.75rem,1.2vh,1.5rem)] opacity-65"
-          />
-
           {/* Subtitle */}
           <p
-            className="font-serif italic text-brand-ivory/70"
+            className="mt-[clamp(0.75rem,1.2vh,1.5rem)] font-serif italic text-brand-ivory/70"
             style={{
               fontSize: 'clamp(1rem, 1.15vw, 1.2rem)',
               lineHeight: 1.6,
@@ -220,7 +224,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
           </p>
 
           {/* Custom gold play button (poster-only, iframe lazy-loaded on click) */}
-          <div style={{ marginBottom: 'clamp(1rem, 1.8vh, 2rem)' }}>
+          <div className="relative z-20" style={{ marginBottom: 'clamp(0.7rem, 1.4vh, 1.4rem)' }}>
             <GoldPlayButton onClick={openModal} label={watchFilmText} />
           </div>
 
@@ -229,7 +233,6 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
             className="border-l border-brand-gold/30"
             style={{ paddingLeft: 'clamp(0.8rem, 1.2vw, 1.5rem)', marginBottom: 'clamp(0.5rem, 1vh, 1.5rem)' }}
           >
-            <StarOrnament size={14} className="mb-3 opacity-50" />
             <dl
               style={{
                 display: 'grid',
@@ -238,32 +241,31 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
                 rowGap: 'clamp(3px, 0.4vh, 8px)',
               }}
             >
-              {FILM_CONTENT.credits.map(({ label, value }) => (
-                <>
+              {FILM_CONTENT.credits.map(({ label, value, href }) => (
+                <Fragment key={label}>
                   <dt
-                    key={`${label}-dt`}
                     className="text-brand-ivory/40 uppercase self-baseline"
                     style={{ fontSize: 'clamp(7px, 0.7vw, 10px)', letterSpacing: '0.28em' }}
                   >
                     {label}
                   </dt>
                   <dd
-                    key={`${label}-dd`}
                     className="text-brand-ivory/75"
                     style={{ fontSize: 'clamp(9px, 0.85vw, 12px)', letterSpacing: '0.06em' }}
                   >
-                    {value}
+                    {href ? (
+                      <a href={href} className="transition-colors hover:text-brand-ivory hover:underline hover:underline-offset-4">
+                        {value}
+                      </a>
+                    ) : value}
                   </dd>
-                </>
+                </Fragment>
               ))}
             </dl>
           </div>
         </div>
 
-        {/* Bottom ornament */}
-        <div className="flex justify-center pb-4 flex-[0.5]">
-          <StarOrnament size={16} className="opacity-45" />
-        </div>
+        <div className="min-h-2 flex-[0.5]" />
       </div>
 
       {/* ── Video modal — lazy-loaded YouTube iframe ──────────────── */}

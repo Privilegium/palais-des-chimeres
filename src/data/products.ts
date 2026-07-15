@@ -12,7 +12,7 @@ export const products: Product[] = [
     id: "product-veil-of-becoming",
     slug: "veil-of-becoming",
     name: "Veil of Becoming",
-    collectionLine: "AW24 — THE BECOMING",
+    collectionLine: "VIDMY — 2026",
     image: "/assets/images/products/vampire_dress.png",
     images: [
       { src: "/assets/images/products/vampire_dress.png", alt: "Veil of Becoming — front" },
@@ -26,7 +26,7 @@ export const products: Product[] = [
     attributes: [
       { label: "Material",     value: "Hand-felted wool, hand embroidery" },
       { label: "Silhouette",   value: "Sculptural cocoon" },
-      { label: "Collection",   value: "AW24 — The Becoming" },
+      { label: "Collection",   value: "VIDMY — 2026" },
       { label: "Made to Order", value: "Available on request" },
     ],
     accordions: {
@@ -38,7 +38,7 @@ export const products: Product[] = [
     id: "product-chimera-form",
     slug: "chimera-form",
     name: "Chimera Form",
-    collectionLine: "AW24 — THE BECOMING",
+    collectionLine: "VIDMY — 2026",
     image: "/assets/images/products/goat_dress.png",
     images: [
       { src: "/assets/images/products/goat_dress.png",     alt: "Chimera Form — front" },
@@ -52,7 +52,7 @@ export const products: Product[] = [
     attributes: [
       { label: "Material",     value: "Wool and structured leather" },
       { label: "Silhouette",   value: "Geometric overlay" },
-      { label: "Collection",   value: "AW24 — The Becoming" },
+      { label: "Collection",   value: "VIDMY — 2026" },
       { label: "Made to Order", value: "Available on request" },
     ],
     accordions: {
@@ -64,7 +64,7 @@ export const products: Product[] = [
     id: "product-ivory-bloom",
     slug: "ivory-bloom",
     name: "Ivory Bloom",
-    collectionLine: "AW24 — THE BECOMING",
+    collectionLine: "VIDMY — 2026",
     image: "/assets/images/products/vase_dress.png",
     images: [
       { src: "/assets/images/products/vase_dress.png",    alt: "Ivory Bloom — front" },
@@ -78,7 +78,7 @@ export const products: Product[] = [
     attributes: [
       { label: "Material",   value: "Embroidered taffeta" },
       { label: "Silhouette", value: "Sculptural bell" },
-      { label: "Collection", value: "AW24 — The Becoming" },
+      { label: "Collection", value: "VIDMY — 2026" },
       { label: "Production", value: "Haute Couture" },
     ],
     accordions: {
@@ -90,7 +90,7 @@ export const products: Product[] = [
     id: "product-blood-current",
     slug: "blood-current",
     name: "Blood Current",
-    collectionLine: "AW24 — THE BECOMING",
+    collectionLine: "VIDMY — 2026",
     image: "/assets/images/products/red_witch_dress.png",
     images: [
       { src: "/assets/images/products/red_witch_dress.png", alt: "Blood Current — front" },
@@ -103,7 +103,7 @@ export const products: Product[] = [
     attributes: [
       { label: "Material",   value: "Velvet and hand-dyed organza" },
       { label: "Silhouette", value: "Voluminous gown" },
-      { label: "Collection", value: "AW24 — The Becoming" },
+      { label: "Collection", value: "VIDMY — 2026" },
       { label: "Production", value: "Haute Couture" },
     ],
     accordions: {
@@ -115,7 +115,7 @@ export const products: Product[] = [
     id: "product-nocturne-creature",
     slug: "nocturne-creature",
     name: "Nocturne Creature",
-    collectionLine: "AW24 — THE BECOMING",
+    collectionLine: "VIDMY — 2026",
     image: "/assets/images/products/cat_dress.png",
     images: [
       { src: "/assets/images/products/cat_dress.png",      alt: "Nocturne Creature — front" },
@@ -128,7 +128,7 @@ export const products: Product[] = [
     attributes: [
       { label: "Material",     value: "Heavy crepe and satin" },
       { label: "Silhouette",   value: "Fitted corset" },
-      { label: "Collection",   value: "AW24 — The Becoming" },
+      { label: "Collection",   value: "VIDMY — 2026" },
       { label: "Made to Order", value: "Available on request" },
     ],
     accordions: {

@@ -2,15 +2,14 @@ import Image from 'next/image';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { getAboutContent, type AboutImage } from '@/content/about';
 import AboutProcessGallery from './AboutProcessGallery';
-import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
+import { StarOrnament } from '@/components/ui/Ornament';
 
 // ─── Small helpers ──────────────────────────────────────────────────────────
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-4 flex items-center gap-3 text-[9px] uppercase tracking-[0.32em] text-brand-ivory/50">
+    <div className="mb-4 text-[9px] uppercase tracking-[0.32em] text-brand-ivory/50">
       <span>{children}</span>
-      <StarOrnament size={14} className="opacity-65" />
     </div>
   );
 }
@@ -36,6 +35,10 @@ function EditorialPanel({
   imageCols = 7,
   /** imageRatio: '3/4' = tall dramatic, '4/3' = compact landscape */
   imageRatio = '3/4',
+  eyebrow,
+  heading,
+  headingClassName = 'mb-7 font-serif text-[1.6rem] tracking-[0.16em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]',
+  sectionClassName = '',
   children,
   id,
 }: {
@@ -43,6 +46,10 @@ function EditorialPanel({
   imageFirst?: boolean;
   imageCols?: number;
   imageRatio?: string;
+  eyebrow: string;
+  heading: string;
+  headingClassName?: string;
+  sectionClassName?: string;
   children: React.ReactNode;
   id?: string;
 }) {
@@ -51,11 +58,16 @@ function EditorialPanel({
   return (
     <section
       aria-labelledby={id}
-      className="relative grid grid-cols-1 md:grid-cols-12"
+      className={`editorial-panel relative grid grid-cols-1 md:grid-cols-12 ${sectionClassName}`}
     >
+      {/* Mobile mockups place the section label above the image. */}
+      <div className="editorial-panel-mobile-label px-6 pt-8 md:hidden">
+        <SectionLabel>{eyebrow}</SectionLabel>
+      </div>
+
       {/* Image cell */}
       <div
-        className="relative w-full"
+        className="editorial-panel-image relative w-full"
         style={{
           gridColumn: `${imageFirst ? 1 : textCols + 1} / span ${imageCols}`,
           gridRow: '1',
@@ -85,13 +97,15 @@ function EditorialPanel({
 
       {/* Text cell */}
       <div
-        className="relative z-10 flex flex-col justify-center px-6 py-10 md:py-16 md:px-12 lg:px-16 xl:px-20"
+        className="editorial-panel-copy relative z-10 flex flex-col justify-center px-6 py-10 md:py-16 md:px-12 lg:px-16 xl:px-20"
         style={{
           gridColumn: `${imageFirst ? imageCols + 1 : 1} / span ${textCols}`,
           gridRow: '1',
         }}
         id={id}
       >
+        <div className="hidden md:block"><SectionLabel>{eyebrow}</SectionLabel></div>
+        <h2 id={id} className={headingClassName}>{heading}</h2>
         {children}
       </div>
     </section>
@@ -129,7 +143,7 @@ export default async function AboutPage({
         */}
         <section
           aria-labelledby="about-title"
-          className="relative overflow-hidden"
+          className="about-hero relative overflow-hidden"
           style={{ minHeight: 'clamp(520px, 55vw, 780px)' }}
         >
           {/* Full-panel image right-anchored */}
@@ -149,14 +163,6 @@ export default async function AboutPage({
             <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-brand-black to-transparent" />
           </div>
 
-          {/* Gold star ornament — top-left, below header */}
-          <div
-            className="absolute left-6 md:left-12 2xl:left-16"
-            style={{ top: 'clamp(110px, 14vw, 148px)' }}
-          >
-            <StarOrnament size={22} className="opacity-75" />
-          </div>
-
           {/* Text — bottom-left */}
           <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-16 md:px-12 lg:pb-24 2xl:px-16"
                style={{ minHeight: 'inherit' }}>
@@ -170,7 +176,6 @@ export default async function AboutPage({
             <p className="body-copy max-w-[360px]">
               {content.hero.intro}
             </p>
-            <WovenOrnament width={120} height={19} className="mt-8 opacity-45" />
           </div>
         </section>
 
@@ -182,20 +187,14 @@ export default async function AboutPage({
           imageCols={7}
           imageRatio="4/3"
           id="brand-world-title"
+          eyebrow={content.brandWorld.eyebrow}
+          heading={content.brandWorld.title}
         >
-          <SectionLabel>{content.brandWorld.eyebrow}</SectionLabel>
-          <h2
-            id="brand-world-title"
-            className="mb-7 font-serif text-[1.6rem] tracking-[0.16em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]"
-          >
-            {content.brandWorld.title}
-          </h2>
           <div className="body-copy max-w-[34rem] space-y-3">
             {content.brandWorld.lines.map((line) => (
               <p key={line}>{line}</p>
             ))}
           </div>
-          <div aria-hidden="true" className="mt-9 h-px w-20 bg-brand-gold/40" />
         </EditorialPanel>
 
         {/* ─── MANIFESTO ────────────────────────────────────────────────── */}
@@ -206,14 +205,9 @@ export default async function AboutPage({
           imageCols={7}
           imageRatio="3/4"
           id="manifesto-title"
+          eyebrow={content.manifesto.eyebrow}
+          heading={content.manifesto.title}
         >
-          <SectionLabel>{content.manifesto.eyebrow}</SectionLabel>
-          <h2
-            id="manifesto-title"
-            className="mb-7 font-serif text-[1.6rem] tracking-[0.16em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]"
-          >
-            {content.manifesto.title}
-          </h2>
           <div className="body-copy max-w-[34rem] space-y-3">
             {content.manifesto.lines.map((line) => (
               <p key={line}>{line}</p>
@@ -229,14 +223,11 @@ export default async function AboutPage({
           imageCols={6}
           imageRatio="4/3"
           id="designer-title"
+          eyebrow={content.designer.eyebrow}
+          heading={content.designer.name}
+          headingClassName="mb-7 font-serif text-[1.6rem] tracking-[0.2em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]"
+          sectionClassName="editorial-panel-designer"
         >
-          <SectionLabel>{content.designer.eyebrow}</SectionLabel>
-          <h2
-            id="designer-title"
-            className="mb-7 font-serif text-[1.6rem] tracking-[0.2em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]"
-          >
-            {content.designer.name}
-          </h2>
           <div className="body-copy max-w-[36rem] space-y-5">
             {content.designer.paragraphs.map((p) => (
               <p key={p}>{p}</p>
@@ -250,7 +241,7 @@ export default async function AboutPage({
         {/* ─── OUR APPROACH ─────────────────────────────────────────────── */}
         <section
           aria-labelledby="approach-title-label"
-          className="px-6 pt-20 pb-0 md:px-12 lg:pt-24 2xl:px-16"
+          className="about-approach px-6 pt-20 pb-0 md:px-12 lg:pt-24 2xl:px-16"
         >
           <SectionLabel>{content.approach.eyebrow}</SectionLabel>
           <h2 id="approach-title-label" className="sr-only">
@@ -265,8 +256,7 @@ export default async function AboutPage({
                 className="border-b border-brand-ivory/[0.12] px-0 py-10 last:border-b-0 md:border-b-0 md:px-10 lg:px-14"
               >
                 <div className="flex gap-5">
-                  <StarOrnament size={18} className="mt-[2px] shrink-0 opacity-65" />
-
+                    <StarOrnament size={18} className="mt-[2px] shrink-0 text-brand-gold/70" />
                   <div>
                     <h3 className="text-[0.75rem] tracking-[0.28em] text-brand-ivory">
                       {item.title}

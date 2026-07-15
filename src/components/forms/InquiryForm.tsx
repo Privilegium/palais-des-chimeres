@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { sendInquiry } from '@/actions/send-inquiry';
 import { getDictionary } from '@/i18n/dictionaries';
-import { StarOrnament } from '@/components/ui/Ornament';
 import type { InquirySourceContext, InquiryFormValues } from '@/types';
 
 /*
@@ -45,7 +44,7 @@ function FloatingField({
         className={[
           'peer w-full bg-transparent border border-brand-ivory/20',
           'px-4 pt-5 pb-2',
-          'text-[13px] text-brand-ivory',
+          'text-[16px] text-brand-ivory',
           'placeholder:text-transparent',
           'focus:outline-none focus:border-brand-ivory/50',
           'transition-colors duration-200',
@@ -97,7 +96,7 @@ function FloatingTextarea({
         className={[
           'peer w-full bg-transparent border border-brand-ivory/20',
           'px-4 pt-6 pb-3',
-          'text-[13px] text-brand-ivory resize-none',
+          'text-[16px] text-brand-ivory resize-none',
           'placeholder:text-transparent',
           'focus:outline-none focus:border-brand-ivory/50',
           'transition-colors duration-200',
@@ -165,7 +164,6 @@ export function InquiryForm({ context, locale }: InquiryFormProps) {
   if (submitStatus === 'success') {
     return (
       <div className="flex min-h-[220px] flex-col items-start justify-center">
-        <StarOrnament size={22} className="mb-4 opacity-80" />
         <p className="font-serif text-[0.9rem] leading-relaxed text-brand-ivory/80">
           {dict.form.success}
         </p>

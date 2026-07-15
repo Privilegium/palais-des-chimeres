@@ -12,7 +12,7 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
-  /** Short eyebrow shown above the title, e.g. "AW24 — THE BECOMING" */
+  /** Short eyebrow shown above the title, e.g. "VIDMY — 2026" */
   collectionLine?: string;
   /** Primary image (also used as first gallery image) */
   image: string;

@@ -5,7 +5,6 @@ import { getProductBySlug, products } from '@/data/products';
 import { getDictionary } from '@/i18n/dictionaries';
 import ProductClient from './ProductClient';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
-import { StarOrnament } from '@/components/ui/Ornament';
 
 /*
   PDP LAYOUT — matches mockup 03-product-detail-desktop.png
@@ -66,22 +65,21 @@ export default async function ProductPage({
         </div>
 
         {/* ── Related Looks ──────────────────────────────────────────────── */}
-        <div className="mx-auto mt-24 w-full max-w-[1680px] px-6 md:px-12 2xl:px-16">
+        <div className="related-looks mx-auto mt-9 w-full max-w-[1680px] px-6 md:mt-24 md:px-12 2xl:px-16">
           {/* Section heading */}
-          <div className="mb-7 flex items-center gap-4">
-            <StarOrnament size={16} className="opacity-55" />
+          <div className="mb-5">
             <h2 className="text-[10px] uppercase tracking-[0.36em] text-brand-ivory/65">
               Related Looks
             </h2>
           </div>
 
           {/* 3-column card grid */}
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          <div className="related-looks-grid grid grid-cols-1 gap-3 md:grid-cols-3">
             {relatedProducts.map((rp) => (
               <Link
                 key={rp.id}
                 href={`/${locale}/collection/${rp.slug}`}
-                className="group relative block overflow-hidden bg-neutral-950"
+                className="related-look-card group relative block overflow-hidden bg-neutral-950"
                 style={{ aspectRatio: '4/3' }}
               >
                 {/* Product image */}

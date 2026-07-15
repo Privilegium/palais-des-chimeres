@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { StarOrnament } from '@/components/ui/Ornament';
 
 export default function InternalPageFooter({
   locale,
@@ -9,20 +8,19 @@ export default function InternalPageFooter({
   label?: string;
 }) {
   return (
-    <footer className="border-t border-brand-ivory/10 py-8 px-6 md:px-12 w-full text-[10px] tracking-widest text-brand-ivory/60 uppercase shrink-0">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+    <footer className="border-t border-brand-ivory/10 px-6 py-7 text-[10px] tracking-widest text-brand-ivory/60 uppercase shrink-0 md:px-12 md:py-8 w-full">
+      <div className="flex flex-col items-center justify-between gap-5 md:flex-row md:gap-4">
 
         {/* Left Side — ornament + brand label */}
-        <div className="flex items-center space-x-5 mb-0">
-          <StarOrnament size={16} className="opacity-60" />
-          <span>{label ?? 'PALAIS DES CHIMÈRES — AW24'}</span>
+        <div className="mb-0 text-center">
+          <span>{label ?? 'PALAIS DES CHIMÈRES — VIDMY 2026'}</span>
         </div>
 
 
         {/* Right Side — developer credit + legal links */}
-        <div className="flex items-center gap-8 flex-wrap justify-center">
+        <div className="flex w-auto items-center justify-center gap-6 md:gap-8 md:flex-wrap">
           {/* Developer credit — subtle, tracking matches rest of footer */}
-          <span className="text-brand-ivory/30 normal-case tracking-[0.12em] text-[10px]">
+          <span className="hidden text-[10px] normal-case tracking-[0.12em] text-brand-ivory/30 md:inline">
             Website by{' '}
             <a
               href="#"

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { notFound } from 'next/navigation';
-import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
+import LegalMobileNav from './LegalMobileNav';
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
@@ -53,8 +53,7 @@ const CONTENT: Record<NavSlug, LegalPageData> = {
                 { label: 'Delivery Times', text: 'Standard shipping: 7–14 business days. Express shipping: 2–5 business days.' },
                 { label: 'Shipping Costs', text: 'Calculated based on your location and selected shipping method. Duties and taxes may apply for international orders.' },
               ].map(({ label, text }) => (
-                <div key={label} className="flex gap-4">
-                  <span className="mt-[2px] shrink-0 text-brand-gold/60 text-[10px]">+</span>
+                <div key={label}>
                   <div>
                     <p className="text-[10px] uppercase tracking-[0.24em] text-brand-ivory/50 mb-1">{label}</p>
                     <p className="text-[13px] text-brand-ivory/75 leading-relaxed">{text}</p>
@@ -79,8 +78,7 @@ const CONTENT: Record<NavSlug, LegalPageData> = {
                 { label: 'How to Return', text: 'Contact our client service team to initiate a return and receive further instructions.' },
                 { label: 'Return Shipping', text: 'Return shipping costs are the responsibility of the customer unless the item is defective or incorrect.' },
               ].map(({ label, text }) => (
-                <div key={label} className="flex gap-4">
-                  <span className="mt-[2px] shrink-0 text-brand-gold/60 text-[10px]">+</span>
+                <div key={label}>
                   <div>
                     <p className="text-[10px] uppercase tracking-[0.24em] text-brand-ivory/50 mb-1">{label}</p>
                     <p className="text-[13px] text-brand-ivory/75 leading-relaxed">{text}</p>
@@ -190,8 +188,7 @@ const CONTENT: Record<NavSlug, LegalPageData> = {
             </p>
             <div className="space-y-3">
               {['Full name', 'Email address', 'Phone number (optional)', 'Message content', 'Page URL and locale at time of inquiry'].map((item) => (
-                <div key={item} className="flex gap-4">
-                  <span className="shrink-0 text-brand-gold/60 text-[10px] mt-[2px]">+</span>
+                <div key={item}>
                   <p className="text-[13px] text-brand-ivory/70">{item}</p>
                 </div>
               ))}
@@ -207,8 +204,7 @@ const CONTENT: Record<NavSlug, LegalPageData> = {
             <p className="mb-5 text-brand-ivory/70 leading-relaxed">Your information is used exclusively to:</p>
             <div className="space-y-3">
               {['Respond to your inquiry', 'Discuss your order or commission', 'Provide after-sales support'].map((item) => (
-                <div key={item} className="flex gap-4">
-                  <span className="shrink-0 text-brand-gold/60 text-[10px] mt-[2px]">+</span>
+                <div key={item}>
                   <p className="text-[13px] text-brand-ivory/70">{item}</p>
                 </div>
               ))}
@@ -278,13 +274,12 @@ const CONTENT: Record<NavSlug, LegalPageData> = {
         body: (
           <div className="space-y-5">
             {[
-              { label: 'Step 1', text: 'Browse the Collection and select a piece that speaks to you.' },
+              { label: 'Step 1', text: 'Browse Vidmy and select a piece that speaks to you.' },
               { label: 'Step 2', text: 'Click "ORDER" or "PERSONAL REQUEST" on the product page.' },
               { label: 'Step 3', text: 'Complete the inquiry form. Include your name, email, and any relevant details.' },
               { label: 'Step 4', text: 'Our atelier will contact you directly within 2–3 business days to discuss your order, measurements, timeline, and payment.' },
             ].map(({ label, text }) => (
-              <div key={label} className="flex gap-4">
-                <span className="mt-[2px] shrink-0 text-brand-gold/60 text-[10px]">+</span>
+              <div key={label}>
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.24em] text-brand-ivory/50 mb-1">{label}</p>
                   <p className="text-[13px] text-brand-ivory/75 leading-relaxed">{text}</p>
@@ -428,18 +423,11 @@ export default async function LegalPage({
             {data.title}
           </h1>
 
-          {/* Woven ornament */}
-          <WovenOrnament width={144} height={22} className="mx-auto my-4 opacity-55" />
-
           {/* Subtitle */}
           <p className="body-copy mx-auto max-w-[600px] italic">
             {data.subtitle}
           </p>
 
-          {/* Star divider */}
-          <div className="mt-6 flex justify-center" aria-hidden="true">
-            <StarOrnament size={18} className="opacity-50" />
-          </div>
         </div>
 
         {/* ── Divider ───────────────────────────────────────────────── */}
@@ -448,16 +436,16 @@ export default async function LegalPage({
         </div>
 
         {/* ── Two-column body ───────────────────────────────────────── */}
-        <main className="mx-auto w-full max-w-[1200px] flex-1 px-6 py-14 md:px-12">
+        <main className="mx-auto w-full max-w-[1200px] flex-1 px-6 py-10 md:px-12 md:py-14">
+          <LegalMobileNav items={NAV_ITEMS} locale={locale} activeSlug={slug} />
           <div className="flex gap-12 lg:gap-20">
 
             {/* ── LEFT: sidebar nav ──────────────────────────────── */}
             <aside className="hidden w-[220px] shrink-0 md:block">
               <div className="sticky top-[110px]">
                 {/* Section label */}
-                <div className="mb-7 flex items-center gap-3 text-[8px] uppercase tracking-[0.36em] text-brand-ivory/35">
+                <div className="mb-7 text-[8px] uppercase tracking-[0.36em] text-brand-ivory/35">
                   <span>In this section</span>
-                  <StarOrnament size={12} className="opacity-55" />
                 </div>
 
                 {/* Nav links */}
@@ -474,14 +462,6 @@ export default async function LegalPage({
                             : 'text-brand-ivory/45 hover:text-brand-ivory/80'
                         }`}
                       >
-                        <span
-                          aria-hidden="true"
-                          className={`text-[10px] transition-colors ${
-                            isActive ? 'text-brand-red' : 'text-brand-ivory/25 group-hover:text-brand-ivory/50'
-                          }`}
-                        >
-                          +
-                        </span>
                         {item.label}
                       </Link>
                     );
@@ -513,7 +493,7 @@ export default async function LegalPage({
                   <section
                     key={section.id}
                     id={section.id}
-                    className={`py-12 ${i < data.sections.length - 1 ? 'border-b border-brand-ivory/[0.08]' : ''}`}
+                    className={`legal-section py-9 md:py-12 ${i < data.sections.length - 1 ? 'border-b border-brand-ivory/[0.08]' : ''}`}
                   >
                     <h2 className="mb-6 font-sans text-[12px] uppercase tracking-[0.32em] text-brand-ivory">
                       {section.heading}
@@ -544,12 +524,10 @@ export default async function LegalPage({
           </div>
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center py-14 px-6 text-center">
-            <StarOrnament size={18} className="mb-7 opacity-50" />
             <p className="font-sans text-[10px] uppercase tracking-[0.36em] text-brand-ivory/65 leading-[2.2]">
               Each creation is handled with intention.<br />
               Thank you for being part of our world.
             </p>
-            <StarOrnament size={18} className="mt-7 opacity-40" />
           </div>
         </div>
 

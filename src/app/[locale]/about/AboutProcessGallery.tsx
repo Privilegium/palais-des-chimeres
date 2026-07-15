@@ -11,10 +11,23 @@ type AboutProcessGalleryProps = {
 
 export default function AboutProcessGallery({ images, labels }: AboutProcessGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [previousIndex, setPreviousIndex] = useState<number | null>(null);
+  const [slideDirection, setSlideDirection] = useState<'forward' | 'backward'>('forward');
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const swipeStartX = useRef<number | null>(null);
 
-  const close = useCallback(() => setSelectedIndex(null), []);
+  const close = useCallback(() => {
+    setSelectedIndex(null);
+    setPreviousIndex(null);
+  }, []);
+
+  const changeSelectedImage = useCallback((nextIndex: number, direction?: 'forward' | 'backward') => {
+    if (selectedIndex === null || nextIndex === selectedIndex) return;
+    setPreviousIndex(selectedIndex);
+    setSlideDirection(direction ?? (nextIndex > selectedIndex ? 'forward' : 'backward'));
+    setSelectedIndex(nextIndex);
+  }, [selectedIndex]);
 
   useEffect(() => {
     if (selectedIndex === null) return;
@@ -25,10 +38,10 @@ export default function AboutProcessGallery({ images, labels }: AboutProcessGall
       if (event.key === 'Escape') close();
       // Arrow navigation
       if (event.key === 'ArrowRight') {
-        setSelectedIndex((i) => (i === null ? 0 : Math.min(i + 1, images.length - 1)));
+        if (selectedIndex !== null) changeSelectedImage(Math.min(selectedIndex + 1, images.length - 1), 'forward');
       }
       if (event.key === 'ArrowLeft') {
-        setSelectedIndex((i) => (i === null ? 0 : Math.max(i - 1, 0)));
+        if (selectedIndex !== null) changeSelectedImage(Math.max(selectedIndex - 1, 0), 'backward');
       }
     };
 
@@ -43,9 +56,23 @@ export default function AboutProcessGallery({ images, labels }: AboutProcessGall
       // Return focus to the thumbnail that opened it
       lastTriggerRef.current?.focus();
     };
-  }, [selectedIndex, close, images.length]);
+  }, [selectedIndex, close, changeSelectedImage, images.length]);
 
   const selectedImage = selectedIndex === null ? null : images[selectedIndex];
+  const previousImage = previousIndex === null ? null : images[previousIndex];
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    swipeStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const startX = swipeStartX.current;
+    const endX = event.changedTouches[0]?.clientX;
+    swipeStartX.current = null;
+    if (selectedIndex === null || startX === null || endX === undefined || Math.abs(endX - startX) < 36) return;
+    if (endX < startX && selectedIndex < images.length - 1) changeSelectedImage(selectedIndex + 1, 'forward');
+    if (endX > startX && selectedIndex > 0) changeSelectedImage(selectedIndex - 1, 'backward');
+  };
 
   return (
     <>
@@ -60,6 +87,7 @@ export default function AboutProcessGallery({ images, labels }: AboutProcessGall
             className="group relative aspect-[4/3] overflow-hidden bg-neutral-950 text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
             onClick={(event) => {
               lastTriggerRef.current = event.currentTarget;
+              setPreviousIndex(null);
               setSelectedIndex(index);
             }}
           >
@@ -106,13 +134,29 @@ export default function AboutProcessGallery({ images, labels }: AboutProcessGall
           />
 
           {/* image container */}
-          <div className="pointer-events-none relative z-10 h-[80vh] w-full max-w-[1400px] px-5 md:px-14">
+          <div
+            className="relative z-10 h-[80vh] w-full max-w-[1400px] px-5 md:px-14"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            {previousImage && (
+              <Image
+                key={`previous-${previousIndex}`}
+                src={previousImage.src}
+                alt=""
+                fill
+                aria-hidden="true"
+                sizes="(max-width: 767px) 100vw, 90vw"
+                className={`media-transition-image media-transition-image--exit-${slideDirection} object-contain`}
+              />
+            )}
             <Image
+              key={`active-${selectedIndex}`}
               src={selectedImage.src}
               alt={selectedImage.alt}
               fill
               sizes="(max-width: 767px) 100vw, 90vw"
-              className="object-contain"
+              className={`media-transition-image media-transition-image--enter-${slideDirection} object-contain`}
               priority
             />
           </div>
@@ -130,7 +174,7 @@ export default function AboutProcessGallery({ images, labels }: AboutProcessGall
               type="button"
               aria-label="Previous image"
               className="absolute left-5 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-brand-ivory/20 bg-brand-black/60 text-brand-ivory/70 transition-colors hover:border-brand-ivory/50 hover:text-brand-ivory focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold md:left-8"
-              onClick={() => setSelectedIndex(selectedIndex - 1)}
+              onClick={() => changeSelectedImage(selectedIndex - 1, 'backward')}
             >
               ‹
             </button>
@@ -140,7 +184,7 @@ export default function AboutProcessGallery({ images, labels }: AboutProcessGall
               type="button"
               aria-label="Next image"
               className="absolute right-5 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-brand-ivory/20 bg-brand-black/60 text-brand-ivory/70 transition-colors hover:border-brand-ivory/50 hover:text-brand-ivory focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold md:right-8"
-              onClick={() => setSelectedIndex(selectedIndex + 1)}
+              onClick={() => changeSelectedImage(selectedIndex + 1, 'forward')}
             >
               ›
             </button>

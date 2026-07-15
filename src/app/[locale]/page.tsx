@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { StarOrnament } from '@/components/ui/Ornament';
 
 /*
   HOMEPAGE — matches mockup 01-home-desktop.png
@@ -8,24 +7,20 @@ import { StarOrnament } from '@/components/ui/Ornament';
   No internal footer.
   SiteHeader overlays from shared layout (position: absolute).
 
-  Bottom-left: editorial text block matching the approved mockup:
-    "WEAR THE POETRY
-     OF TRANSFORMATION"
-    ✦ ornament (SVG)
-    AW24 'THE BECOMING'
+  Bottom-left: editorial text block matching the approved mockup.
 */
 
 export default function HomePage() {
   return (
-    <main className="relative h-screen w-full overflow-hidden bg-brand-black">
+    <main className="relative h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full overflow-hidden overscroll-none bg-brand-black">
       {/* Full-bleed image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/images/campaign/ggg.jpeg"
-          alt="Palais des Chimères — AW24 The Becoming Campaign"
+          alt="Palais des Chimères — Vidmy 2026 Campaign"
           fill
           sizes="100vw"
-          className="object-cover object-center opacity-90"
+          className="object-cover object-center opacity-90 hero-image"
           priority
         />
         {/* Top gradient — ensures header readability */}
@@ -45,12 +40,9 @@ export default function HomePage() {
           OF TRANSFORMATION
         </h1>
 
-        {/* Gold star ornament */}
-        <StarOrnament size={22} className="mb-4 opacity-70" />
-
         {/* Collection caption */}
         <p className="text-[10px] uppercase tracking-[0.3em] text-brand-ivory/65">
-          AW24 &lsquo;THE BECOMING&rsquo;
+          VIDMY — 2026
         </p>
       </div>
     </main>

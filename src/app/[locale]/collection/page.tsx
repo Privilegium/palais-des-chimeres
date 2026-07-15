@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { products } from '@/data/products';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { getDictionary } from '@/i18n/dictionaries';
-import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
 
 /*
   GRID STRUCTURE (matches approved mockup 02-collection-desktop.png)
@@ -19,7 +18,7 @@ import { StarOrnament, WovenOrnament } from '@/components/ui/Ornament';
   Bottom section (row 2):
     col  1–8  : Blood Current      (wide — starts from page left, shifted left vs top products)
     col  9–12 : Nocturne Creature  (narrow, same width as Chimera Form)
-    col 13–20 : The Becoming       (wide lookbook)
+  col 13–20 : Jewelry            (wide destination card)
 
   ─────────────────────────────────────────────────────────────────
   Scroll behaviour:
@@ -58,9 +57,9 @@ export default async function CollectionPage({
     { ...nocturneCreature,  colStart: 9,  colEnd: 13, rowIndex: 2 },
     {
       id: 'lookbook',
-      name: 'The Becoming',
-      type: 'lookbook',
-      price: 'Lookbook',
+      name: 'Jewelry',
+      type: 'jewelry',
+      price: 'Discover jewelry',
       image: '/assets/images/campaign/ggg.jpeg',
       slug: 'lookbook',
       colStart: 13, colEnd: 21,
@@ -81,7 +80,7 @@ export default async function CollectionPage({
           On >1920px (2xl) rows stretch to fill the available flex space.
         */}
         <div
-          className="flex-1 min-h-0"
+          className="collection-grid flex-1 min-h-0"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(20, 1fr)',
@@ -92,54 +91,48 @@ export default async function CollectionPage({
 
           {/* ── Left Intro Rail ──────────────────────────────── */}
           <div
-            className="relative z-20 flex flex-col justify-start pr-8"
+            className="collection-intro relative z-20 flex flex-col justify-start pr-8"
             style={{ gridColumn: '1 / 5', gridRow: '1 / 2', paddingTop: '6px' }}
           >
             {/* COLLECTION title — z-20 allows it to ride over card edges */}
-            <h1 className="font-serif text-[2.5rem] lg:text-[3rem] 2xl:text-[3.5rem] tracking-[0.25em] uppercase text-brand-ivory leading-none mb-5">
+            <h1 className="font-serif text-[2.5rem] lg:text-[3rem] 2xl:text-[3.5rem] tracking-[0.25em] uppercase text-brand-ivory leading-none mb-3">
               COLLECTION
             </h1>
-            <p className="text-[9px] tracking-[0.22em] uppercase text-brand-ivory/50 mb-10">
-              AW24 — THE BECOMING
+            <p className="text-[9px] tracking-[0.22em] uppercase text-brand-ivory/50 mb-4">
+              VIDMY — 2026
             </p>
 
-            {/* Small crosshair / star ornament — 1254×1254 viewBox, render large + clip */}
             <div className="mb-auto">
-              <StarOrnament size={20} className="mb-10 opacity-75" />
-
               <p className="font-serif text-[1rem] italic leading-[1.75] text-brand-ivory/70 max-w-[230px]">
                 We do not create clothes. We summon forms that remember how to become.
               </p>
-
-              {/* Thorn ornament divider — SVG version */}
-              <WovenOrnament width={150} height={24} className="mt-10 opacity-65" />
             </div>
           </div>
 
           {/* ── Product / Lookbook Cards ──────────────────────── */}
           {cards.map((card) => {
             const href =
-              card.type === 'lookbook'
+              card.type === 'jewelry'
                 ? `/${locale}/jewelry`
                 : `/${locale}/collection/${card.slug}`;
 
             const label =
               card.type === 'priced'
                 ? card.price
-                : card.type === 'lookbook'
-                ? 'Lookbook'
+                : card.type === 'jewelry'
+                ? 'Jewelry'
                 : dict.common.personalRequest;
 
             return (
               <div
                 key={card.id}
-                className="relative group overflow-hidden"
+                className={`collection-card relative group overflow-hidden ${card.type === 'jewelry' ? 'collection-lookbook' : ''}`}
                 style={{
                   gridColumn: `${card.colStart} / ${card.colEnd}`,
                   gridRow: `${card.rowIndex} / ${card.rowIndex + 1}`,
                 }}
               >
-                <Link href={href} className="block w-full h-full">
+                <Link href={href} className="relative block h-full w-full">
                   {/* Background image */}
                   <Image
                     src={card.image}
