@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Modal } from '@/components/ui/Modal';
 import { InquiryForm } from '@/components/forms/InquiryForm';
 import type { Product, InquirySourceContext } from '@/types';
@@ -9,7 +11,7 @@ import type { Dictionary } from '@/i18n/dictionaries';
 
 // ─── Accordion ────────────────────────────────────────────────────────────────
 
-function AccordionRow({ label, content }: { label: string; content?: string }) {
+function AccordionRow({ label, content, fallback, footer }: { label: string; content?: string; fallback: string; footer?: ReactNode }) {
   const [open, setOpen] = useState(false);
   const contentId = `pdp-accordion-${label.toLowerCase().replace(/[\s&]+/g, '-')}`;
 
@@ -35,7 +37,8 @@ function AccordionRow({ label, content }: { label: string; content?: string }) {
           id={contentId}
           className="pb-5 font-serif text-[1rem] leading-[1.7] text-brand-ivory/75"
         >
-          {content ?? 'Information available upon request.'}
+          {content ?? fallback}
+          {footer && <div className="mt-4 font-sans text-[10px] uppercase tracking-[0.2em] text-brand-red">{footer}</div>}
         </div>
       )}
     </div>
@@ -56,7 +59,7 @@ function InquiryModal({
   const eyebrow =
     product.collectionLine ??
     product.attributes.find((a) => a.label === 'Collection')?.value ??
-    'VIDMY — 2026';
+    'VID’MY — 2027';
 
   const context: InquirySourceContext = {
     sourceType: 'product_inquiry',
@@ -79,7 +82,7 @@ function InquiryModal({
           {product.name.toUpperCase()}
         </h2>
         {product.type === 'priced' && product.price && (
-          <p className="mt-1 text-[13px] tracking-[0.1em] text-brand-ivory/65">
+          <p className="mt-2 font-serif text-[1.2rem] leading-none tracking-[0.08em] text-brand-ivory/80">
             {product.price}
           </p>
         )}
@@ -170,7 +173,7 @@ export default function ProductClient({
   const eyebrow =
     product.collectionLine ??
     product.attributes.find((a) => a.label === 'Collection')?.value ??
-    'VIDMY — 2026';
+    'VID’MY — 2027';
 
   const ctaLabel =
     product.type === 'priced' ? dict.common.order : dict.common.personalRequest;
@@ -246,13 +249,13 @@ export default function ProductClient({
                 key={`${img.src}-${i}`}
                 ref={(element) => { thumbnailRefs.current[i] = element; }}
                 type="button"
-                aria-label={`View image ${i + 1}`}
+                aria-label={`${dict.common.viewImage} ${i + 1}`}
                 aria-pressed={i === activeIndex}
                 onClick={() => selectImage(i)}
-                className={`relative w-full shrink-0 overflow-hidden border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold ${
+                className={`relative w-full shrink-0 overflow-hidden transition-opacity focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold ${
                   i === activeIndex
-                    ? 'border-brand-ivory/60'
-                    : 'border-brand-ivory/15 hover:border-brand-ivory/35'
+                    ? 'opacity-100'
+                    : 'opacity-60 hover:opacity-90'
                 }`}
                 style={{ aspectRatio: '3/4' }}
               >
@@ -315,7 +318,7 @@ export default function ProductClient({
               {/* LEFT */}
               <button
                 type="button"
-                aria-label="Previous image"
+                aria-label={dict.common.previousImage}
                 onClick={(event) => { event.stopPropagation(); selectImage(prevIdx); }}
                 className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 opacity-0 backdrop-blur-[2px] transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-brand-ivory/70 hover:bg-brand-black/70 hover:text-brand-ivory focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
               >
@@ -327,7 +330,7 @@ export default function ProductClient({
               {/* RIGHT */}
               <button
                 type="button"
-                aria-label="Next image"
+                aria-label={dict.common.nextImage}
                 onClick={(event) => { event.stopPropagation(); selectImage(nextIdx); }}
                 className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/25 bg-brand-black/50 text-brand-ivory/60 opacity-0 backdrop-blur-[2px] transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-brand-ivory/70 hover:bg-brand-black/70 hover:text-brand-ivory focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
               >
@@ -350,7 +353,7 @@ export default function ProductClient({
                 <button
                   key={i}
                   type="button"
-                  aria-label={`Image ${i + 1}`}
+                  aria-label={`${dict.common.image} ${i + 1}`}
                   onClick={(event) => { event.stopPropagation(); selectImage(i); }}
                   className={`h-[5px] w-[5px] rounded-full transition-colors ${
                     i === activeIndex ? 'bg-brand-ivory' : 'bg-brand-ivory/30'
@@ -371,7 +374,7 @@ export default function ProductClient({
             <button
               key={`${img.src}-mobile-${i}`}
               type="button"
-              aria-label={`View image ${i + 1}`}
+              aria-label={`${dict.common.viewImage} ${i + 1}`}
               aria-pressed={i === activeIndex}
               onClick={() => selectImage(i)}
               className={`relative aspect-[5/4] w-full overflow-hidden border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold ${
@@ -395,24 +398,43 @@ export default function ProductClient({
         </div>
 
         {/* Title */}
-        <h1 className="mb-4 font-serif text-[2rem] leading-[1.08] tracking-[0.2em] text-brand-ivory lg:text-[2.3rem] xl:text-[2.6rem]">
-          {product.name.toUpperCase()}
+        <h1 className="mb-4 font-serif [letter-spacing:clamp(0.32rem,0.5vw,0.6rem)] text-[2rem] leading-[1.08] text-brand-ivory lg:text-[2.3rem] xl:text-[2.6rem]">
+          {(product.lookTitle ?? product.name).toUpperCase()}
         </h1>
 
-        {/* Price */}
-        {product.type === 'priced' && product.price && (
-          <p className="mb-5 font-serif text-[1.35rem] tracking-[0.06em] text-brand-ivory">
-            {product.price}
-          </p>
-        )}
-
-        {/* Short description */}
-        <p className="mb-8 max-w-[34rem] font-serif text-[1.05rem] italic leading-[1.7] text-brand-ivory/80">
-          {product.shortDescription}
+        {/* Editorial look description */}
+        <p className="body-copy-readable mb-6 max-w-[34rem]">
+          {product.description}
         </p>
 
+        {/* Specific sellable item and its price */}
+        {(product.itemName || (product.type === 'priced' && product.price)) && (
+          <div className="mb-6">
+            {product.itemName && (
+              <h2 className="font-serif text-[clamp(1.3rem,1.15vw,1.6rem)] font-medium uppercase leading-[1.2] tracking-[0.12em] text-brand-ivory">
+                {product.itemName}
+              </h2>
+            )}
+            {product.type === 'priced' && product.price && (
+              <p className="mt-2 font-serif text-[clamp(1.15rem,1vw,1.4rem)] font-medium leading-none tracking-[0.06em] text-brand-ivory/85">
+                {product.price}
+              </p>
+            )}
+          </div>
+        )}
+
+        {product.kind === 'look' && product.relatedPieceSlugs?.length ? (
+          <a
+            href="#pieces-in-this-look"
+            className="mb-5 inline-flex w-fit items-center gap-2 border-b border-[#d45a61]/45 pb-1 font-serif text-[clamp(0.9rem,0.65vw,1.05rem)] italic normal-case tracking-[0.04em] text-[#d45a61] transition-colors hover:border-brand-ivory/60 hover:text-brand-ivory focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#d45a61]"
+          >
+            <span className="inline leading-[1.35]">{dict.common.viewRestOfLook}</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+        ) : null}
+
         {/* Attributes */}
-        <dl className="mb-8 border-t border-brand-ivory/[0.12]">
+        <dl className="mb-5 border-t border-brand-ivory/[0.12]">
           {product.attributes.map((attr) => (
             <div
               key={attr.label}
@@ -421,7 +443,7 @@ export default function ProductClient({
               <dt className="shrink-0 text-[9px] uppercase tracking-[0.28em] text-brand-ivory/40">
                 {attr.label}
               </dt>
-              <dd className="text-right text-[14px] leading-[1.55] tracking-wide text-brand-ivory/90">
+              <dd className="body-copy-readable max-w-[68%] text-right !text-[clamp(0.95rem,0.82vw,1.08rem)] !leading-[1.5] !text-brand-ivory/90">
                 {attr.value}
               </dd>
             </div>
@@ -434,26 +456,28 @@ export default function ProductClient({
           type="button"
           aria-haspopup="dialog"
           onClick={openModal}
-          className="mb-3 flex w-full items-center justify-center gap-3 bg-brand-red py-[15px] text-[11px] uppercase tracking-[0.32em] text-brand-ivory transition-colors hover:bg-brand-red/85 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
+          className="mb-8 flex w-full items-center justify-center gap-3 bg-brand-red py-[15px] text-[11px] uppercase tracking-[0.32em] text-brand-ivory transition-colors hover:bg-brand-red/85 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
         >
           <span>{ctaLabel}</span>
           <span aria-hidden="true">→</span>
         </button>
-
-        {/* Inquiry note */}
-        <p className="mb-8 text-center text-[9px] uppercase tracking-[0.26em] text-brand-ivory/30">
-          {dict.common.inquiryNote}
-        </p>
 
         {/* Accordions */}
         <div className="border-t border-brand-ivory/[0.12]">
           <AccordionRow
             label={dict.common.details}
             content={product.accordions?.details}
+            fallback={dict.common.informationAvailable}
           />
           <AccordionRow
             label={dict.common.delivery}
-            content={product.accordions?.delivery}
+            content={dict.common.deliveryLegal}
+            fallback={dict.common.informationAvailable}
+            footer={
+              <Link href={`/${locale}/legal/shipping`} className="transition-colors hover:text-brand-red/75">
+                {dict.common.deliveryPolicy} <span aria-hidden="true">→</span>
+              </Link>
+            }
           />
         </div>
       </div>
@@ -469,11 +493,11 @@ export default function ProductClient({
 
       {imageModalOpen && (
         <div role="dialog" aria-modal="true" aria-label={activeImg.alt} className="fixed inset-0 z-[150] flex items-center justify-center bg-brand-black/96 backdrop-blur-sm">
-          <button type="button" aria-label="Close full screen image" className="absolute inset-0 cursor-default" onClick={() => setImageModalOpen(false)} />
+          <button type="button" aria-label={dict.common.closeImage} className="absolute inset-0 cursor-default" onClick={() => setImageModalOpen(false)} />
           <div className="pointer-events-none relative z-10 h-[82dvh] w-full max-w-[1200px] px-5 md:px-14">
             <Image src={activeImg.src} alt={activeImg.alt} fill sizes="(max-width: 767px) 100vw, 90vw" className="object-contain" priority />
           </div>
-          <button type="button" aria-label="Close full screen image" onClick={() => setImageModalOpen(false)} className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center border border-brand-ivory/20 bg-brand-black/70 text-xl text-brand-ivory/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold">×</button>
+          <button type="button" aria-label={dict.common.closeImage} onClick={() => setImageModalOpen(false)} className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center border border-brand-ivory/20 bg-brand-black/70 text-xl text-brand-ivory/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold">×</button>
         </div>
       )}
     </>

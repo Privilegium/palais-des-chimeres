@@ -31,6 +31,14 @@
     color: color-mix(in srgb, var(--foreground) 78%, transparent);
   }
 
+  .body-copy-readable {
+    font-family: var(--font-serif), serif;
+    font-size: clamp(1rem, 1.05vw, 1.18rem);
+    font-weight: 500;
+    line-height: 1.72;
+    color: color-mix(in srgb, var(--foreground) 84%, transparent);
+  }
+
   .legal-copy {
     font-family: var(--font-sans), sans-serif;
     font-size: clamp(1rem, 1vw, 1.125rem);
@@ -82,9 +90,10 @@
   @media (max-width: 767px) {
     /* Reading copy is intentionally kept at a 16–18px equivalent.  Small
        uppercase type remains reserved for editorial metadata, not prose. */
-    .body-copy {
+    .body-copy,
+    .body-copy-readable {
       font-size: 1.0625rem;
-      line-height: 1.62;
+      line-height: 1.68;
     }
 
     input,
@@ -134,12 +143,6 @@
 
     .collection-card .absolute.right-5 {
       color: color-mix(in srgb, var(--foreground) 55%, transparent);
-    }
-
-    .collection-card p:first-child {
-      font-family: var(--font-serif), serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.22em;
     }
 
     .collection-lookbook { display: block; }
@@ -245,7 +248,14 @@
     }
 
     .about-hero {
-      min-height: 360px !important;
+      min-height: 0 !important;
+    }
+
+    .about-hero-content {
+      min-height: 0 !important;
+      justify-content: flex-start !important;
+      padding-top: 7rem !important;
+      padding-bottom: 3.5rem !important;
     }
 
     .about-hero h1 {
@@ -253,10 +263,10 @@
       margin-bottom: 0.65rem;
     }
 
-    .about-hero .body-copy,
-    .editorial-panel .body-copy {
-      font-size: 1rem;
-      line-height: 1.55;
+    .about-hero .body-copy-readable,
+    .editorial-panel .body-copy-readable {
+      font-size: 1.0625rem;
+      line-height: 1.68;
     }
 
     .contact-page {
@@ -279,7 +289,7 @@
       gap: 0.85rem !important;
     }
 
-    .contact-left .body-copy {
+    .contact-left .body-copy-readable {
       max-width: 19rem;
     }
 
@@ -321,10 +331,10 @@
     }
 
     .film-content {
-      height: 100%;
+      height: auto;
       min-height: 0;
-      padding-top: clamp(270px, 35vh, 295px);
-      padding-bottom: 0.35rem;
+      padding-top: calc(82px + 66.667vw + 2rem);
+      padding-bottom: 3rem;
     }
 
     .film-content > :first-child {
@@ -332,7 +342,7 @@
     }
 
     .film-content > :nth-child(2) {
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       justify-content: flex-start;
       min-height: 0;
     }
@@ -340,7 +350,7 @@
     .film-content h1 {
       font-size: clamp(2.7rem, 12vw, 3.45rem) !important;
       line-height: 0.96;
-      letter-spacing: 0.13em !important;
+      letter-spacing: 0.32rem !important;
       overflow-wrap: anywhere;
     }
 
@@ -352,8 +362,8 @@
     }
 
     .film-content .border-l {
-      margin-top: auto !important;
-      margin-bottom: 0.5rem !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 0 !important;
     }
 
     .film-content .border-l dt {

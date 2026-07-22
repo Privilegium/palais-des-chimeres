@@ -1,10 +1,11 @@
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getProductBySlug, products } from '@/data/products';
+import { getProductBySlug, getProductForLocale, getProductsBySlugs, products } from '@/data/products';
 import { getDictionary } from '@/i18n/dictionaries';
 import ProductClient from './ProductClient';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
+import { PRODUCT_CARD_META_CLASS, PRODUCT_CARD_TITLE_CLASS } from '@/components/ui/productCardTypography';
 
 /*
   PDP LAYOUT — matches mockup 03-product-detail-desktop.png
@@ -19,7 +20,7 @@ import InternalPageFooter from '@/components/layout/InternalPageFooter';
   directly in the 12-col grid below.
 
   The page may scroll naturally — PDP is NOT locked to 100dvh.
-  Related Looks + footer follow below the product grid.
+  Pieces in This Look + footer follow below the product grid.
 */
 
 export async function generateStaticParams() {
@@ -33,18 +34,26 @@ export async function generateStaticParams() {
   return params;
 }
 
+// Unknown product slugs must reach the page so they can be sent to the public
+// `/404` destination instead of keeping the invalid URL in the address bar.
+export const dynamicParams = false;
+
 export default async function ProductPage({
   params,
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const product = getProductBySlug(slug);
+  const sourceProduct = getProductBySlug(slug);
 
-  if (!product) notFound();
+  if (!sourceProduct) redirect(`/${locale}/404`);
+
+  const product = getProductForLocale(sourceProduct, locale);
 
   const dict = getDictionary(locale);
-  const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 3);
+  const relatedPieces = getProductsBySlugs(sourceProduct.relatedPieceSlugs ?? [])
+    .slice(0, 6)
+    .map((p) => getProductForLocale(p, locale));
 
   return (
     <>
@@ -64,53 +73,52 @@ export default async function ProductPage({
           </div>
         </div>
 
-        {/* ── Related Looks ──────────────────────────────────────────────── */}
-        <div className="related-looks mx-auto mt-9 w-full max-w-[1680px] px-6 md:mt-24 md:px-12 2xl:px-16">
-          {/* Section heading */}
-          <div className="mb-5">
-            <h2 className="text-[10px] uppercase tracking-[0.36em] text-brand-ivory/65">
-              Related Looks
-            </h2>
-          </div>
+        {relatedPieces.length > 0 && (
+          <section id="pieces-in-this-look" className="related-looks mx-auto mt-9 w-full max-w-[1680px] scroll-mt-28 px-6 md:mt-24 md:scroll-mt-36 md:px-12 2xl:px-16">
+            <div className="mb-5">
+              <h2 className="font-serif text-[clamp(1.1rem,0.65vw,1.2rem)] font-medium uppercase tracking-[0.26em] text-brand-ivory/80">
+                {dict.common.piecesInThisLook}
+              </h2>
+            </div>
 
-          {/* 3-column card grid */}
-          <div className="related-looks-grid grid grid-cols-1 gap-3 md:grid-cols-3">
-            {relatedProducts.map((rp) => (
-              <Link
-                key={rp.id}
-                href={`/${locale}/collection/${rp.slug}`}
-                className="related-look-card group relative block overflow-hidden bg-neutral-950"
-                style={{ aspectRatio: '4/3' }}
-              >
-                {/* Product image */}
-                <Image
-                  src={rp.image}
-                  alt={rp.name}
-                  fill
-                  sizes="(max-width: 767px) calc(100vw - 3rem), (max-width: 1680px) 33vw, 528px"
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-                {/* Dark gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/85 via-brand-black/20 to-transparent" />
-                {/* + corner indicator */}
-                <div className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center border border-brand-ivory/30 text-brand-ivory/55 text-sm transition-colors group-hover:border-brand-ivory/55 group-hover:text-brand-ivory/80">
-                  +
-                </div>
-                {/* Product name + price — bottom-left */}
-                <div className="absolute bottom-4 left-4">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-brand-ivory/90">
-                    {rp.name}
-                  </p>
-                  <p className="mt-[5px] text-[10px] tracking-wide text-brand-ivory/55">
-                    {rp.type === 'priced' && rp.price
-                      ? rp.price
-                      : dict.common.personalRequest}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+            <div className="related-looks-grid grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] gap-3">
+              {relatedPieces.map((rp) => (
+                <Link
+                  key={rp.id}
+                  href={`/${locale}/collection/${rp.slug}`}
+                  className="related-look-card group relative block overflow-hidden bg-neutral-950"
+                  style={{ aspectRatio: '4/3' }}
+                >
+                  {/* Product image */}
+                  <Image
+                    src={rp.image}
+                    alt={rp.name}
+                    fill
+                    sizes="(max-width: 767px) calc(100vw - 3rem), (max-width: 1023px) calc(50vw - 2rem), (max-width: 1439px) calc(33vw - 2rem), 20vw"
+                    className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                  {/* Dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black/85 via-brand-black/20 to-transparent" />
+                  {/* + corner indicator */}
+                  <div className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center border border-brand-ivory/30 text-brand-ivory/55 text-sm transition-colors group-hover:border-brand-ivory/55 group-hover:text-brand-ivory/80">
+                    +
+                  </div>
+                  {/* Product name + availability — bottom-left */}
+                  <div className="absolute bottom-4 left-4">
+                    <p className={PRODUCT_CARD_TITLE_CLASS}>
+                      {rp.name}
+                    </p>
+                    <p className={PRODUCT_CARD_META_CLASS}>
+                      {rp.type === 'priced' && rp.price
+                        ? rp.price
+                        : dict.common.personalRequest}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
       <InternalPageFooter locale={locale} />

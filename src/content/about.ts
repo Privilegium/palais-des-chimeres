@@ -50,8 +50,8 @@ type AboutContent = {
 const aboutContent: Record<Locale, AboutContent> = {
   en: {
     hero: {
-      title: 'ABOUT',
-      intro: 'Palais des Chimères is the world of an emerging designer — where transformation, memory, and handcraft shape the in-between.',
+      title: 'About the Brand',
+      intro: 'In Ukrainian, the name Vyshnevetska translates to "cherry"—a metaphor that perfectly captures the essence of the brand. Like the fruit, the label is a study in captivating contrasts: sweet and alluring, yet possessing a sharp, tart edge that makes it unforgettable.\n\nPalais Des Chimères is a demi-couture house focused on wearable art. Crafted from premium materials with impeccable tailoring, these garments are designed to act as a second skin. They are an invitation to shift your perspective. By stepping into a piece, the wearer is encouraged to leave the ordinary behind, look at the world through a new skin, and embrace the transformative power of becoming a chimera.',
       image: {
         src: '/assets/images/campaign/ggg.jpeg',
         alt: 'Red sculptural garment from Palais des Chimères',
@@ -60,18 +60,24 @@ const aboutContent: Record<Locale, AboutContent> = {
     },
     brandWorld: {
       eyebrow: 'The world',
-      title: 'IN THE BETWEEN',
-      lines: ['Not quite past, not yet future.', 'Where shift and shell meet.', 'Memory clings. Ritual remains.'],
+      title: 'VID’MY',
+      lines: [
+        'The collection is inspired by an ancient Ukrainian belief that every being and every object possesses its own skin through which it perceives reality. Humans see one world, while other beings may simultaneously witness another. Reality is never singular; it depends on who—or what—is looking.',
+        'The story follows a group of young witches who gather in the forest to perform a ritual. A black cat watches them silently, acting as a guide between two worlds. During the ritual, something shifts. The witches cross into what appears to be the afterlife, where the boundaries between consciousness and madness dissolve. Only the cat remains unchanged, observing their transformation.',
+        'Yet the narrative deliberately leaves questions unanswered. Did the witches truly enter another realm, or did they simply experience the reality the cat chose to reveal? And perhaps the most unsettling question is: was the cat ever truly a cat?',
+        'Each look represents a different state of seeing, blurring the boundaries between reality, illusion, folklore, and memory.',
+        'Ultimately, Vid’my proposes that clothing can transform not only the body but also the way we experience the world. By wearing these pieces, one symbolically adopts another perspective—seeing reality through a different skin.',
+      ],
       image: {
         src: '/assets/images/products/vase_dress.png',
-        alt: 'Sculptural ivory garment with hand-finished red embroidery',
+        alt: 'Sculptural ivory garment with hand-finished red-pink embroidery',
         position: 'center 38%',
       },
     },
     manifesto: {
       eyebrow: 'The manifesto',
-      title: 'CRAFT AS MEMORY',
-      lines: ['Clothes are vessels for becoming.', 'For change. For what lingers.', 'Made slowly, with intention.', 'Rooted in ritual.'],
+      title: 'See the world through a different skin',
+      lines: ['Because each garment is crafted as a living creature, the wearer transforms into a chimera, stepping into a palace of chimeras.'],
       image: {
         src: '/assets/images/products/vampire_dress.png',
         alt: 'Figure veiled in translucent red fabric',
@@ -80,13 +86,13 @@ const aboutContent: Record<Locale, AboutContent> = {
     },
     designer: {
       eyebrow: 'The designer',
-      name: 'CLARA ROUX',
+      name: 'Diana Vyshnevetska',
       paragraphs: [
-        'Clara Roux is a fashion designer and recent graduate of La Cambre Mode(s), Brussels.',
-        'Her work explores transformation, the body as memory, and the space between form and feeling.',
-        'Palais des Chimères is her graduation collection and the beginning of an ongoing world — rooted in ritual, instinct, and experimental forms.',
+        'About the Designer',
+        'Diana Vyshnevetska is an emerging fashion designer with a deep commitment to traditional craftsmanship. Launching her eponymous label is the realization of a lifelong dream, built upon nearly a decade of dedicated training.',
+        'Before graduating from ESMOD France, Diana spent six years studying fine and applied arts, earning a degree in fashion design alongside professional embroidery training. Today, she brings this highly technical, hands-on approach to everything she creates, personally guiding her designs from the first sketch to the final hand-stitched detail. Finally, she is trying to show people the world of fashion through her unique prism of vision.',
       ],
-      note: 'La Cambre Mode(s) — Class of 2024',
+      note: '',
       image: {
         src: '/assets/images/products/red_witch_dress.png',
         alt: 'Portrait of the designer in a deep red tailored jacket',
@@ -111,7 +117,7 @@ const aboutContent: Record<Locale, AboutContent> = {
         close: 'Close image preview',
       },
       images: [
-        { src: '/assets/images/products/vase_dress.png', alt: 'Ivory wool and red embroidery detail', position: 'center 70%' },
+        { src: '/assets/images/products/vase_dress.png', alt: 'Ivory wool and red-pink embroidery details', position: 'center 70%' },
         { src: '/assets/images/campaign/ggg.jpeg', alt: 'Hands shaping translucent red fabric', position: '18% 52%' },
         { src: '/assets/images/products/vampire_dress.png', alt: 'Layered red veil and sleeve construction', position: '38% 42%' },
         { src: '/assets/images/products/red_witch_dress.png', alt: 'Tailoring and necklace detail in red and black', position: 'center 58%' },
@@ -123,7 +129,7 @@ const aboutContent: Record<Locale, AboutContent> = {
   fr: {
     hero: {
       title: 'À PROPOS',
-      intro: 'Palais des Chimères est l’univers d’une créatrice émergente — où transformation, mémoire et geste artisanal façonnent l’entre-deux.',
+      intro: 'En ukrainien, le nom Vyshnevetska signifie « cerise » — une métaphore qui capture parfaitement l’essence de la marque. Comme le fruit, le label est une étude de contrastes captivants : doux et séduisant, mais doté d’une pointe vive et acidulée qui le rend inoubliable.\n\nPalais Des Chimères est une maison de demi-couture dédiée à l’art portable. Confectionnés dans des matières premium avec une coupe impeccable, ces vêtements sont pensés comme une seconde peau. Ils invitent à déplacer son regard. En revêtant une pièce, on est encouragé à laisser l’ordinaire derrière soi, à regarder le monde à travers une nouvelle peau et à accueillir le pouvoir transformateur du devenir chimère.',
       image: {
         src: '/assets/images/campaign/ggg.jpeg',
         alt: 'Silhouette sculpturale rouge de Palais des Chimères',
@@ -132,18 +138,24 @@ const aboutContent: Record<Locale, AboutContent> = {
     },
     brandWorld: {
       eyebrow: 'Le monde',
-      title: "DANS L’ENTRE-DEUX",
-      lines: ['Ni tout à fait passé, ni encore futur.', 'Là où la mue rencontre la carapace.', 'La mémoire s’attache. Le rituel demeure.'],
+      title: 'VID’MY',
+      lines: [
+        'La collection s’inspire d’une ancienne croyance ukrainienne selon laquelle chaque être et chaque objet possède sa propre peau à travers laquelle il perçoit la réalité. Les humains voient un monde, tandis que d’autres êtres peuvent en observer simultanément un autre. La réalité n’est jamais singulière : elle dépend de celui — ou de ce — qui regarde.',
+        'L’histoire suit un groupe de jeunes sorcières qui se réunissent dans la forêt pour accomplir un rituel. Un chat noir les observe en silence, comme un guide entre deux mondes. Pendant le rituel, quelque chose bascule. Les sorcières passent dans ce qui semble être l’au-delà, là où les frontières entre conscience et folie se dissolvent. Seul le chat reste inchangé, témoin de leur transformation.',
+        'Pourtant, le récit laisse volontairement les questions ouvertes. Les sorcières ont-elles réellement pénétré dans un autre monde, ou ont-elles simplement vécu la réalité que le chat a choisi de révéler ? Et peut-être la question la plus troublante est-elle celle-ci : le chat a-t-il vraiment été un chat ?',
+        'Chaque silhouette représente un état différent du regard, brouillant les frontières entre réalité, illusion, folklore et mémoire.',
+        'En définitive, Vid’my propose que le vêtement puisse transformer non seulement le corps, mais aussi notre manière d’expérimenter le monde. En portant ces pièces, on adopte symboliquement une autre perspective — on voit la réalité à travers une peau différente.',
+      ],
       image: {
         src: '/assets/images/products/vase_dress.png',
-        alt: 'Silhouette ivoire sculpturale brodée à la main en rouge',
+        alt: 'Silhouette ivoire sculpturale brodée à la main en rouge et rose',
         position: 'center 38%',
       },
     },
     manifesto: {
       eyebrow: 'Le manifeste',
-      title: 'LE GESTE COMME MÉMOIRE',
-      lines: ['Les vêtements sont des espaces de devenir.', 'Pour la mue. Pour ce qui persiste.', 'Façonnés lentement, avec intention.', 'Enracinés dans le rituel.'],
+      title: 'Voir le monde à travers une peau différente',
+      lines: ['Parce que chaque vêtement est façonné comme une créature vivante, la personne qui le porte se transforme en chimère et entre dans un palais de chimères.'],
       image: {
         src: '/assets/images/products/vampire_dress.png',
         alt: 'Figure voilée d’une étoffe rouge translucide',
@@ -152,13 +164,13 @@ const aboutContent: Record<Locale, AboutContent> = {
     },
     designer: {
       eyebrow: 'La créatrice',
-      name: 'CLARA ROUX',
+      name: 'Diana Vyshnevetska',
       paragraphs: [
-        'Clara Roux est créatrice de mode et jeune diplômée de La Cambre Mode(s), à Bruxelles.',
-        'Son travail explore la transformation, le corps comme mémoire et l’espace entre forme et sensation.',
-        'Palais des Chimères est sa collection de fin d’études et le commencement d’un monde en mouvement — guidé par le rituel, l’instinct et les formes expérimentales.',
+        'À propos de la créatrice',
+        'Diana Vyshnevetska est une créatrice de mode émergente profondément attachée aux savoir-faire traditionnels. Le lancement de sa maison éponyme réalise un rêve de longue date, construit sur près d’une décennie de formation assidue.',
+        'Avant d’être diplômée d’ESMOD France, Diana a étudié pendant six ans les arts plastiques et appliqués, obtenant un diplôme en design de mode ainsi qu’une formation professionnelle en broderie. Aujourd’hui, elle apporte cette approche technique et manuelle à chacune de ses créations, en guidant personnellement ses designs du premier croquis au dernier détail cousu à la main. Elle cherche ainsi à montrer le monde de la mode à travers son prisme singulier.',
       ],
-      note: 'La Cambre Mode(s) — Promotion 2024',
+      note: '',
       image: {
         src: '/assets/images/products/red_witch_dress.png',
         alt: 'Portrait de la créatrice en veste structurée rouge profond',
@@ -183,7 +195,7 @@ const aboutContent: Record<Locale, AboutContent> = {
         close: 'Fermer l’aperçu',
       },
       images: [
-        { src: '/assets/images/products/vase_dress.png', alt: 'Détail de laine ivoire et de broderie rouge', position: 'center 70%' },
+        { src: '/assets/images/products/vase_dress.png', alt: 'Détails de laine ivoire et de broderie rouge et rose', position: 'center 70%' },
         { src: '/assets/images/campaign/ggg.jpeg', alt: 'Mains travaillant une étoffe rouge translucide', position: '18% 52%' },
         { src: '/assets/images/products/vampire_dress.png', alt: 'Construction superposée d’un voile et de manches rouges', position: '38% 42%' },
         { src: '/assets/images/products/red_witch_dress.png', alt: 'Détail de tailleur rouge et de bijoux noirs', position: 'center 58%' },

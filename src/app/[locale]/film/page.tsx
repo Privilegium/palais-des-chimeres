@@ -31,15 +31,15 @@ export default async function FilmPage({
       Root wrapper: exactly 100dvh, clips anything that would spill.
       `flex-col` + `overflow-hidden` guarantee no scroll on any screen.
     */
-    <div className="flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] flex-col overflow-hidden bg-brand-black">
+    <div className="film-page flex min-h-[100dvh] flex-col bg-brand-black md:h-[100dvh] md:max-h-[100dvh] md:overflow-hidden">
 
       {/*
         Main cinematic area — grows to fill all available space between
         the top of the viewport and the footer.
         `relative` is required so FilmClient's `absolute inset-0` works.
       */}
-      <main className="film-main relative min-h-0 flex-1 overflow-hidden">
-        <FilmClient watchFilmText={dict.common.watchFilm} />
+      <main className="film-main relative min-h-0 flex-1 md:overflow-hidden">
+        <FilmClient watchFilmText={dict.common.watchFilm} locale={locale} />
       </main>
 
       {/* Footer — always pinned at the very bottom inside the 100dvh box */}

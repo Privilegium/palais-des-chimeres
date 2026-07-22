@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { products } from '@/data/products';
+import { collectionLooks, getProductForLocale } from '@/data/products';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
-import { getDictionary } from '@/i18n/dictionaries';
+import { getSiteContent } from '@/content/site';
+import { PRODUCT_CARD_META_CLASS, PRODUCT_CARD_TITLE_CLASS } from '@/components/ui/productCardTypography';
 
 /*
   GRID STRUCTURE (matches approved mockup 02-collection-desktop.png)
@@ -37,6 +38,8 @@ type CardItem = {
   colStart: number;
   colEnd: number;
   rowIndex: 1 | 2;
+  displayName: string;
+  displayMeta: string;
 };
 
 export default async function CollectionPage({
@@ -45,25 +48,28 @@ export default async function CollectionPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const dict = getDictionary(locale);
+  const content = getSiteContent(locale);
 
-  const [veilOfBecoming, chimeraForm, ivoryBloom, bloodCurrent, nocturneCreature] = products;
+  const [veilOfBecoming, chimeraForm, ivoryBloom, bloodCurrent, nocturneCreature] = collectionLooks.map((product) => getProductForLocale(product, locale));
+  const cardContent = content.collection.cards;
 
   const cards: CardItem[] = [
-    { ...veilOfBecoming,    colStart: 5,  colEnd: 12, rowIndex: 1 },
-    { ...chimeraForm,       colStart: 12, colEnd: 15, rowIndex: 1 }, // 20% narrower
-    { ...ivoryBloom,        colStart: 15, colEnd: 21, rowIndex: 1 }, // gains the extra width
-    { ...bloodCurrent,      colStart: 1,  colEnd: 9,  rowIndex: 2 },
-    { ...nocturneCreature,  colStart: 9,  colEnd: 13, rowIndex: 2 },
+    { ...veilOfBecoming,    ...cardContent['veil-of-becoming'], colStart: 5,  colEnd: 12, rowIndex: 1 },
+    { ...chimeraForm,       ...cardContent['chimera-form'], colStart: 12, colEnd: 15, rowIndex: 1 }, // 20% narrower
+    { ...ivoryBloom,        ...cardContent['ivory-bloom'], colStart: 15, colEnd: 21, rowIndex: 1 }, // gains the extra width
+    { ...bloodCurrent,      ...cardContent['blood-current'], colStart: 1,  colEnd: 9,  rowIndex: 2 },
+    { ...nocturneCreature,  ...cardContent['nocturne-creature'], colStart: 9,  colEnd: 13, rowIndex: 2 },
     {
       id: 'lookbook',
-      name: 'Jewelry',
+      name: content.collection.jewelryName,
       type: 'jewelry',
       price: 'Discover jewelry',
       image: '/assets/images/campaign/ggg.jpeg',
       slug: 'lookbook',
       colStart: 13, colEnd: 21,
       rowIndex: 2,
+      displayName: content.collection.jewelryName,
+      displayMeta: content.collection.jewelryMeta,
     },
   ];
 
@@ -95,16 +101,16 @@ export default async function CollectionPage({
             style={{ gridColumn: '1 / 5', gridRow: '1 / 2', paddingTop: '6px' }}
           >
             {/* COLLECTION title — z-20 allows it to ride over card edges */}
-            <h1 className="font-serif text-[2.5rem] lg:text-[3rem] 2xl:text-[3.5rem] tracking-[0.25em] uppercase text-brand-ivory leading-none mb-3">
-              COLLECTION
+            <h1 className="font-serif [letter-spacing:clamp(0.32rem,0.5vw,0.6rem)] text-[2.5rem] lg:text-[3rem] 2xl:text-[3.5rem] uppercase text-brand-ivory leading-none mb-3">
+              {content.collection.title}
             </h1>
             <p className="text-[9px] tracking-[0.22em] uppercase text-brand-ivory/50 mb-4">
-              VIDMY — 2026
+              {content.collection.collectionLine}
             </p>
 
             <div className="mb-auto">
-              <p className="font-serif text-[1rem] italic leading-[1.75] text-brand-ivory/70 max-w-[230px]">
-                We do not create clothes. We summon forms that remember how to become.
+              <p className="body-copy-readable max-w-[230px]">
+                {content.collection.intro}
               </p>
             </div>
           </div>
@@ -115,13 +121,6 @@ export default async function CollectionPage({
               card.type === 'jewelry'
                 ? `/${locale}/jewelry`
                 : `/${locale}/collection/${card.slug}`;
-
-            const label =
-              card.type === 'priced'
-                ? card.price
-                : card.type === 'jewelry'
-                ? 'Jewelry'
-                : dict.common.personalRequest;
 
             return (
               <div
@@ -154,12 +153,14 @@ export default async function CollectionPage({
 
                   {/* Card label — bottom left */}
                   <div className="absolute bottom-0 left-0 px-6 py-7 w-full">
-                    <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-brand-ivory mb-[5px] leading-none">
-                      {card.name.toUpperCase()}
+                    <p className={PRODUCT_CARD_TITLE_CLASS}>
+                      {card.displayName.toUpperCase()}
                     </p>
-                    <p className="font-sans text-[10px] tracking-[0.08em] text-brand-ivory/55 font-light leading-none">
-                      {label}
-                    </p>
+                    {card.type === 'jewelry' && (
+                      <p className={PRODUCT_CARD_META_CLASS}>
+                        {content.collection.jewelryMeta}
+                      </p>
+                    )}
                   </div>
                 </Link>
               </div>

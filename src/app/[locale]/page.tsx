@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { getSiteContent } from '@/content/site';
 
 /*
   HOMEPAGE — matches mockup 01-home-desktop.png
@@ -10,14 +11,21 @@ import Image from 'next/image';
   Bottom-left: editorial text block matching the approved mockup.
 */
 
-export default function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const content = getSiteContent(locale);
+
   return (
     <main className="relative h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full overflow-hidden overscroll-none bg-brand-black">
       {/* Full-bleed image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/images/campaign/ggg.jpeg"
-          alt="Palais des Chimères — Vidmy 2026 Campaign"
+          alt={content.home.heroAlt}
           fill
           sizes="100vw"
           className="object-cover object-center opacity-90 hero-image"
@@ -33,7 +41,7 @@ export default function HomePage() {
       <div className="absolute bottom-0 left-0 z-10 px-6 pb-8 md:px-12 md:pb-10 2xl:px-16 2xl:pb-12">
         {/* Main headline — large serif, two lines */}
         <h1
-          className="font-serif tracking-[0.2em] text-brand-ivory leading-[1.08] mb-5"
+          className="font-serif [letter-spacing:clamp(0.32rem,0.5vw,0.6rem)] text-brand-ivory leading-[1.08] mb-5"
           style={{ fontSize: 'clamp(1.6rem, 3.2vw, 3rem)' }}
         >
           WEAR THE POETRY<br />
@@ -42,7 +50,7 @@ export default function HomePage() {
 
         {/* Collection caption */}
         <p className="text-[10px] uppercase tracking-[0.3em] text-brand-ivory/65">
-          VIDMY — 2026
+          {content.home.collectionLine}
         </p>
       </div>
     </main>

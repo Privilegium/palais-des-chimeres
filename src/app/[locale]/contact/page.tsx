@@ -2,6 +2,7 @@ import Image from 'next/image';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { ContactForm } from '@/components/forms/ContactForm';
 import type { InquirySourceContext } from '@/types';
+import { getSiteContent } from '@/content/site';
 
 /*
   CONTACT PAGE — matches mockup 06-contact-desktop.png
@@ -24,12 +25,12 @@ import type { InquirySourceContext } from '@/types';
 const CONTACT_LINKS = [
   { id: 'instagram', label: 'INSTAGRAM', sub: '@palaisdeschimères', href: 'https://instagram.com/palaisdeschimeres', external: true, icon: 'instagram' },
   { id: 'linkedin', label: 'LINKEDIN', sub: 'Palais des Chimères', href: 'https://linkedin.com/company/palaisdeschimeres', external: true, icon: 'linkedin' },
-  { id: 'email', label: 'EMAIL', sub: 'studio@palaisdeschimeres.com', href: 'mailto:studio@palaisdeschimeres.com', external: false, icon: 'email' },
+  { id: 'email', label: 'EMAIL', sub: 'dvyshnevetska@gmail.com', href: 'mailto:dvyshnevetska@gmail.com', external: false, icon: 'email' },
   { id: 'portfolio', label: 'PORTFOLIO', sub: 'View selected work', href: 'https://palaisdeschimeres.com', external: true, icon: 'portfolio' },
 ] as const;
 
 function ContactIcon({ kind }: { kind: (typeof CONTACT_LINKS)[number]['icon'] }) {
-  const shared = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.45, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  const shared = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   const svgClass = 'h-full w-full';
   if (kind === 'instagram') return <svg className={svgClass} viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="3" y="3" width="18" height="18" rx="4.5" /><circle cx="12" cy="12" r="4.1" /><path d="M17.6 6.5h.01" /></svg>;
   if (kind === 'linkedin') return <svg className={svgClass} viewBox="0 0 24 24" aria-hidden="true" {...shared}><rect x="3" y="3" width="18" height="18" rx="1.5" /><path d="M8 10v6M8 7.5v.01M11.5 16v-3.4a2.6 2.6 0 0 1 5.2 0V16M11.5 10v6" /></svg>;
@@ -43,6 +44,11 @@ export default async function ContactPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const content = getSiteContent(locale);
+  const contactLinks = CONTACT_LINKS.map((link) => {
+    if (link.id === 'portfolio') return { ...link, sub: content.contact.portfolio };
+    return link;
+  });
 
   const context: InquirySourceContext = {
     sourceType: 'contact_form',
@@ -78,21 +84,21 @@ export default async function ContactPage({
           {/* Eyebrow */}
           <div className="text-brand-ivory/50 uppercase tracking-[0.32em]"
             style={{ fontSize: 'clamp(8px, 0.8vw, 10px)' }}>
-            <span>Get in touch</span>
+            <span>{content.contact.eyebrow}</span>
           </div>
 
           {/* Headline */}
           <h1
-            className="font-serif leading-[1.08] tracking-[0.14em] text-brand-ivory"
+            className="font-serif [letter-spacing:clamp(0.32rem,0.45vw,0.5rem)] leading-[1.08] text-brand-ivory"
             style={{ fontSize: 'clamp(2rem, 3vw, 3.4rem)' }}
           >
-            LET THE WORLD<br />FIND YOU
+            {content.contact.titleLine1}
+            {content.contact.titleLine2 && <><br />{content.contact.titleLine2}</>}
           </h1>
 
           {/* Intro paragraph */}
-          <p className="body-copy max-w-[400px]">
-            For collaborations, custom pieces, editorial requests or private
-            appointments, we would love to hear from you.
+          <p className="body-copy-readable max-w-[400px]">
+            {content.contact.intro}
           </p>
 
           {/* Form */}
@@ -101,7 +107,7 @@ export default async function ContactPage({
           <div className="border-t border-brand-ivory/[0.12]" style={{ marginTop: 'clamp(0.3rem, 0.6vh, 0.8rem)' }} />
 
           <div className="grid grid-cols-2 border border-brand-ivory/[0.12]">
-            {CONTACT_LINKS.map((link, index) => (
+            {contactLinks.map((link, index) => (
               <a
                 key={link.id}
                 href={link.href}
@@ -109,7 +115,7 @@ export default async function ContactPage({
                 rel={link.external ? 'noopener noreferrer' : undefined}
                 className={`group flex min-h-[78px] items-center gap-4 px-4 py-3 transition-colors hover:bg-brand-ivory/[0.03] ${index < 2 ? 'border-b border-brand-ivory/[0.12]' : ''} ${index % 2 === 1 ? 'border-l border-brand-ivory/[0.12]' : ''}`}
               >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center text-brand-gold"><ContactIcon kind={link.icon} /></div>
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center text-white/75"><ContactIcon kind={link.icon} /></div>
                 <div className="min-w-0">
                   <p className="text-[10px] uppercase tracking-[0.28em] text-brand-ivory/50">{link.label}</p>
                   <p className="mt-[3px] truncate text-[12px] tracking-wide text-brand-ivory/85 underline decoration-brand-ivory/20 underline-offset-2 transition-colors group-hover:decoration-brand-ivory/60">{link.sub}</p>
@@ -136,7 +142,7 @@ export default async function ContactPage({
           <div className="relative h-full w-full overflow-hidden">
             <Image
               src="/assets/images/campaign/ggg.jpeg"
-              alt="Palais des Chimères editorial portrait"
+              alt={content.contact.imageAlt}
               fill
               sizes="52vw"
               priority

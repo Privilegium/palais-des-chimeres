@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
+import { PRODUCT_CARD_META_CLASS, PRODUCT_CARD_TITLE_CLASS } from '@/components/ui/productCardTypography';
 
 /*
   JEWELRY PLP — matches mockup 09-jewelry-page.png
@@ -142,10 +143,10 @@ function JewelryCard({
 
         {/* Name + price — bottom left */}
         <div className="absolute bottom-0 left-0 px-5 py-6 w-full">
-          <p className="font-sans text-[10px] tracking-[0.28em] uppercase text-brand-ivory mb-[5px] leading-none">
+          <p className={PRODUCT_CARD_TITLE_CLASS}>
             {item.name.toUpperCase()}
           </p>
-          <p className="font-sans text-[10px] tracking-[0.08em] text-brand-ivory/55 font-light leading-none">
+          <p className={PRODUCT_CARD_META_CLASS}>
             {item.type === 'priced' && item.price ? item.price : 'Personal Request'}
           </p>
         </div>
@@ -192,14 +193,14 @@ export default async function JewelryPage({
         >
           {/* Intro rail */}
           <div className="jewelry-intro flex flex-col justify-end pb-8 pl-8 pr-10">
-            <h1 className="font-serif text-[4rem] tracking-[0.2em] text-brand-ivory uppercase leading-none mb-5 xl:text-[5rem] 2xl:text-[5.5rem]">
+            <h1 className="font-serif [letter-spacing:clamp(0.32rem,0.5vw,0.6rem)] text-[4rem] text-brand-ivory uppercase leading-none mb-5 xl:text-[5rem] 2xl:text-[5.5rem]">
               JEWELRY
             </h1>
 
-            <p className="mb-5 text-[10px] uppercase tracking-[0.3em] text-brand-ivory/65">VIDMY — 2026</p>
+            <p className="mb-5 text-[10px] uppercase tracking-[0.3em] text-brand-ivory/65">VID’MY — 2027</p>
 
             {/* Description */}
-            <p className="font-serif italic text-brand-ivory/60 text-[0.88rem] leading-[1.9] max-w-[280px]">
+            <p className="body-copy-readable max-w-[280px]">
               Relics for the in-between. Adornments born from myths and metamorphosis. For those who carry their own mythology.
             </p>
 
@@ -270,7 +271,7 @@ export default async function JewelryPage({
       </main>
 
       {/* Footer — uses "JEWELRY" context label */}
-      <InternalPageFooter locale={locale} label="PALAIS DES CHIMÈRES — VIDMY 2026" />
+      <InternalPageFooter locale={locale} label="PALAIS DES CHIMÈRES — VID’MY 2027" />
     </div>
   );
 }

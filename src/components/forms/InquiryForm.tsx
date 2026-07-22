@@ -172,7 +172,7 @@ export function InquiryForm({ context, locale }: InquiryFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-[6px] w-full">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-[6px] w-full">
       {/* Row 1: Name + Email */}
       <div className="grid grid-cols-2 gap-[6px]">
         <FloatingField

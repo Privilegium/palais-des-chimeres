@@ -144,7 +144,7 @@ export default async function AboutPage({
         <section
           aria-labelledby="about-title"
           className="about-hero relative overflow-hidden"
-          style={{ minHeight: 'clamp(520px, 55vw, 780px)' }}
+          style={{ minHeight: 'clamp(680px, 62vw, 980px)' }}
         >
           {/* Full-panel image right-anchored */}
           <div className="absolute inset-0 md:left-[22%]">
@@ -164,16 +164,16 @@ export default async function AboutPage({
           </div>
 
           {/* Text — bottom-left */}
-          <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-16 md:px-12 lg:pb-24 2xl:px-16"
+          <div className="about-hero-content relative z-10 flex h-full flex-col justify-end px-6 pb-16 md:px-12 lg:pb-24 2xl:px-16"
                style={{ minHeight: 'inherit' }}>
             <h1
               id="about-title"
-              className="mb-6 font-serif tracking-[0.22em] text-brand-ivory"
+              className="mb-6 font-serif [letter-spacing:clamp(0.32rem,0.45vw,0.5rem)] text-brand-ivory"
               style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}
             >
               {content.hero.title}
             </h1>
-            <p className="body-copy max-w-[360px]">
+            <p className="body-copy-readable max-w-[360px] whitespace-pre-line">
               {content.hero.intro}
             </p>
           </div>
@@ -190,7 +190,7 @@ export default async function AboutPage({
           eyebrow={content.brandWorld.eyebrow}
           heading={content.brandWorld.title}
         >
-          <div className="body-copy max-w-[34rem] space-y-3">
+          <div className="body-copy-readable max-w-[34rem] space-y-3">
             {content.brandWorld.lines.map((line) => (
               <p key={line}>{line}</p>
             ))}
@@ -208,7 +208,7 @@ export default async function AboutPage({
           eyebrow={content.manifesto.eyebrow}
           heading={content.manifesto.title}
         >
-          <div className="body-copy max-w-[34rem] space-y-3">
+          <div className="body-copy-readable max-w-[34rem] space-y-3">
             {content.manifesto.lines.map((line) => (
               <p key={line}>{line}</p>
             ))}
@@ -228,14 +228,16 @@ export default async function AboutPage({
           headingClassName="mb-7 font-serif text-[1.6rem] tracking-[0.2em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]"
           sectionClassName="editorial-panel-designer"
         >
-          <div className="body-copy max-w-[36rem] space-y-5">
+          <div className="body-copy-readable max-w-[36rem] space-y-5">
             {content.designer.paragraphs.map((p) => (
               <p key={p}>{p}</p>
             ))}
           </div>
-          <p className="mt-8 text-[9px] uppercase tracking-[0.26em] text-brand-red md:text-[10px]">
-            {content.designer.note}
-          </p>
+          {content.designer.note && (
+            <p className="mt-8 text-[9px] uppercase tracking-[0.26em] text-brand-red md:text-[10px]">
+              {content.designer.note}
+            </p>
+          )}
         </EditorialPanel>
 
         {/* ─── OUR APPROACH ─────────────────────────────────────────────── */}
@@ -258,10 +260,10 @@ export default async function AboutPage({
                 <div className="flex gap-5">
                     <StarOrnament size={18} className="mt-[2px] shrink-0 text-brand-gold/70" />
                   <div>
-                    <h3 className="text-[0.75rem] tracking-[0.28em] text-brand-ivory">
+                    <h3 className="font-serif text-[0.75rem] font-medium tracking-[0.28em] text-brand-ivory">
                       {item.title}
                     </h3>
-                    <p className="body-copy mt-4 text-[0.98rem]">
+                    <p className="body-copy-readable mt-4 text-[0.98rem]">
                       {item.text}
                     </p>
                   </div>

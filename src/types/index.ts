@@ -8,11 +8,33 @@ export type ProductImage = {
   alt: string;
 };
 
+export type ProductKind = "look" | "piece";
+
+export type ProductTranslation = {
+  name: string;
+  lookTitle?: string;
+  collectionLine?: string;
+  price?: string;
+  type?: "priced" | "request";
+  description: string;
+  itemName?: string;
+  attributes: ProductAttribute[];
+  accordions?: {
+    details?: string;
+    delivery?: string;
+  };
+  images?: ProductImage[];
+};
+
 export type Product = {
   id: string;
   slug: string;
+  /** A Collection card is a complete look; a piece is an individual item within a look. */
+  kind: ProductKind;
   name: string;
-  /** Short eyebrow shown above the title, e.g. "VIDMY — 2026" */
+  /** Complete-look title shown as the PDP heading. */
+  lookTitle?: string;
+  /** Short eyebrow shown above the title, e.g. "VID’MY — 2027" */
   collectionLine?: string;
   /** Primary image (also used as first gallery image) */
   image: string;
@@ -20,13 +42,19 @@ export type Product = {
   images?: ProductImage[];
   price?: string;
   type: "priced" | "request";
-  shortDescription: string;
+  /** Editorial description of the complete look or individual piece. */
+  description: string;
+  /** Name of the specific sellable item, distinct from the look title. */
+  itemName?: string;
   attributes: ProductAttribute[];
   /** Content for the accordion sections on the PDP */
   accordions?: {
     details?: string;
     delivery?: string;
   };
+  /** Ordered PDP slugs for the individual pieces that make up this look. */
+  relatedPieceSlugs?: string[];
+  translations?: Partial<Record<"en" | "fr", ProductTranslation>>;
 };
 
 export type InquirySourceContext =

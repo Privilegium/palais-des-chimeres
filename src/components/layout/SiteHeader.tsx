@@ -6,18 +6,20 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import LocaleSwitcher from './LocaleSwitcher';
 import type { Locale } from '@/i18n/dictionaries';
+import { getSiteContent } from '@/content/site';
 
 export default function SiteHeader({ locale }: { locale: Locale }) {
+  const content = getSiteContent(locale);
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const isFilmPage = pathname.endsWith('/film');
   
   const navLinks = [
-    { name: 'HOME', path: `/${locale}` },
-    { name: 'COLLECTION', path: `/${locale}/collection` },
-    { name: 'FILM', path: `/${locale}/film` },
-    { name: 'ABOUT', path: `/${locale}/about` },
-    { name: 'CONTACT', path: `/${locale}/contact` },
+    { name: content.global.nav.home, path: `/${locale}` },
+    { name: content.global.nav.collection, path: `/${locale}/collection` },
+    { name: content.global.nav.film, path: `/${locale}/film` },
+    { name: content.global.nav.about, path: `/${locale}/about` },
+    { name: content.global.nav.contact, path: `/${locale}/contact` },
   ];
 
   useEffect(() => {
@@ -92,7 +94,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
       <div className="flex h-[82px] items-center justify-between px-5 md:hidden">
         <button
           type="button"
-          aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+          aria-label={menuOpen ? content.global.closeNavigation : content.global.openNavigation}
           aria-expanded={menuOpen}
           aria-controls="mobile-navigation"
           onClick={() => setMenuOpen((open) => !open)}
@@ -142,11 +144,11 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
           })}
         </nav>
         <div className="mt-auto pb-8">
-          <p className="mb-4 text-[9px] uppercase tracking-[0.28em] text-brand-ivory/40">Palais des Chimères — Vidmy 2026</p>
+          <p className="mb-4 text-[9px] uppercase tracking-[0.28em] text-brand-ivory/40">{content.global.mobileFooter}</p>
           <div className="flex gap-5 text-[9px] uppercase tracking-[0.18em] text-brand-ivory/65">
-            <Link href={`/${locale}/legal/shipping`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">Shipping</Link>
-            <Link href={`/${locale}/legal/terms`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">Terms</Link>
-            <Link href={`/${locale}/legal/privacy`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">Privacy</Link>
+            <Link href={`/${locale}/legal/shipping`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">{content.global.mobileShipping}</Link>
+            <Link href={`/${locale}/legal/terms`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">{content.global.mobileTerms}</Link>
+            <Link href={`/${locale}/legal/privacy`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">{content.global.mobilePrivacy}</Link>
           </div>
         </div>
       </div>

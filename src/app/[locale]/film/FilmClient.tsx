@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Fragment } from 'react';
+import { getSiteContent } from '@/content/site';
 
 // ─── Film config ──────────────────────────────────────────────────────────────
 
@@ -14,23 +15,12 @@ type FilmCredit = {
   href?: string;
 };
 
-const FILM_CONTENT: {
+type FilmContent = {
   eyebrow: string;
   titleLine1: string;
   titleLine2: string;
   subtitle: string;
   credits: readonly FilmCredit[];
-} = {
-  eyebrow: 'FASHION FILM',
-  titleLine1: 'THE',
-  titleLine2: 'BECOMING',
-  subtitle: 'A fashion film by Palais des Chimères.',
-  credits: [
-    { label: 'DIRECTOR',    value: 'Palais des Chimères' },
-    { label: 'COLLECTION',  value: 'VIDMY — 2026' },
-    { label: 'YEAR',        value: '2026' },
-    { label: 'VIDEO', value: 'Sviatoslav Opryshko', href: 'mailto:opryshkosm@gmail.com' },
-  ],
 };
 
 // ─── Video Modal ──────────────────────────────────────────────────────────────
@@ -42,7 +32,7 @@ const FILM_CONTENT: {
   - We use the nocookie domain for reduced tracking.
 */
 
-function VideoModal({ onClose }: { onClose: () => void }) {
+function VideoModal({ onClose, content }: { onClose: () => void; content: ReturnType<typeof getSiteContent>['film'] }) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -64,13 +54,13 @@ function VideoModal({ onClose }: { onClose: () => void }) {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Fashion Film Player"
+      aria-label={content.modalAria}
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-brand-black/97 backdrop-blur-sm"
     >
       {/* Click-outside close area */}
       <button
         type="button"
-        aria-label="Close film player"
+        aria-label={content.modalClose}
         tabIndex={-1}
         className="absolute inset-0 cursor-default"
         onClick={onClose}
@@ -81,7 +71,7 @@ function VideoModal({ onClose }: { onClose: () => void }) {
         <div className="relative aspect-video w-full pointer-events-auto">
           <iframe
             src={embedSrc}
-            title="THE BECOMING — Fashion Film by Palais des Chimères"
+            title={content.iframeTitle}
             allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
             className="absolute inset-0 h-full w-full border-0"
@@ -102,7 +92,7 @@ function VideoModal({ onClose }: { onClose: () => void }) {
       </button>
 
       <p className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 z-20 text-[9px] uppercase tracking-[0.36em] text-brand-ivory/30">
-        VIDMY — 2026
+        {content.modalCollection}
       </p>
     </div>
   );
@@ -122,11 +112,11 @@ function GoldPlayButton({ onClick, label }: { onClick: () => void; label: string
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="group inline-flex items-center border border-brand-ivory/30 bg-brand-black/20 backdrop-blur-sm text-brand-ivory transition-all duration-300 hover:border-brand-ivory/60 hover:bg-brand-black/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold"
+      className="group inline-flex items-center border border-brand-ivory/30 bg-brand-black/20 backdrop-blur-sm text-brand-ivory transition-all duration-300 hover:border-brand-ivory/60 hover:bg-brand-black/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold max-md:min-w-[min(100%,15.5rem)]"
     >
       {/* Red square — play triangle inside */}
       <span
-        className="flex shrink-0 items-center justify-center bg-brand-red transition-colors duration-300 group-hover:bg-[#c41420]"
+        className="flex shrink-0 items-center justify-center bg-brand-red transition-colors duration-300 group-hover:bg-[#c41420] max-md:!h-[3.75rem] max-md:!w-[3.75rem]"
         style={{ width: 'clamp(46px, 4vw, 64px)', height: 'clamp(46px, 4vw, 64px)' }}
       >
         {/* Inline gold triangle — immune to canvas/wrapper sizing issues */}
@@ -141,7 +131,7 @@ function GoldPlayButton({ onClick, label }: { onClick: () => void; label: string
       </span>
       {/* Label */}
       <span
-        className="font-sans uppercase tracking-[0.3em] text-brand-ivory/90 group-hover:text-brand-ivory transition-colors duration-300"
+        className="font-sans uppercase tracking-[0.3em] text-brand-ivory/90 group-hover:text-brand-ivory transition-colors duration-300 max-md:flex-1 max-md:!px-[1.4rem] max-md:!text-[0.72rem]"
         style={{ padding: '0 clamp(1rem, 2vw, 2rem)', fontSize: 'clamp(9px, 0.85vw, 12px)' }}
       >
         {label}
@@ -152,8 +142,21 @@ function GoldPlayButton({ onClick, label }: { onClick: () => void; label: string
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export default function FilmClient({ watchFilmText }: { watchFilmText: string }) {
+export default function FilmClient({ watchFilmText, locale }: { watchFilmText: string; locale: string }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const content = getSiteContent(locale).film;
+  const filmContent: FilmContent = {
+    eyebrow: content.eyebrow,
+    titleLine1: content.titleLine1,
+    titleLine2: content.titleLine2,
+    subtitle: content.subtitle,
+    credits: [
+      { label: locale === 'fr' ? 'RÉALISATION' : 'DIRECTOR', value: content.director },
+      { label: 'COLLECTION', value: content.collection },
+      { label: 'YEAR', value: content.year },
+      { label: 'VIDEO', value: content.video, href: 'mailto:opryshkosm@gmail.com' },
+    ],
+  };
 
   const openModal = useCallback(() => setModalOpen(true), []);
   const closeModal = useCallback(() => setModalOpen(false), []);
@@ -164,7 +167,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
       <div className="film-poster absolute inset-x-0 top-[82px] aspect-[3/2] md:inset-0 md:aspect-auto">
         <Image
           src="/assets/images/campaign/allll111111.jpg"
-          alt="THE BECOMING — Fashion Film Poster"
+          alt={content.posterAlt}
           fill
           sizes="100vw"
           priority
@@ -199,16 +202,16 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
             className="mb-[clamp(0.75rem,1.2vh,1.5rem)] text-brand-ivory/55"
             style={{ fontSize: 'clamp(8px, 0.9vw, 11px)', letterSpacing: '0.32em' }}
           >
-            <span className="uppercase">{FILM_CONTENT.eyebrow}</span>
+            <span className="uppercase">{filmContent.eyebrow}</span>
           </div>
 
           {/* Headline */}
           <h1
-            className="font-serif tracking-[0.18em] text-brand-ivory leading-[0.95]"
+            className="font-serif [letter-spacing:clamp(0.32rem,0.5vw,0.6rem)] text-brand-ivory leading-[0.95]"
             style={{ fontSize: 'clamp(3.5rem, 6.5vw, 7rem)' }}
           >
-            {FILM_CONTENT.titleLine1}<br />
-            {FILM_CONTENT.titleLine2}
+            {filmContent.titleLine1}<br />
+            {filmContent.titleLine2}
           </h1>
 
           {/* Subtitle */}
@@ -220,11 +223,11 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
               marginBottom: 'clamp(1rem, 1.8vh, 2rem)',
             }}
           >
-            {FILM_CONTENT.subtitle}
+            {filmContent.subtitle}
           </p>
 
           {/* Custom gold play button (poster-only, iframe lazy-loaded on click) */}
-          <div className="relative z-20" style={{ marginBottom: 'clamp(0.7rem, 1.4vh, 1.4rem)' }}>
+          <div className="relative z-20 max-md:mt-3 max-md:!mb-0 max-md:flex max-md:justify-start" style={{ marginBottom: 'clamp(0.7rem, 1.4vh, 1.4rem)' }}>
             <GoldPlayButton onClick={openModal} label={watchFilmText} />
           </div>
 
@@ -241,7 +244,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
                 rowGap: 'clamp(3px, 0.4vh, 8px)',
               }}
             >
-              {FILM_CONTENT.credits.map(({ label, value, href }) => (
+              {filmContent.credits.map(({ label, value, href }) => (
                 <Fragment key={label}>
                   <dt
                     className="text-brand-ivory/40 uppercase self-baseline"
@@ -269,7 +272,7 @@ export default function FilmClient({ watchFilmText }: { watchFilmText: string })
       </div>
 
       {/* ── Video modal — lazy-loaded YouTube iframe ──────────────── */}
-      {modalOpen && <VideoModal onClose={closeModal} />}
+      {modalOpen && <VideoModal onClose={closeModal} content={content} />}
     </>
   );
 }

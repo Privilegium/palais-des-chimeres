@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
+import { getSiteContent } from '@/content/site';
 import { sendInquiry } from '@/actions/send-inquiry';
 import type { InquirySourceContext, InquiryFormValues } from '@/types';
 
@@ -150,6 +151,7 @@ function FloatingTextarea({
 
 export function ContactForm({ locale, context }: ContactFormProps) {
   const dict = getDictionary(locale);
+  const site = getSiteContent(locale);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -193,7 +195,7 @@ export function ContactForm({ locale, context }: ContactFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-[6px] w-full">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-[6px] w-full">
       {/* Row 1: Name + Email side by side */}
       <div className="grid grid-cols-2 gap-[6px]">
         <FloatingField
@@ -247,7 +249,7 @@ export function ContactForm({ locale, context }: ContactFormProps) {
       >
         {isSubmitting ? '…' : (
           <>
-            <span>SEND INQUIRY</span>
+            <span>{site.contact.formSubmit}</span>
             <span aria-hidden="true">→</span>
           </>
         )}
