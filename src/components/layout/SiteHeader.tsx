@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import LocaleSwitcher from './LocaleSwitcher';
 import type { Locale } from '@/i18n/dictionaries';
 import { getSiteContent } from '@/content/site';
+import { INSTAGRAM_URL } from '@/content/social';
 
 export default function SiteHeader({ locale }: { locale: Locale }) {
   const content = getSiteContent(locale);
@@ -81,7 +82,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
 
       <div className="flex items-center space-x-8 text-[10px] tracking-[0.25em] font-light">
         <LocaleSwitcher locale={locale} />
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-brand-ivory/60 transition-colors flex items-center">
+        <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-brand-ivory/60 transition-colors flex items-center">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -120,7 +121,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
 
         <div className="relative z-[60] flex items-center gap-3 text-[10px] tracking-[0.2em]">
           <LocaleSwitcher locale={locale} />
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-11 w-11 items-center justify-center focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold">
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-11 w-11 items-center justify-center focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><circle cx="12" cy="12" r="4" /><path d="M17.5 6.5h.01" />
             </svg>

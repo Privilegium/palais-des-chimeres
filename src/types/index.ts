@@ -6,6 +6,10 @@ export type ProductAttribute = {
 export type ProductImage = {
   src: string;
   alt: string;
+  /** Optional editorial crop used when one campaign image represents several pieces. */
+  position?: string;
+  /** Product-only shots use contain; campaign crops can opt into cover. */
+  fit?: "cover" | "contain";
 };
 
 export type ProductKind = "look" | "piece";
@@ -38,6 +42,10 @@ export type Product = {
   collectionLine?: string;
   /** Primary image (also used as first gallery image) */
   image: string;
+  /** Crop used for the product card when the source is a wider campaign image. */
+  imagePosition?: string;
+  /** Optional zoom used only inside the compact related-product card. */
+  relatedImageScale?: number;
   /** Full gallery — if omitted, only the primary image is shown */
   images?: ProductImage[];
   price?: string;

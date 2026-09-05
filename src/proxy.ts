@@ -9,6 +9,14 @@ const productSlugs = new Set([
   "ivory-bloom",
   "blood-current",
   "nocturne-creature",
+  "horned-red-top",
+  "red-jersey-skirt",
+  "red-silk-veiled-hood",
+  "koza-corset",
+  "vaza-pink-denim-jacket",
+  "black-witch-felted-skirt",
+  "le-chat-felted-hood",
+  "le-chat-paw-trousers",
 ]);
 const legalSlugs = new Set(["shipping", "legal-notice", "privacy", "payment", "terms"]);
 const singlePageRoutes = new Set(["film", "about", "contact", "jewelry", "archive", "404"]);

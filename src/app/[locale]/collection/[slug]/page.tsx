@@ -54,6 +54,13 @@ export default async function ProductPage({
   const relatedPieces = getProductsBySlugs(sourceProduct.relatedPieceSlugs ?? [])
     .slice(0, 6)
     .map((p) => getProductForLocale(p, locale));
+  const hasThreeOrMoreRelatedPieces = relatedPieces.length >= 3;
+  const relatedGridColumns = hasThreeOrMoreRelatedPieces
+    ? 'md:grid-cols-3'
+    : 'md:grid-cols-2';
+  const relatedCardAspect = hasThreeOrMoreRelatedPieces
+    ? 'aspect-[3/2] md:aspect-[4/3]'
+    : 'aspect-[3/2] md:aspect-[2/1]';
 
   return (
     <>
@@ -81,21 +88,27 @@ export default async function ProductPage({
               </h2>
             </div>
 
-            <div className="related-looks-grid grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] gap-3">
+            <div className={`related-looks-grid grid grid-cols-1 gap-3 ${relatedGridColumns}`}>
               {relatedPieces.map((rp) => (
                 <Link
                   key={rp.id}
                   href={`/${locale}/collection/${rp.slug}`}
-                  className="related-look-card group relative block overflow-hidden bg-neutral-950"
-                  style={{ aspectRatio: '4/3' }}
+                  className={`related-look-card group relative block overflow-hidden bg-neutral-950 ${relatedCardAspect}`}
                 >
                   {/* Product image */}
                   <Image
                     src={rp.image}
                     alt={rp.name}
                     fill
-                    sizes="(max-width: 767px) calc(100vw - 3rem), (max-width: 1023px) calc(50vw - 2rem), (max-width: 1439px) calc(33vw - 2rem), 20vw"
+                    sizes={hasThreeOrMoreRelatedPieces
+                      ? '(max-width: 767px) calc(100vw - 3rem), (max-width: 1679px) 33vw, 560px'
+                      : '(max-width: 767px) calc(100vw - 3rem), (max-width: 1679px) 50vw, 840px'}
                     className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                    style={{
+                      objectPosition: rp.imagePosition ?? 'center top',
+                      transformOrigin: rp.imagePosition ?? 'center top',
+                      scale: rp.relatedImageScale ?? 1,
+                    }}
                   />
                   {/* Dark gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-black/85 via-brand-black/20 to-transparent" />

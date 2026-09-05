@@ -265,6 +265,7 @@ export default function ProductClient({
                   fill
                   sizes="140px"
                   className="object-contain transition-transform duration-500 hover:scale-[1.04]"
+                  style={{ objectPosition: img.position ?? 'center' }}
                 />
               </button>
             ))}
@@ -305,7 +306,8 @@ export default function ProductClient({
                   alt={index === activeIndex ? image.alt : ''}
                   fill
                   sizes="(max-width: 1023px) calc(100vw - 3rem), 50vw"
-                  className="object-cover p-0 lg:object-contain lg:p-2"
+                  className={image.fit === 'cover' ? 'object-cover p-0' : 'object-cover p-0 lg:object-contain lg:p-2'}
+                  style={{ objectPosition: image.position ?? 'center' }}
                   priority={index < 2}
                 />
               </div>
@@ -381,7 +383,14 @@ export default function ProductClient({
                 i === activeIndex ? 'border-brand-ivory/70' : 'border-brand-ivory/20'
               }`}
             >
-              <Image src={img.src} alt="" fill sizes="25vw" className="object-cover" />
+              <Image
+                src={img.src}
+                alt=""
+                fill
+                sizes="25vw"
+                className="object-cover"
+                style={{ objectPosition: img.position ?? 'center' }}
+              />
             </button>
           ))}
         </div>

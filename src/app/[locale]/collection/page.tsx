@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { collectionLooks, getProductForLocale } from '@/data/products';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { getSiteContent } from '@/content/site';
-import { PRODUCT_CARD_META_CLASS, PRODUCT_CARD_TITLE_CLASS } from '@/components/ui/productCardTypography';
+import { PRODUCT_CARD_TITLE_CLASS } from '@/components/ui/productCardTypography';
 
 /*
   GRID STRUCTURE (matches approved mockup 02-collection-desktop.png)
@@ -63,7 +63,6 @@ export default async function CollectionPage({
       id: 'lookbook',
       name: content.collection.jewelryName,
       type: 'jewelry',
-      price: 'Discover jewelry',
       image: '/assets/images/campaign/ggg.jpeg',
       slug: 'lookbook',
       colStart: 13, colEnd: 21,
@@ -117,15 +116,46 @@ export default async function CollectionPage({
 
           {/* ── Product / Lookbook Cards ──────────────────────── */}
           {cards.map((card) => {
-            const href =
-              card.type === 'jewelry'
-                ? `/${locale}/jewelry`
-                : `/${locale}/collection/${card.slug}`;
+            if (card.type === 'jewelry') {
+              return (
+                <article
+                  key={card.id}
+                  aria-label={`${card.displayName} — ${card.displayMeta}`}
+                  className="collection-card collection-lookbook relative overflow-hidden"
+                  style={{
+                    gridColumn: `${card.colStart} / ${card.colEnd}`,
+                    gridRow: `${card.rowIndex} / ${card.rowIndex + 1}`,
+                  }}
+                >
+                  <Image
+                    src={card.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    className="object-cover object-top"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
+
+                  <p className="absolute right-5 top-5 border border-brand-ivory/40 bg-brand-black/35 px-3 py-2 text-[9px] uppercase tracking-[0.24em] text-brand-ivory backdrop-blur-sm">
+                    {card.displayMeta}
+                  </p>
+
+                  <div className="absolute bottom-0 left-0 w-full px-6 py-7">
+                    <p className={PRODUCT_CARD_TITLE_CLASS}>
+                      {card.displayName.toUpperCase()}
+                    </p>
+                  </div>
+                </article>
+              );
+            }
+
+            const href = `/${locale}/collection/${card.slug}`;
 
             return (
               <div
                 key={card.id}
-                className={`collection-card relative group overflow-hidden ${card.type === 'jewelry' ? 'collection-lookbook' : ''}`}
+                className="collection-card relative group overflow-hidden"
                 style={{
                   gridColumn: `${card.colStart} / ${card.colEnd}`,
                   gridRow: `${card.rowIndex} / ${card.rowIndex + 1}`,
@@ -156,11 +186,6 @@ export default async function CollectionPage({
                     <p className={PRODUCT_CARD_TITLE_CLASS}>
                       {card.displayName.toUpperCase()}
                     </p>
-                    {card.type === 'jewelry' && (
-                      <p className={PRODUCT_CARD_META_CLASS}>
-                        {content.collection.jewelryMeta}
-                      </p>
-                    )}
                   </div>
                 </Link>
               </div>

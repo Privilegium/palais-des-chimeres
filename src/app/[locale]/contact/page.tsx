@@ -3,6 +3,7 @@ import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { ContactForm } from '@/components/forms/ContactForm';
 import type { InquirySourceContext } from '@/types';
 import { getSiteContent } from '@/content/site';
+import { INSTAGRAM_URL } from '@/content/social';
 
 /*
   CONTACT PAGE — matches mockup 06-contact-desktop.png
@@ -23,7 +24,7 @@ import { getSiteContent } from '@/content/site';
 */
 
 const CONTACT_LINKS = [
-  { id: 'instagram', label: 'INSTAGRAM', sub: '@palaisdeschimères', href: 'https://instagram.com/palaisdeschimeres', external: true, icon: 'instagram' },
+  { id: 'instagram', label: 'INSTAGRAM', sub: '@palaisdeschimères', href: INSTAGRAM_URL, external: true, icon: 'instagram' },
   { id: 'linkedin', label: 'LINKEDIN', sub: 'Palais des Chimères', href: 'https://linkedin.com/company/palaisdeschimeres', external: true, icon: 'linkedin' },
   { id: 'email', label: 'EMAIL', sub: 'dvyshnevetska@gmail.com', href: 'mailto:dvyshnevetska@gmail.com', external: false, icon: 'email' },
   { id: 'portfolio', label: 'PORTFOLIO', sub: 'View selected work', href: 'https://palaisdeschimeres.com', external: true, icon: 'portfolio' },
