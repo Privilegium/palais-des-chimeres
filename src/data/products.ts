@@ -52,10 +52,10 @@ export const products: Product[] = [
       "red-jersey-skirt",
       "red-silk-veiled-hood",
     ],
-    image: PRODUCT_IMAGES.redWitch.full,
+    image: PRODUCT_IMAGES.redWitch.editorial,
     images: [
       {
-        src: PRODUCT_IMAGES.redWitch.full,
+        src: PRODUCT_IMAGES.redWitch.editorial,
         alt: "Red Witch in the floor-length silk cape and veiled hood",
         fit: "cover",
       },
@@ -109,7 +109,7 @@ export const products: Product[] = [
         },
         images: [
           {
-            src: PRODUCT_IMAGES.redWitch.full,
+            src: PRODUCT_IMAGES.redWitch.editorial,
             alt: "Sorcière rouge portant la cape longue et la cagoule voilée",
             fit: "cover",
           },
@@ -137,10 +137,10 @@ export const products: Product[] = [
     lookTitle: "KOZA",
     collectionLine: "VID’MY — 2027",
     relatedPieceSlugs: ["koza-corset"],
-    image: PRODUCT_IMAGES.koza.full,
+    image: PRODUCT_IMAGES.koza.editorial,
     images: [
       {
-        src: PRODUCT_IMAGES.koza.full,
+        src: PRODUCT_IMAGES.koza.editorial,
         alt: "KOZA coat and layered tulle corset",
         fit: "cover",
       },
@@ -188,7 +188,7 @@ export const products: Product[] = [
         },
         images: [
           {
-            src: PRODUCT_IMAGES.koza.full,
+            src: PRODUCT_IMAGES.koza.editorial,
             alt: "Manteau KOZA et corset en tulle superposé",
             fit: "cover",
           },
@@ -210,10 +210,10 @@ export const products: Product[] = [
     lookTitle: "Vaza",
     collectionLine: "VID’MY — 2027",
     relatedPieceSlugs: ["vaza-pink-denim-jacket"],
-    image: PRODUCT_IMAGES.vaza.full,
+    image: PRODUCT_IMAGES.vaza.editorial,
     images: [
       {
-        src: PRODUCT_IMAGES.vaza.full,
+        src: PRODUCT_IMAGES.vaza.editorial,
         alt: "Vaza hand-felted wool dress",
         fit: "cover",
       },
@@ -267,7 +267,7 @@ export const products: Product[] = [
         },
         images: [
           {
-            src: PRODUCT_IMAGES.vaza.full,
+            src: PRODUCT_IMAGES.vaza.editorial,
             alt: "Robe Vaza en laine feutrée à la main",
             fit: "cover",
           },
@@ -295,10 +295,10 @@ export const products: Product[] = [
     lookTitle: "Black Witch",
     collectionLine: "VID’MY — 2027",
     relatedPieceSlugs: ["black-witch-felted-skirt"],
-    image: PRODUCT_IMAGES.blackWitch.full,
+    image: PRODUCT_IMAGES.blackWitch.editorial,
     images: [
       {
-        src: PRODUCT_IMAGES.blackWitch.full,
+        src: PRODUCT_IMAGES.blackWitch.editorial,
         alt: "Black Witch sculpted cherry jacket",
         fit: "cover",
       },
@@ -352,7 +352,7 @@ export const products: Product[] = [
         },
         images: [
           {
-            src: PRODUCT_IMAGES.blackWitch.full,
+            src: PRODUCT_IMAGES.blackWitch.editorial,
             alt: "Veste cerise sculptée Sorcière noire",
             fit: "cover",
           },
@@ -380,10 +380,10 @@ export const products: Product[] = [
     lookTitle: "The Cat",
     collectionLine: "VID’MY — 2027",
     relatedPieceSlugs: ["le-chat-felted-hood", "le-chat-paw-trousers"],
-    image: PRODUCT_IMAGES.theCat.full,
+    image: PRODUCT_IMAGES.theCat.editorial,
     images: [
       {
-        src: PRODUCT_IMAGES.theCat.full,
+        src: PRODUCT_IMAGES.theCat.editorial,
         alt: "The Cat sculptural organdy top, felted hood and trousers",
         fit: "cover",
       },
@@ -437,7 +437,7 @@ export const products: Product[] = [
         },
         images: [
           {
-            src: PRODUCT_IMAGES.theCat.full,
+            src: PRODUCT_IMAGES.theCat.editorial,
             alt: "Top sculptural en organdi, cagoule feutrée et pantalon Le Chat",
             fit: "cover",
           },
