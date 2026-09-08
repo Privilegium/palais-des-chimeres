@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Original high-resolution photography. The site uses the optimized WebP files
+# stored in public/assets/images/products instead.
+/assets/new product images/

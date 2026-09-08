@@ -308,7 +308,7 @@ export default function ProductClient({
                   sizes="(max-width: 1023px) calc(100vw - 3rem), 50vw"
                   className={image.fit === 'cover' ? 'object-cover p-0' : 'object-cover p-0 lg:object-contain lg:p-2'}
                   style={{ objectPosition: image.position ?? 'center' }}
-                  priority={index < 2}
+                    priority={index === 0}
                 />
               </div>
             ))}
