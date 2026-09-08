@@ -154,7 +154,7 @@ export default function FilmClient({ watchFilmText, locale }: { watchFilmText: s
       { label: locale === 'fr' ? 'RÉALISATION' : 'DIRECTOR', value: content.director },
       { label: 'COLLECTION', value: content.collection },
       { label: 'YEAR', value: content.year },
-      { label: 'VIDEO', value: content.video, href: 'mailto:opryshkosm@gmail.com' },
+      { label: 'VIDEO', value: content.video, href: 'mailto:contact@palaisdeschimeres.com' },
     ],
   };
 

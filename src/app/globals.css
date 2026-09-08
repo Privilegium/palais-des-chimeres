@@ -217,6 +217,10 @@
       padding-bottom: 1.5rem;
     }
 
+    .editorial-panel-designer .editorial-panel-image > div {
+      aspect-ratio: 5 / 4 !important;
+    }
+
     .about-approach {
       padding-top: 2.5rem !important;
     }

@@ -26,7 +26,7 @@ import { INSTAGRAM_URL } from '@/content/social';
 const CONTACT_LINKS = [
   { id: 'instagram', label: 'INSTAGRAM', sub: '@palaisdeschimères', href: INSTAGRAM_URL, external: true, icon: 'instagram' },
   { id: 'linkedin', label: 'LINKEDIN', sub: 'Palais des Chimères', href: 'https://linkedin.com/company/palaisdeschimeres', external: true, icon: 'linkedin' },
-  { id: 'email', label: 'EMAIL', sub: 'dvyshnevetska@gmail.com', href: 'mailto:dvyshnevetska@gmail.com', external: false, icon: 'email' },
+  { id: 'email', label: 'EMAIL', sub: 'contact@palaisdeschimeres.com', href: 'mailto:contact@palaisdeschimeres.com', external: false, icon: 'email' },
   { id: 'portfolio', label: 'PORTFOLIO', sub: 'View selected work', href: 'https://palaisdeschimeres.com', external: true, icon: 'portfolio' },
 ] as const;
 

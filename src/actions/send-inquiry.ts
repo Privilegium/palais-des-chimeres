@@ -2,6 +2,9 @@
 
 import { InquiryFormValues, InquirySourceContext } from "@/types";
 
+const INQUIRY_RECIPIENTS = ["contact@palaisdeschimeres.com", "opryshkosm@gmail.com"];
+const DEFAULT_SENDER = "Palais des Chimères <contact@palaisdeschimeres.com>";
+
 export async function sendInquiry(
   values: InquiryFormValues,
   context: InquirySourceContext
@@ -52,10 +55,10 @@ export async function sendInquiry(
     body += `Submitted at: ${new Date().toISOString()}\n`;
 
     const apiKey = process.env.RESEND_API_KEY;
-    const from = process.env.INQUIRY_FROM_EMAIL;
+    const from = process.env.INQUIRY_FROM_EMAIL ?? DEFAULT_SENDER;
 
-    if (!apiKey || !from) {
-      console.error("Inquiry email is not configured: RESEND_API_KEY and INQUIRY_FROM_EMAIL are required.");
+    if (!apiKey) {
+      console.error("Inquiry email is not configured: RESEND_API_KEY is required.");
       return { success: false, error: "Inquiry email is not configured" };
     }
 
@@ -68,7 +71,7 @@ export async function sendInquiry(
       },
       body: JSON.stringify({
         from,
-        to: ["opryshkosm@gmail.com"],
+        to: INQUIRY_RECIPIENTS,
         reply_to: email,
         subject,
         text: body,

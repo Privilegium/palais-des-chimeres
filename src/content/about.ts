@@ -94,9 +94,9 @@ const aboutContent: Record<Locale, AboutContent> = {
       ],
       note: '',
       image: {
-        src: '/assets/images/products/black-witch/black-witch-editorial.webp',
-        alt: 'Portrait of the designer in a deep red tailored jacket',
-        position: 'center 30%',
+        src: '/assets/images/about/diana-studio.webp',
+        alt: 'Diana Vyshnevetska in her atelier beside the VID’MY collection',
+        position: 'center',
       },
     },
     approach: {
@@ -172,9 +172,9 @@ const aboutContent: Record<Locale, AboutContent> = {
       ],
       note: '',
       image: {
-        src: '/assets/images/products/black-witch/black-witch-editorial.webp',
-        alt: 'Portrait de la créatrice en veste structurée rouge profond',
-        position: 'center 30%',
+        src: '/assets/images/about/diana-studio.webp',
+        alt: 'Diana Vyshnevetska dans son atelier aux côtés de la collection VID’MY',
+        position: 'center',
       },
     },
     approach: {

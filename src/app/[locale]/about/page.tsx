@@ -39,6 +39,7 @@ function EditorialPanel({
   heading,
   headingClassName = 'mb-7 font-serif text-[1.6rem] tracking-[0.16em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]',
   sectionClassName = '',
+  imageClassName = '',
   children,
   id,
 }: {
@@ -50,6 +51,7 @@ function EditorialPanel({
   heading: string;
   headingClassName?: string;
   sectionClassName?: string;
+  imageClassName?: string;
   children: React.ReactNode;
   id?: string;
 }) {
@@ -79,7 +81,7 @@ function EditorialPanel({
             alt={image.alt}
             fill
             sizes={`(max-width: 767px) 100vw, ${Math.round((imageCols / 12) * 100)}vw`}
-            className="object-cover"
+            className={`object-cover ${imageClassName}`}
             style={{ objectPosition: image.position }}
           />
           {/* directional gradient so text column stays readable */}
@@ -216,17 +218,18 @@ export default async function AboutPage({
         </EditorialPanel>
 
         {/* ─── DESIGNER ─────────────────────────────────────────────────── */}
-        {/* Designer — compact 4/3 ratio, balances with the taller Manifesto above */}
+        {/* Designer — a near-native ratio keeps Diana and the atelier in one frame. */}
         <EditorialPanel
           image={content.designer.image}
           imageFirst
           imageCols={6}
-          imageRatio="4/3"
+          imageRatio="5/4"
           id="designer-title"
           eyebrow={content.designer.eyebrow}
           heading={content.designer.name}
           headingClassName="mb-7 font-serif text-[1.6rem] tracking-[0.2em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]"
           sectionClassName="editorial-panel-designer"
+          imageClassName="brightness-[0.84] saturate-[0.92]"
         >
           <div className="body-copy-readable max-w-[36rem] space-y-5">
             {content.designer.paragraphs.map((p) => (

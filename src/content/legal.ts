@@ -85,7 +85,7 @@ const legalContent: Record<Locale, Record<LegalSlug, LegalPageData>> = {
           paragraphs: [
             'Brand and portfolio: Palais des Chimères',
             'Creator and portfolio publisher: Diana Vyshnevetska',
-            'Contact email: dvyshnevetska@gmail.com',
+            'Contact email: contact@palaisdeschimeres.com',
             'At the date of publication, this website is presented as a personal and educational portfolio. It does not currently accept orders, deposits, payments, or conclude sales contracts.',
           ],
         },
@@ -120,7 +120,7 @@ const legalContent: Record<Locale, Record<LegalSlug, LegalPageData>> = {
         {
           id: 'controller',
           heading: '01.  Data controller',
-          paragraphs: ['For messages submitted through this portfolio, the data controller is Diana Vyshnevetska, creator of Palais des Chimères. Privacy requests can be sent to dvyshnevetska@gmail.com. This policy will be updated with the registered seller’s details before any commercial activity begins.'],
+          paragraphs: ['For messages submitted through this portfolio, the data controller is Diana Vyshnevetska, creator of Palais des Chimères. Privacy requests can be sent to contact@palaisdeschimeres.com. This policy will be updated with the registered seller’s details before any commercial activity begins.'],
         },
         {
           id: 'data-collected',
@@ -146,7 +146,7 @@ const legalContent: Record<Locale, Record<LegalSlug, LegalPageData>> = {
         {
           id: 'rights',
           heading: '06.  Your rights',
-          paragraphs: ['Depending on the circumstances, you may request access, rectification, erasure, restriction, portability, or object to processing. You may withdraw consent where processing is based on consent. Email dvyshnevetska@gmail.com to exercise your rights; identity verification may be requested. You may also lodge a complaint with the French data-protection authority, the CNIL.'],
+          paragraphs: ['Depending on the circumstances, you may request access, rectification, erasure, restriction, portability, or object to processing. You may withdraw consent where processing is based on consent. Email contact@palaisdeschimeres.com to exercise your rights; identity verification may be requested. You may also lodge a complaint with the French data-protection authority, the CNIL.'],
           contactLink: 'Contact us to exercise your rights',
         },
         {
@@ -235,7 +235,7 @@ const legalContent: Record<Locale, Record<LegalSlug, LegalPageData>> = {
       title: 'Mentions légales',
       subtitle: 'Informations légales de pré-lancement du portfolio Palais des Chimères.',
       sections: [
-        { id: 'publisher', heading: '01.  Éditrice du portfolio', paragraphs: ['Marque et portfolio : Palais des Chimères', 'Créatrice et éditrice du portfolio : Diana Vyshnevetska', 'Email de contact : dvyshnevetska@gmail.com', 'À la date de publication, ce site est présenté comme un portfolio personnel et pédagogique. Il n’accepte actuellement ni commandes, ni acomptes, ni paiements et ne conclut aucun contrat de vente.'] },
+        { id: 'publisher', heading: '01.  Éditrice du portfolio', paragraphs: ['Marque et portfolio : Palais des Chimères', 'Créatrice et éditrice du portfolio : Diana Vyshnevetska', 'Email de contact : contact@palaisdeschimeres.com', 'À la date de publication, ce site est présenté comme un portfolio personnel et pédagogique. Il n’accepte actuellement ni commandes, ni acomptes, ni paiements et ne conclut aucun contrat de vente.'] },
         { id: 'commercial-status', heading: '02.  Situation commerciale', paragraphs: ['Aucun vendeur professionnel immatriculé n’est actuellement présenté sur ce site. Les prix affichés sont des références indicatives du portfolio et ne constituent pas des offres fermes. Si la créatrice décide de vendre une pièce, elle accomplira les formalités correspondant à l’activité et mettra à jour ces mentions avant la première commande ou le premier paiement avec l’identité légale, l’adresse professionnelle, les numéros d’immatriculation, le régime de TVA le cas échéant, la directrice de publication et les coordonnées du médiateur de la consommation.'] },
         { id: 'hosting', heading: '03.  Hébergement', paragraphs: ['Le site est hébergé par Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis.'] },
         { id: 'ip', heading: '04.  Propriété intellectuelle', paragraphs: ['Sauf indication contraire, les textes, images, graphismes, films, logos et designs publiés sur ce site appartiennent à Palais des Chimères ou sont utilisés avec autorisation. Toute reproduction, représentation, adaptation ou diffusion nécessite une autorisation écrite préalable, sous réserve des exceptions légales impératives.'] },
@@ -246,12 +246,12 @@ const legalContent: Record<Locale, Record<LegalSlug, LegalPageData>> = {
       title: 'Politique de confidentialité',
       subtitle: 'La manière dont les données personnelles sont traitées lorsque vous contactez le portfolio Palais des Chimères.',
       sections: [
-        { id: 'controller', heading: '01.  Responsable du traitement', paragraphs: ['Pour les messages envoyés via ce portfolio, le responsable du traitement est Diana Vyshnevetska, créatrice de Palais des Chimères. Les demandes relatives à la vie privée peuvent être envoyées à dvyshnevetska@gmail.com. La présente politique sera mise à jour avec les coordonnées du vendeur immatriculé avant toute activité commerciale.'] },
+        { id: 'controller', heading: '01.  Responsable du traitement', paragraphs: ['Pour les messages envoyés via ce portfolio, le responsable du traitement est Diana Vyshnevetska, créatrice de Palais des Chimères. Les demandes relatives à la vie privée peuvent être envoyées à contact@palaisdeschimeres.com. La présente politique sera mise à jour avec les coordonnées du vendeur immatriculé avant toute activité commerciale.'] },
         { id: 'data-collected', heading: '02.  Données collectées', paragraphs: ['Lorsque vous envoyez une demande ou contactez la créatrice, le site peut collecter :'], bullets: ['Nom complet', 'Adresse email', 'Numéro de téléphone, s’il est fourni', 'Message et informations relatives à la pièce ou au projet', 'URL de la page, langue choisie et informations techniques limitées nécessaires à la sécurité du traitement'] },
         { id: 'purpose', heading: '03.  Finalités et base légale', paragraphs: ['Les données servent à répondre à une demande d’information, échanger sur un projet éventuel, protéger les formulaires et le site, et respecter les obligations légales lorsque celles-ci s’appliquent. La base légale est généralement les démarches demandées par la personne qui contacte la créatrice, l’intérêt légitime de répondre et de sécuriser le portfolio, ou le consentement lorsqu’il est expressément demandé. Les données ne sont ni vendues ni utilisées pour une prospection étrangère à la demande.'] },
         { id: 'recipients', heading: '04.  Prestataires et transferts', paragraphs: ['Les données peuvent être traitées par les prestataires nécessaires à l’hébergement, à l’envoi des emails, au fonctionnement et à la sécurité des formulaires. Vercel héberge le site et peut traiter des données techniques. Le lecteur vidéo est chargé depuis YouTube uniquement lorsque la personne lance le film. Tout transfert hors Espace économique européen doit être encadré par une garantie juridique appropriée.'] },
         { id: 'retention', heading: '05.  Durée de conservation', paragraphs: ['Les données d’une demande sont conservées uniquement pendant la durée raisonnablement nécessaire pour y répondre, gérer une relation éventuelle, protéger le site ou traiter une question juridique. Si la demande ne débouche sur aucune relation, elle est normalement supprimée dans les 12 mois suivant le dernier contact, sauf nécessité de sécurité ou obligation légale. Cette durée sera réexaminée avant l’ouverture des ventes.'] },
-        { id: 'rights', heading: '06.  Vos droits', paragraphs: ['Selon les conditions applicables, vous pouvez demander l’accès, la rectification, l’effacement, la limitation, la portabilité ou vous opposer au traitement. Vous pouvez retirer votre consentement lorsqu’il constitue la base du traitement. Écrivez à dvyshnevetska@gmail.com ; une vérification d’identité peut être demandée. Vous pouvez également saisir la CNIL.'], contactLink: 'Nous contacter pour exercer vos droits' },
+        { id: 'rights', heading: '06.  Vos droits', paragraphs: ['Selon les conditions applicables, vous pouvez demander l’accès, la rectification, l’effacement, la limitation, la portabilité ou vous opposer au traitement. Vous pouvez retirer votre consentement lorsqu’il constitue la base du traitement. Écrivez à contact@palaisdeschimeres.com ; une vérification d’identité peut être demandée. Vous pouvez également saisir la CNIL.'], contactLink: 'Nous contacter pour exercer vos droits' },
         { id: 'cookies', heading: '07.  Cookies et traceurs', paragraphs: ['Le MVP est conçu pour n’utiliser que les stockages techniquement nécessaires, sans cookie publicitaire ni mesure d’audience non essentielle. Si des traceurs non essentiels sont ajoutés, ils feront l’objet d’un consentement préalable lorsque celui-ci est requis et la présente politique sera mise à jour. Le lancement du film YouTube peut entraîner un traitement par YouTube selon ses propres politiques.'] },
       ],
     },

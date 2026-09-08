@@ -136,11 +136,15 @@ export default function ProductClient({
   const [isDragging, setIsDragging] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [modalPreviousIndex, setModalPreviousIndex] = useState<number | null>(null);
+  const [modalSlideDirection, setModalSlideDirection] = useState<'forward' | 'backward'>('forward');
   const [mediaHeight, setMediaHeight] = useState<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const imageDialogCloseRef = useRef<HTMLButtonElement>(null);
   const mainMediaRef = useRef<HTMLDivElement>(null);
   const swipeStartX = useRef<number | null>(null);
   const swipeCurrentX = useRef<number | null>(null);
+  const modalSwipeStartX = useRef<number | null>(null);
   const didDragRef = useRef(false);
   const thumbnailRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -227,8 +231,64 @@ export default function ProductClient({
       didDragRef.current = false;
       return;
     }
+    setModalPreviousIndex(null);
     setImageModalOpen(true);
   };
+
+  const closeImageModal = useCallback(() => {
+    setImageModalOpen(false);
+    setModalPreviousIndex(null);
+  }, []);
+
+  const changeModalImage = useCallback((nextIndex: number, direction: 'forward' | 'backward') => {
+    if (nextIndex === activeIndex) return;
+    setModalPreviousIndex(activeIndex);
+    setModalSlideDirection(direction);
+    setActiveIndex(nextIndex);
+    setDragOffset(0);
+  }, [activeIndex]);
+
+  const handleModalTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    modalSwipeStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleModalTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const startX = modalSwipeStartX.current;
+    const endX = event.changedTouches[0]?.clientX;
+    modalSwipeStartX.current = null;
+    if (startX === null || endX === undefined || Math.abs(endX - startX) < 36) return;
+    if (endX < startX && activeIndex < gallery.length - 1) changeModalImage(activeIndex + 1, 'forward');
+    if (endX > startX && activeIndex > 0) changeModalImage(activeIndex - 1, 'backward');
+  };
+
+  const scrollToPieces = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const pieces = document.getElementById('pieces-in-this-look');
+    if (!pieces) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    pieces.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    window.history.replaceState(null, '', '#pieces-in-this-look');
+  };
+
+  useEffect(() => {
+    if (!imageModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeImageModal();
+      if (event.key === 'ArrowRight' && activeIndex < gallery.length - 1) changeModalImage(activeIndex + 1, 'forward');
+      if (event.key === 'ArrowLeft' && activeIndex > 0) changeModalImage(activeIndex - 1, 'backward');
+    };
+
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
+    requestAnimationFrame(() => imageDialogCloseRef.current?.focus());
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeIndex, changeModalImage, closeImageModal, gallery.length, imageModalOpen]);
 
   useEffect(() => {
     thumbnailRefs.current[activeIndex]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -435,6 +495,7 @@ export default function ProductClient({
         {product.kind === 'look' && product.relatedPieceSlugs?.length ? (
           <a
             href="#pieces-in-this-look"
+            onClick={scrollToPieces}
             className="mb-5 inline-flex w-fit items-center gap-2 border-b border-[#d45a61]/45 pb-1 font-serif text-[clamp(0.9rem,0.65vw,1.05rem)] italic normal-case tracking-[0.04em] text-[#d45a61] transition-colors hover:border-brand-ivory/60 hover:text-brand-ivory focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#d45a61]"
           >
             <span className="inline leading-[1.35]">{dict.common.viewRestOfLook}</span>
@@ -502,11 +563,43 @@ export default function ProductClient({
 
       {imageModalOpen && (
         <div role="dialog" aria-modal="true" aria-label={activeImg.alt} className="fixed inset-0 z-[150] flex items-center justify-center bg-brand-black/96 backdrop-blur-sm">
-          <button type="button" aria-label={dict.common.closeImage} className="absolute inset-0 cursor-default" onClick={() => setImageModalOpen(false)} />
-          <div className="pointer-events-none relative z-10 h-[82dvh] w-full max-w-[1200px] px-5 md:px-14">
-            <Image src={activeImg.src} alt={activeImg.alt} fill sizes="(max-width: 767px) 100vw, 90vw" className="object-contain" priority />
+          <button type="button" aria-label={dict.common.closeImage} className="absolute inset-0 cursor-default" onClick={closeImageModal} tabIndex={-1} />
+          <div
+            className="relative z-10 h-[82dvh] w-full max-w-[1200px] px-5 md:px-14"
+            onTouchStart={handleModalTouchStart}
+            onTouchEnd={handleModalTouchEnd}
+          >
+            {modalPreviousIndex !== null && (
+              <Image
+                key={`previous-${modalPreviousIndex}`}
+                src={gallery[modalPreviousIndex]?.src ?? activeImg.src}
+                alt=""
+                aria-hidden="true"
+                fill
+                sizes="(max-width: 767px) 100vw, 90vw"
+                className={`media-transition-image media-transition-image--exit-${modalSlideDirection} object-contain`}
+              />
+            )}
+            <Image
+              key={`active-${activeIndex}`}
+              src={activeImg.src}
+              alt={activeImg.alt}
+              fill
+              sizes="(max-width: 767px) 100vw, 90vw"
+              className={`media-transition-image media-transition-image--enter-${modalSlideDirection} object-contain`}
+              priority
+            />
           </div>
-          <button type="button" aria-label={dict.common.closeImage} onClick={() => setImageModalOpen(false)} className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center border border-brand-ivory/20 bg-brand-black/70 text-xl text-brand-ivory/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold">×</button>
+          <p className="absolute bottom-7 left-1/2 z-20 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-brand-ivory/45">
+            {activeIndex + 1} / {gallery.length}
+          </p>
+          {activeIndex > 0 && (
+            <button type="button" aria-label={dict.common.previousImage} onClick={() => changeModalImage(activeIndex - 1, 'backward')} className="absolute left-5 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/20 bg-brand-black/60 text-2xl text-brand-ivory/70 transition-colors hover:border-brand-ivory/50 hover:text-brand-ivory focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold md:left-8">‹</button>
+          )}
+          {activeIndex < gallery.length - 1 && (
+            <button type="button" aria-label={dict.common.nextImage} onClick={() => changeModalImage(activeIndex + 1, 'forward')} className="absolute right-5 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-brand-ivory/20 bg-brand-black/60 text-2xl text-brand-ivory/70 transition-colors hover:border-brand-ivory/50 hover:text-brand-ivory focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold md:right-8">›</button>
+          )}
+          <button ref={imageDialogCloseRef} type="button" aria-label={dict.common.closeImage} onClick={closeImageModal} className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center border border-brand-ivory/20 bg-brand-black/70 text-xl text-brand-ivory/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-gold">×</button>
         </div>
       )}
     </>
