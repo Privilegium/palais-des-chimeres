@@ -39,6 +39,10 @@
     color: color-mix(in srgb, var(--foreground) 84%, transparent);
   }
 
+  .designer-image-veil {
+    background: linear-gradient(90deg, rgba(5, 5, 5, 0.14) 0%, rgba(5, 5, 5, 0.11) 52%, rgba(5, 5, 5, 0.025) 76%, rgba(5, 5, 5, 0.09) 100%);
+  }
+
   .legal-copy {
     font-family: var(--font-sans), sans-serif;
     font-size: clamp(1rem, 1vw, 1.125rem);

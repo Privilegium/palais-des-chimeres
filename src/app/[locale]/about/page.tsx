@@ -40,6 +40,9 @@ function EditorialPanel({
   headingClassName = 'mb-7 font-serif text-[1.6rem] tracking-[0.16em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]',
   sectionClassName = '',
   imageClassName = '',
+  showDirectionalGradient = true,
+  imageOverlayClassName = '',
+  bottomFadeClassName = 'bg-gradient-to-t from-brand-black/60 to-transparent',
   children,
   id,
 }: {
@@ -52,6 +55,9 @@ function EditorialPanel({
   headingClassName?: string;
   sectionClassName?: string;
   imageClassName?: string;
+  showDirectionalGradient?: boolean;
+  imageOverlayClassName?: string;
+  bottomFadeClassName?: string;
   children: React.ReactNode;
   id?: string;
 }) {
@@ -84,16 +90,19 @@ function EditorialPanel({
             className={`object-cover ${imageClassName}`}
             style={{ objectPosition: image.position }}
           />
-          {/* directional gradient so text column stays readable */}
-          <div
-            className={`absolute inset-0 ${
-              imageFirst
-                ? 'bg-gradient-to-r from-transparent via-transparent to-brand-black/75'
-                : 'bg-gradient-to-l from-transparent via-transparent to-brand-black/75'
-            }`}
-          />
+          {/* directional gradient is only needed when copy overlays the image. */}
+          {showDirectionalGradient && (
+            <div
+              className={`absolute inset-0 ${
+                imageFirst
+                  ? 'bg-gradient-to-r from-transparent via-transparent to-brand-black/75'
+                  : 'bg-gradient-to-l from-transparent via-transparent to-brand-black/75'
+              }`}
+            />
+          )}
+          {imageOverlayClassName && <div className={`absolute inset-0 ${imageOverlayClassName}`} />}
           {/* bottom fade */}
-          <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-brand-black/60 to-transparent" />
+          <div className={`absolute inset-x-0 bottom-0 h-28 ${bottomFadeClassName}`} />
         </div>
       </div>
 
@@ -229,7 +238,10 @@ export default async function AboutPage({
           heading={content.designer.name}
           headingClassName="mb-7 font-serif text-[1.6rem] tracking-[0.2em] text-brand-ivory md:text-[2rem] lg:text-[2.4rem]"
           sectionClassName="editorial-panel-designer"
-          imageClassName="brightness-[0.84] saturate-[0.92]"
+          imageClassName="brightness-[0.96] saturate-[0.94]"
+          showDirectionalGradient={false}
+          imageOverlayClassName="designer-image-veil"
+          bottomFadeClassName="bg-gradient-to-t from-brand-black/25 to-transparent"
         >
           <div className="body-copy-readable max-w-[36rem] space-y-5">
             {content.designer.paragraphs.map((p) => (

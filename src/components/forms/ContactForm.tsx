@@ -61,8 +61,8 @@ function FloatingField({
         autoComplete={autoComplete}
         placeholder=" "
         className={[
-          'peer w-full bg-transparent border border-brand-ivory/20 px-4 pt-4 pb-2',
-          'text-[13px] text-brand-ivory',
+          'peer min-h-[92px] w-full border border-brand-ivory/25 bg-transparent px-5 pt-[38px] pb-3',
+          'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] leading-[1.2] tracking-[0.01em] text-brand-ivory',
           'placeholder:text-transparent', // hides the space placeholder visually
           'focus:outline-none focus:border-brand-ivory/50',
           'transition-colors duration-200',
@@ -72,14 +72,14 @@ function FloatingField({
         htmlFor={id}
         className={[
           // Base position — centred vertically inside the field
-          'absolute left-4 top-[50%] -translate-y-1/2',
+          'absolute left-5 top-[50%] -translate-y-1/2',
           'text-[11px] tracking-[0.2em] uppercase text-brand-ivory/40',
           'pointer-events-none select-none',
           'transition-all duration-200 ease-out',
           // When field is focused OR has content → move label to top edge
-          'peer-focus:top-[9px] peer-focus:translate-y-0 peer-focus:text-[8.5px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
-          'peer-[:not(:placeholder-shown)]:top-[9px] peer-[:not(:placeholder-shown)]:translate-y-0',
-          'peer-[:not(:placeholder-shown)]:text-[8.5px] peer-[:not(:placeholder-shown)]:text-brand-ivory/60',
+          'peer-focus:top-[13px] peer-focus:translate-y-0 peer-focus:text-[9px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
+          'peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:translate-y-0',
+          'peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-brand-ivory/60',
           'peer-[:not(:placeholder-shown)]:tracking-[0.28em]',
         ].join(' ')}
       >
@@ -121,8 +121,8 @@ function FloatingTextarea({
         rows={rows}
         placeholder=" "
         className={[
-          'peer w-full bg-transparent border border-brand-ivory/20 px-4 pt-5 pb-2',
-          'text-[13px] text-brand-ivory resize-none',
+          'peer min-h-[170px] w-full resize-none border border-brand-ivory/25 bg-transparent px-5 pt-[38px] pb-4',
+          'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] leading-[1.35] tracking-[0.01em] text-brand-ivory',
           'placeholder:text-transparent',
           'focus:outline-none focus:border-brand-ivory/50',
           'transition-colors duration-200',
@@ -131,14 +131,14 @@ function FloatingTextarea({
       <label
         htmlFor={id}
         className={[
-          'absolute left-4 top-[18px]',
+          'absolute left-5 top-[13px]',
           'text-[11px] tracking-[0.2em] uppercase text-brand-ivory/40',
           'pointer-events-none select-none',
           'transition-all duration-200 ease-out',
           // Shrink label when focused or has content
-          'peer-focus:top-[8px] peer-focus:text-[8.5px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
-          'peer-[:not(:placeholder-shown)]:top-[8px]',
-          'peer-[:not(:placeholder-shown)]:text-[8.5px]',
+          'peer-focus:top-[13px] peer-focus:text-[9px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
+          'peer-[:not(:placeholder-shown)]:top-[13px]',
+          'peer-[:not(:placeholder-shown)]:text-[9px]',
           'peer-[:not(:placeholder-shown)]:text-brand-ivory/60',
           'peer-[:not(:placeholder-shown)]:tracking-[0.28em]',
         ].join(' ')}
@@ -197,7 +197,7 @@ export function ContactForm({ locale, context }: ContactFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-[6px] w-full">
       {/* Row 1: Name + Email side by side */}
-      <div className="grid grid-cols-2 gap-[6px]">
+      <div className="grid grid-cols-1 gap-[6px] sm:grid-cols-2">
         <FloatingField
           id="contact-fullName"
           name="fullName"
