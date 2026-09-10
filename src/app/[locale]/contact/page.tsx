@@ -65,7 +65,7 @@ export default async function ContactPage({
       - On small/short viewports, the page grows taller and scrolls normally
       - No overflow-hidden anywhere → no internal scroll on the left column
     */
-    <div className="contact-page flex min-h-[900px] flex-col bg-brand-black">
+    <div className="contact-page flex min-h-[100dvh] flex-col bg-brand-black">
 
       {/* ── Split area ─────────────────────────────────────────────── */}
       <div className="contact-main relative flex flex-1 flex-col md:flex-row">

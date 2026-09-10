@@ -61,7 +61,7 @@ function FloatingField({
         autoComplete={autoComplete}
         placeholder=" "
         className={[
-          'peer min-h-[92px] w-full border border-brand-ivory/25 bg-transparent px-5 pt-[38px] pb-3',
+          'peer min-h-[78px] w-full border border-brand-ivory/25 bg-transparent px-5 pt-[32px] pb-3',
           'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] leading-[1.2] tracking-[0.01em] text-brand-ivory',
           'placeholder:text-transparent', // hides the space placeholder visually
           'focus:outline-none focus:border-brand-ivory/50',
@@ -77,8 +77,8 @@ function FloatingField({
           'pointer-events-none select-none',
           'transition-all duration-200 ease-out',
           // When field is focused OR has content → move label to top edge
-          'peer-focus:top-[13px] peer-focus:translate-y-0 peer-focus:text-[9px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
-          'peer-[:not(:placeholder-shown)]:top-[13px] peer-[:not(:placeholder-shown)]:translate-y-0',
+          'peer-focus:top-[11px] peer-focus:translate-y-0 peer-focus:text-[9px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
+          'peer-[:not(:placeholder-shown)]:top-[11px] peer-[:not(:placeholder-shown)]:translate-y-0',
           'peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-brand-ivory/60',
           'peer-[:not(:placeholder-shown)]:tracking-[0.28em]',
         ].join(' ')}
@@ -121,7 +121,7 @@ function FloatingTextarea({
         rows={rows}
         placeholder=" "
         className={[
-          'peer min-h-[170px] w-full resize-none border border-brand-ivory/25 bg-transparent px-5 pt-[38px] pb-4',
+          'peer min-h-[120px] w-full resize-none border border-brand-ivory/25 bg-transparent px-5 pt-[32px] pb-4',
           'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] leading-[1.35] tracking-[0.01em] text-brand-ivory',
           'placeholder:text-transparent',
           'focus:outline-none focus:border-brand-ivory/50',
@@ -131,13 +131,13 @@ function FloatingTextarea({
       <label
         htmlFor={id}
         className={[
-          'absolute left-5 top-[13px]',
+          'absolute left-5 top-[11px]',
           'text-[11px] tracking-[0.2em] uppercase text-brand-ivory/40',
           'pointer-events-none select-none',
           'transition-all duration-200 ease-out',
           // Shrink label when focused or has content
-          'peer-focus:top-[13px] peer-focus:text-[9px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
-          'peer-[:not(:placeholder-shown)]:top-[13px]',
+          'peer-focus:top-[11px] peer-focus:text-[9px] peer-focus:text-brand-ivory/60 peer-focus:tracking-[0.28em]',
+          'peer-[:not(:placeholder-shown)]:top-[11px]',
           'peer-[:not(:placeholder-shown)]:text-[9px]',
           'peer-[:not(:placeholder-shown)]:text-brand-ivory/60',
           'peer-[:not(:placeholder-shown)]:tracking-[0.28em]',

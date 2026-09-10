@@ -436,19 +436,27 @@
     }
   }
 
-  @media (min-width: 768px) and (min-height: 900px) {
+  @media (min-width: 768px) {
     .contact-page {
-      height: 100dvh;
-      overflow: hidden;
+      min-height: 100dvh;
+      height: auto;
+      overflow: visible;
     }
 
     .contact-main {
-      min-height: 0;
+      /* The split section always fills the viewport above the footer,
+         while still growing naturally if the content needs more room. */
+      min-height: calc(100dvh - 5rem);
+    }
+
+    .contact-image {
+      min-height: calc(100dvh - 5rem);
     }
 
     .contact-left {
+      /* Treat the editorial copy, form, and contact links as one composition. */
       justify-content: center;
-      padding-top: 8.5rem;
+      padding-top: clamp(6rem, 7vh, 8.5rem);
       padding-bottom: 2rem;
     }
   }
