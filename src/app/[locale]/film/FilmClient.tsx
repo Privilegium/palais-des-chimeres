@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Fragment } from 'react';
 import { getSiteContent } from '@/content/site';
+import { SVIATOSLAV_INSTAGRAM_URL } from '@/content/social';
 
 // ─── Film config ──────────────────────────────────────────────────────────────
 
@@ -154,7 +155,7 @@ export default function FilmClient({ watchFilmText, locale }: { watchFilmText: s
       { label: locale === 'fr' ? 'RÉALISATION' : 'DIRECTOR', value: content.director },
       { label: 'COLLECTION', value: content.collection },
       { label: 'YEAR', value: content.year },
-      { label: 'VIDEO', value: content.video, href: 'mailto:contact@palaisdeschimeres.com' },
+      { label: 'VIDEO', value: content.video, href: SVIATOSLAV_INSTAGRAM_URL },
     ],
   };
 

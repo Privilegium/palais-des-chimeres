@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import LocaleSwitcher from './LocaleSwitcher';
 import type { Locale } from '@/i18n/dictionaries';
 import { getSiteContent } from '@/content/site';
-import { INSTAGRAM_URL } from '@/content/social';
+import { INSTAGRAM_URL, SVIATOSLAV_LINKEDIN_URL } from '@/content/social';
 
 export default function SiteHeader({ locale }: { locale: Locale }) {
   const content = getSiteContent(locale);
@@ -138,15 +138,24 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
           {navLinks.map((link) => {
             const isActive = pathname === link.path;
             return (
-              <Link key={link.name} href={link.path} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className={`flex min-h-14 items-center justify-between border-b border-brand-ivory/10 text-[12px] tracking-[0.28em] last:border-b-0 ${isActive ? 'text-brand-gold' : 'text-brand-ivory/85'}`}>
-                {link.name}<span aria-hidden="true">→</span>
+              <Link key={link.name} href={link.path} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className={`group flex min-h-14 items-center justify-between border-b border-brand-ivory/10 text-[12px] tracking-[0.28em] last:border-b-0 ${isActive ? 'text-brand-red' : 'text-brand-ivory/85'}`}>
+                <span className={`border-b pb-1 transition-colors ${isActive ? 'border-brand-red' : 'border-transparent group-hover:border-brand-red group-focus-visible:border-brand-red group-active:border-brand-red'}`}>{link.name}</span><span aria-hidden="true">→</span>
               </Link>
             );
           })}
         </nav>
         <div className="mt-auto pb-8">
-          <p className="mb-4 text-[9px] uppercase tracking-[0.28em] text-brand-ivory/40">{content.global.mobileFooter}</p>
-          <div className="flex gap-5 text-[9px] uppercase tracking-[0.18em] text-brand-ivory/65">
+          <div className="mb-5 text-left">
+            <p className="text-[9px] uppercase tracking-[0.28em] text-brand-ivory/40">{content.global.mobileFooter}</p>
+            <p className="mt-3 text-[9px] normal-case tracking-[0.12em] text-brand-ivory/45">
+              {content.global.websiteBy}{' '}
+              <a href={SVIATOSLAV_LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 decoration-brand-ivory/25 transition-colors hover:text-brand-ivory hover:decoration-brand-ivory/60">
+                Sviatoslav OPRYSHKO
+              </a>
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-3 text-[9px] uppercase tracking-[0.18em] text-brand-ivory/65">
+            <Link href={`/${locale}/archive`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">{content.global.archive}</Link>
             <Link href={`/${locale}/legal/shipping`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">{content.global.mobileShipping}</Link>
             <Link href={`/${locale}/legal/terms`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">{content.global.mobileTerms}</Link>
             <Link href={`/${locale}/legal/privacy`} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="hover:text-brand-ivory">{content.global.mobilePrivacy}</Link>

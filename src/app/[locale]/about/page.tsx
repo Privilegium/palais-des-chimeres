@@ -2,7 +2,6 @@ import Image from 'next/image';
 import InternalPageFooter from '@/components/layout/InternalPageFooter';
 import { getAboutContent, type AboutImage } from '@/content/about';
 import AboutProcessGallery from './AboutProcessGallery';
-import { StarOrnament } from '@/components/ui/Ornament';
 
 // ─── Small helpers ──────────────────────────────────────────────────────────
 
@@ -272,8 +271,7 @@ export default async function AboutPage({
 
                 className="border-b border-brand-ivory/[0.12] px-0 py-10 last:border-b-0 md:border-b-0 md:px-10 lg:px-14"
               >
-                <div className="flex gap-5">
-                    <StarOrnament size={18} className="mt-[2px] shrink-0 text-brand-gold/70" />
+                <div>
                   <div>
                     <h3 className="font-serif text-[0.75rem] font-medium tracking-[0.28em] text-brand-ivory">
                       {item.title}

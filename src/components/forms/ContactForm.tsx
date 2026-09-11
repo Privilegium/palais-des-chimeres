@@ -62,7 +62,7 @@ function FloatingField({
         placeholder=" "
         className={[
           'peer min-h-[78px] w-full border border-brand-ivory/25 bg-transparent px-5 pt-[32px] pb-3',
-          'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] leading-[1.2] tracking-[0.01em] text-brand-ivory',
+          'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] max-md:!text-[1.0625rem] leading-[1.2] tracking-[0.01em] text-brand-ivory',
           'placeholder:text-transparent', // hides the space placeholder visually
           'focus:outline-none focus:border-brand-ivory/50',
           'transition-colors duration-200',
@@ -122,7 +122,7 @@ function FloatingTextarea({
         placeholder=" "
         className={[
           'peer min-h-[120px] w-full resize-none border border-brand-ivory/25 bg-transparent px-5 pt-[32px] pb-4',
-          'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] leading-[1.35] tracking-[0.01em] text-brand-ivory',
+          'font-serif !text-[clamp(1rem,1.15vw,1.25rem)] max-md:!text-[1.0625rem] leading-[1.35] tracking-[0.01em] text-brand-ivory',
           'placeholder:text-transparent',
           'focus:outline-none focus:border-brand-ivory/50',
           'transition-colors duration-200',

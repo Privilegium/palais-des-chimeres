@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getSiteContent } from '@/content/site';
+import { SVIATOSLAV_LINKEDIN_URL } from '@/content/social';
 
 export default function InternalPageFooter({
   locale,
@@ -14,29 +15,24 @@ export default function InternalPageFooter({
       <div className="flex flex-col items-center justify-between gap-5 md:flex-row md:gap-4">
 
         {/* Left Side — ornament + brand label */}
-        <div className="mb-0 text-center">
+        <div className="mb-0 flex flex-col items-center gap-2 text-center md:items-start">
           <span>{label ?? content.global.footerLabel}</span>
+          <span className="text-[10px] normal-case tracking-[0.12em] text-brand-ivory/45">
+            {content.global.websiteBy}{' '}
+            <a
+              href={SVIATOSLAV_LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 decoration-brand-ivory/25 transition-colors hover:text-brand-ivory hover:decoration-brand-ivory/60"
+            >
+              Sviatoslav OPRYSHKO
+            </a>
+          </span>
         </div>
 
 
         {/* Right Side — developer credit + legal links */}
         <div className="flex w-auto items-center justify-center gap-6 md:gap-8 md:flex-wrap">
-          {/* Developer credit — subtle, tracking matches rest of footer */}
-          <span className="hidden text-[10px] normal-case tracking-[0.12em] text-brand-ivory/30 md:inline">
-            {content.global.websiteBy}{' '}
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 decoration-brand-ivory/20 hover:text-brand-ivory/50 hover:decoration-brand-ivory/40 transition-colors"
-            >
-              [dev]
-            </a>
-          </span>
-
-          {/* Divider */}
-          <span className="text-brand-ivory/20 select-none hidden md:inline">·</span>
-
           <Link href={`/${locale}/archive`} className="hover:text-brand-ivory transition-colors">{content.global.archive}</Link>
           <Link href={`/${locale}/legal/shipping`} className="hover:text-brand-ivory transition-colors">{content.global.shipping}</Link>
           <Link href={`/${locale}/legal/terms`} className="hover:text-brand-ivory transition-colors">{content.global.terms}</Link>
